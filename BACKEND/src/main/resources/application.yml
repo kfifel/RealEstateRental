@@ -1,0 +1,21 @@
+spring:
+
+  output:
+    ansi:
+      enabled: always
+
+  liquibase:
+    enabled: on
+    change-log: db/master.yml
+
+  docker:
+    compose:
+      file: src/main/docker/gamehive.yml
+      enabled: on
+      lifecycle-management: start_and_stop
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/real_estate_rental?createDatabaseIfNotExist=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver

@@ -1,0 +1,9 @@
+ ${AnsiColor.CYAN}   █████████                                     ${AnsiColor.MAGENTA} █████       ███
+ ${AnsiColor.CYAN}  ███░░░░░███                                    ${AnsiColor.MAGENTA}░░███       ░░░
+ ${AnsiColor.CYAN} ███     ░░░   ██████   █████████████    ██████  ${AnsiColor.MAGENTA} ░███████   ████  █████ █████  ██████
+ ${AnsiColor.CYAN}░███          ░░░░░███ ░░███░░███░░███  ███░░███ ${AnsiColor.MAGENTA} ░███░░███ ░░███ ░░███ ░░███  ███░░███
+ ${AnsiColor.CYAN}░███    █████  ███████  ░███ ░███ ░███ ░███████  ${AnsiColor.MAGENTA} ░███ ░███  ░███  ░███  ░███ ░███████
+ ${AnsiColor.CYAN}░░███  ░░███  ███░░███  ░███ ░███ ░███ ░███░░░   ${AnsiColor.MAGENTA} ░███ ░███  ░███  ░░███ ███  ░███░░░
+ ${AnsiColor.CYAN} ░░█████████ ░░████████ █████░███ █████░░██████  ${AnsiColor.MAGENTA} ████ █████ █████  ░░█████   ░░██████
+ ${AnsiColor.CYAN}  ░░░░░░░░░   ░░░░░░░░ ░░░░░ ░░░ ░░░░░  ░░░░░░   ${AnsiColor.MAGENTA}░░░░ ░░░░░ ░░░░░    ░░░░░     ░░░░░░
+ ${AnsiColor.BRIGHT_YELLOW}:: Khalid FIFEL :: Running Spring Boot  ${spring-boot.version}::${AnsiColor.DEFAULT}

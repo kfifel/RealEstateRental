@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1705011608608-1" author="fifle (generated)">
+        <createTable tableName="city">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_city"/>
+            </column>
+            <column name="city_name" type="VARCHAR(255)"/>
+            <column name="city_description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1705011608608-2" author="fifle (generated)">
+        <createTable tableName="contract">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_contract"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+            <column name="property_id" type="BIGINT"/>
+            <column name="contract_type" type="VARCHAR(255)"/>
+            <column name="contract_terms" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1705011608608-3" author="fifle (generated)">
+        <createTable tableName="edocument">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_edocument"/>
+            </column>
+            <column name="document_name" type="VARCHAR(255)"/>
+            <column name="document_type" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1705011608608-4" author="fifle (generated)">
+        <createTable tableName="property">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_property"/>
+            </column>
+            <column name="property_name" type="VARCHAR(255)"/>
+            <column name="property_description" type="VARCHAR(255)"/>
+            <column name="property_size" type="DOUBLE"/>
+            <column name="property_price" type="DOUBLE"/>
+            <column name="owner_id" type="BIGINT"/>
+            <column name="property_type" type="VARCHAR(255)"/>
+            <column name="city_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1705011608608-5" author="fifle (generated)">
+        <createTable tableName="property_listing">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_propertylisting"/>
+            </column>
+            <column name="property_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1705011608608-6" author="fifle (generated)">
+        <createTable tableName="rent">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_rent"/>
+            </column>
+            <column name="tenant_id" type="BIGINT"/>
+            <column name="property_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1705011608608-7" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="property_id" baseTableName="contract"
+                                 constraintName="FK_CONTRACT_ON_PROPERTY" referencedColumnNames="id"
+                                 referencedTableName="property"/>
+    </changeSet>
+    <changeSet id="1705011608608-8" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="contract" constraintName="FK_CONTRACT_ON_USER"
+                                 referencedColumnNames="id" referencedTableName="_user"/>
+    </changeSet>
+    <changeSet id="1705011608608-9" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="property_id" baseTableName="property_listing"
+                                 constraintName="FK_PROPERTYLISTING_ON_PROPERTY" referencedColumnNames="id"
+                                 referencedTableName="property"/>
+    </changeSet>
+    <changeSet id="1705011608608-10" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="city_id" baseTableName="property" constraintName="FK_PROPERTY_ON_CITY"
+                                 referencedColumnNames="id" referencedTableName="city"/>
+    </changeSet>
+    <changeSet id="1705011608608-11" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="property"
+                                 constraintName="FK_PROPERTY_ON_OWNER" referencedColumnNames="id"
+                                 referencedTableName="_user"/>
+    </changeSet>
+    <changeSet id="1705011608608-12" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="property_id" baseTableName="rent" constraintName="FK_RENT_ON_PROPERTY"
+                                 referencedColumnNames="id" referencedTableName="property"/>
+    </changeSet>
+    <changeSet id="1705011608608-13" author="fifle (generated)">
+        <addForeignKeyConstraint baseColumnNames="tenant_id" baseTableName="rent" constraintName="FK_RENT_ON_TENANT"
+                                 referencedColumnNames="id" referencedTableName="_user"/>
+    </changeSet>
+
+</databaseChangeLog>
