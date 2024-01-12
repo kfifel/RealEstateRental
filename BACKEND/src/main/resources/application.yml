@@ -19,3 +19,20 @@ spring:
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+#logging:
+#  file:
+#    name: myLogs.log
+#  level:
+#    root: debug
+
+token:
+  signing:
+    key: Q2lyNXNOTENrV1dNRGI2NDlJc1p5bTBxM2p1M2RZeTc1amtmbW1HRnZHST0=
+  validity:
+    access:
+      in:
+        minutes: 1400
+    refresh:
+      in:
+        month: 1
