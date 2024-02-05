@@ -1,0 +1,126 @@
+<div class="container-fluid">
+
+  <app-page-title title="Customers" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-8">
+              <div class="text-sm-end">
+                <button type="button" class="btn btn-success btn-rounded mb-2 mr-2" [routerLink]="['./new']">
+                  <i class="mdi mdi-plus me-1"></i> {{ 'userManagement.home.createLabel' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-centered table-nowrap">
+              <thead>
+                <tr appSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
+                  <th><span appTranslate="userManagement.login">Login</span></th>
+                  <th><span appTranslate="userManagement.email">Email</span></th>
+                  <th><span appTranslate="userManagement.phone_number">Phone number</span></th>
+                  <th><span appTranslate="userManagement.status">Status</span></th>
+                  <th><span appTranslate="userManagement.langKey">Lang Key</span></th>
+                  <th><span appTranslate="userManagement.profiles">Profiles</span></th>
+                  <th><span appTranslate="userManagement.createdDate">Created Date</span></th>
+                  <th><span appTranslate="userManagement.avatar">Avatar</span></th>
+                  <th><span appTranslate="userManagement.action"></span></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="users">
+                <tr *ngFor="let user of users; trackBy: trackIdentity">
+                  <td>{{ user.login }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.phoneNumber }}</td>
+
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      (click)="setActive(user, true)"
+                      *ngIf="!user.activated"
+                      appTranslate="userManagement.deactivated"
+                    >
+                      Deactivated
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-success btn-sm"
+                      (click)="setActive(user, false)"
+                      *ngIf="user.activated"
+                      [disabled]="!currentAccount || currentAccount.login === user.login"
+                      appTranslate="userManagement.activated"
+                    >
+                      Activated
+                    </button>
+                  </td>
+                  <td>{{ user.langKey }}</td>
+                  <td>
+                    <div *ngFor="let authority of user.authorities">
+                      <span
+                        class="badge"
+                        [ngClass]="{ 'bg-success': authority === 'ROLE_USER', 'bg-danger': authority === 'ROLE_ADMIN' }"
+                        >{{ authority }}</span
+                      >
+                    </div>
+                  </td>
+                  <td>{{ user.createdDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td>
+                    <a *ngIf="user.avatar" (click)="openFile(user.avatar, user.fileContentType)">
+                      <img [src]="'data:' + user.fileContentType + ';base64,' + user.avatar" style="max-height: 30px" alt="avatar image" />
+                    </a>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        [routerLink]="['./', user.login, 'view']"
+                        class="btn text-success"
+                        data-cy="entityDetailsButton"
+                      >
+                        <fa-icon icon="eye"></fa-icon>
+                        <span class="d-none d-md-inline" appTranslate="entity.action.view">View</span>
+                      </button>
+
+                      <button
+                        type="submit"
+                        [routerLink]="['./', user.login, 'edit']"
+                        class="btn text-primary btn-sm"
+                        data-cy="entityEditButton"
+                      >
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                        <span class="d-none d-md-inline" appTranslate="entity.action.edit">Edit</span>
+                      </button>
+
+                      <button type="submit" (click)="deleteUser(user)" class="btn text-danger btn-sm" data-cy="entityDeleteButton">
+                        <fa-icon icon="times"></fa-icon>
+                        <span class="d-none d-md-inline" appTranslate="entity.action.delete">Delete</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- pagination -->
+          <ngb-pagination
+            class="pagination pagination-rounded justify-content-end mb-2"
+            aria-label="Default pagination"
+            [collectionSize]="totalItems"
+            [(page)]="page"
+            [pageSize]="itemsPerPage"
+            [maxSize]="5"
+            [rotate]="true"
+            [boundaryLinks]="true"
+            (pageChange)="transition()"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end row -->
+</div>

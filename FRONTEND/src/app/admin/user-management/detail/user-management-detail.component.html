@@ -1,0 +1,106 @@
+<div class="d-flex justify-content-center">
+  <div class="col-11" style="font-size: large">
+    <div *ngIf="user">
+      <h2>
+        <span appTranslate="userManagement.detail.title">User</span> [<strong>{{ user.login }}</strong
+        >]
+      </h2>
+      <hr />
+        <div class="table-responsive">
+          <table class="table mb-0 table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.login">Login</span>
+                </th>
+                <td>
+                  <span>{{ user.login }}</span>
+                  <span *ngIf="user.activated" class="badge bg-success" appTranslate="userManagement.activated">Activated</span>
+                  <span *ngIf="!user.activated" class="badge bg-danger" appTranslate="userManagement.deactivated">Deactivated</span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.firstName">First Name</span>
+                </th>
+                <td>
+                  {{ user.firstName }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.lastName">Last Name</span>
+                </th>
+                <td>
+                  {{ user.lastName }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.email">Email</span>
+                </th>
+                <td>
+                  {{ user.email }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.langKey">Lang Key</span>
+                </th>
+                <td>
+                  {{ user.langKey }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.createdBy">Created By</span>
+                </th>
+                <td>
+                  {{ user.createdBy }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.createdDate">Created Date</span>
+                </th>
+                <td>
+                  {{ user.createdDate | date: 'dd/MM/yy HH:mm' }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.lastModifiedBy">Last Modified By</span>
+                </th>
+                <td>
+                  {{ user.lastModifiedBy }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.lastModifiedDate">Last Modified Date</span>
+                </th>
+                <td>
+                  {{ user.lastModifiedDate | date: 'dd/MM/yyyy HH:mm' }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" style="width: 400px">
+                  <span appTranslate="userManagement.profiles">Profiles</span>
+                </th>
+                <td>
+                  <ul class="list-unstyled">
+                    <li *ngFor="let authority of user.authorities">
+                      <span class="badge bg-info">{{ authority }}</span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <button type="submit" routerLink="../../" class="btn btn-info">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span appTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+</div>

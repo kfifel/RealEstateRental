@@ -1,0 +1,33 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Alert, AlertService} from "../../config/alert.service";
+
+
+@Component({
+  selector: 'app-alert',
+  templateUrl: './alert.component.html',
+})
+export class AlertComponent implements OnInit, OnDestroy {
+  alerts: Alert[] = [];
+
+  constructor(private alertService: AlertService) {}
+
+  ngOnInit(): void {
+    this.alerts = this.alertService.get();
+  }
+
+  setClasses(alert: Alert): { [key: string]: boolean } {
+    const classes = { 'app-toast': Boolean(alert.toast) };
+    if (alert.position) {
+      return { ...classes, [alert.position]: true };
+    }
+    return classes;
+  }
+
+  ngOnDestroy(): void {
+    this.alertService.clear();
+  }
+
+  close(alert: Alert): void {
+    alert.close?.(this.alerts);
+  }
+}
