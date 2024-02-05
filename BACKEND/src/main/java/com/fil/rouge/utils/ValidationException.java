@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class ValidationException extends Throwable{
+public class ValidationException extends Exception{
+
     private CustomError customError;
 }

@@ -130,6 +130,8 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String authoritiesToCsv(Collection<? extends GrantedAuthority> authorities) {
-        return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        return authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
     }
 }

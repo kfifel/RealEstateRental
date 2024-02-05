@@ -1,5 +1,4 @@
 spring:
-
   output:
     ansi:
       enabled: always
@@ -19,6 +18,23 @@ spring:
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 2b03f3e86209dbade396
+            clientSecret: 3ed862b38d8e26113e7977a19fd30f945b23629b
+          facebook:
+            clientId: 2455619794635990
+            clientSecret: 03c9a2ed5f3be5cfe620e4bf7b6bdd9a
+            scope:
+              - email
+              - public_profile
+          google:
+            clientId: 773953843766-t3hffrvfuuppb7tvh8j43clfdjh23jbt.apps.googleusercontent.com
+            clientSecret: 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
 
 #logging:
 #  file:

@@ -34,4 +34,10 @@ public interface UserService {
     List<String> getMyAuthorities();
 
     public AppUser getCurrentUser();
+
+    void delete(Long id);
+
+    void softDelete(Long id);
+
+    void forceDelete(Long id);
 }

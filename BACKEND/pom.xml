@@ -17,7 +17,7 @@
         <java.version>17</java.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <liquibase.version>4.24.0</liquibase.version>
-        <spring-boot.version>3.2.0</spring-boot.version>
+        <spring-boot.version>2.7.17</spring-boot.version>
         <validation-api.version>3.0.2</validation-api.version>
         <liquibase-plugin.url>jdbc:mysql://localhost:3306/real_estate_rental</liquibase-plugin.url>
         <liquibase-plugin.username>root</liquibase-plugin.username>
@@ -103,11 +103,18 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>2.4.4</version> <!-- Use the latest version available -->
+            <version>2.4.4</version>
         </dependency>
     </dependencies>
 

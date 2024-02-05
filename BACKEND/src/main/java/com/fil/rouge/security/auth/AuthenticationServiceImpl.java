@@ -2,7 +2,6 @@ package com.fil.rouge.security.auth;
 
 import com.fil.rouge.domain.Role;
 import com.fil.rouge.domain.AppUser;
-import com.fil.rouge.domain.enums.RoleConstant;
 import com.fil.rouge.web.exception.UnauthorizedException;
 import com.fil.rouge.repository.UserRepository;
 import com.fil.rouge.security.AuthenticationService;
@@ -23,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.fil.rouge.security.AuthoritiesConstants.ROLE_TENANT;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -37,9 +38,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) throws ValidationException {
         Role roleUser;
-        Optional<Role> byName = roleService.findByName(RoleConstant.ROLE_USER.name());
+        Optional<Role> byName = roleService.findByName(ROLE_TENANT);
         if(byName.isEmpty())
-            roleUser = roleService.save(Role.builder().name(RoleConstant.ROLE_USER.name()).build());
+            roleUser = roleService.save(Role.builder().name(ROLE_TENANT).build());
         else
             roleUser = byName.get();
         AppUser user = AppUser.builder()

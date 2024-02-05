@@ -2,6 +2,7 @@ package com.fil.rouge.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -31,9 +32,12 @@ public class AppUser implements UserDetails {
 
     private String password;
 
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     private LocalDateTime verifiedAt;
+
+    private LocalDateTime deletedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference

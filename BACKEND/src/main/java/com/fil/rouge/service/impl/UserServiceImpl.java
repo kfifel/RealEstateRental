@@ -142,5 +142,20 @@ public class UserServiceImpl implements UserService {
         return this.findByUsername(currentUserLogin);
     }
 
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void softDelete(Long id) {
+        userRepository.softDelete(id);
+    }
+
+    @Override
+    public void forceDelete(Long id) {
+        userRepository.forceDelete(id);
+    }
+
 
 }

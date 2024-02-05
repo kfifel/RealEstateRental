@@ -2,10 +2,10 @@ package com.fil.rouge.security;
 
 public final class AuthoritiesConstants {
 
-    public static final String ADMIN = "ROLE_ADMIN";
-    public static final String USER = "ROLE_USER";
-    public static final String ANONYMOUS = "ROLE_ANONYMOUS";
-    public static final String ROLE_MANAGER = "ROLE_MANAGER";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_PROPERTY = "ROLE_PROPERTY";
+    public static final String ROLE_TENANT = "ROLE_TENANT";
+    public static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
 
     private AuthoritiesConstants() {}
 }
