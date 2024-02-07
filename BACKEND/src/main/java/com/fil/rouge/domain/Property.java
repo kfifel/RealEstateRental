@@ -34,7 +34,7 @@ public class Property {
     private PropertyType propertyType;
 
     @ManyToOne
-    private AppUser owner;
+    private AppUser landlord;
 
     private String address;
 

@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AppUser getCurrentUser() {
-        String currentUserLogin = SecurityUtils.getCurrentUserLogin();
+        String currentUserLogin = SecurityUtils.getCurrentUserEmail();
         if(currentUserLogin == null)
             throw new BadCredentialsException(USER_NOT_FOUND);
         return this.findByUsername(currentUserLogin);

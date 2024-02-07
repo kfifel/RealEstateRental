@@ -9,11 +9,20 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class PropertyListing {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
+    private String description;
+
+    private Double pricePerMonth;
+
+    private Double pricePerDay;
+
     @ManyToOne
     private Property property;
-}
 
+}

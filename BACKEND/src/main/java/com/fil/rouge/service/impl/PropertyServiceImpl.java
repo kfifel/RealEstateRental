@@ -37,13 +37,6 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property create(Property property) {
-
-        return null;
-    }
-
-
-    public void createProperty(Property property) {
-        // Basic validation checks
         validateProperty(property);
 
         // Check if the property with the given address already exists
@@ -52,12 +45,12 @@ public class PropertyServiceImpl implements PropertyService {
         }
 
         // Check if the user (landlord) exists
-        AppUser owner = userRepository.findByEmail(SecurityUtils.getCurrentUserLogin())
+        AppUser owner = userRepository.findByEmail(SecurityUtils.getCurrentUserEmail())
                 .orElseThrow(() -> new UserNotFoundException("Landlord not found"));
 
-        property.setOwner(owner);
+        property.setLandlord(owner);
 
-        propertyRepository.save(property);
+        return propertyRepository.save(property);
     }
 
     private void validateProperty(Property property) {
