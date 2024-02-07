@@ -1,6 +1,6 @@
 import {User} from "./core/models/auth.models";
 import {JwtAuthenticationResponse} from "./account/auth/jwt-authentication-response.model";
-import {AuthConst} from "./core/consts/auth.const";
+import {Role} from "./core/models/role.enum";
 
 class AuthUtils {
 
@@ -58,6 +58,15 @@ class AuthUtils {
 
   currentUserValue() {
     return this.getAuthenticatedUser();
+  }
+
+  hasCurrentUserRole(role: Role): boolean {
+    let user = this.currentUserValue();
+    if(!user)
+      return false;
+
+    return user.authorities.includes(role);
+
   }
 }
 
