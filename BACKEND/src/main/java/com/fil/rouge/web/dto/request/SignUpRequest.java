@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -18,12 +17,10 @@ import java.util.List;
 @AllArgsConstructor
 public class SignUpRequest {
 
-    @NotNull(message = "First name cannot be null")
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
 
     @NotBlank(message = "Last name cannot be blank")
-    @NotNull(message = "Last name cannot be null")
     private String lastName;
 
     @NotBlank(message = "Email cannot be blank")
