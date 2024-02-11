@@ -95,12 +95,22 @@
                                     <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
 
                                     <div class="mb-3">
-                                        <label for="username">Username</label>
-                                        <input type="text" formControlName="username" class="form-control" id="username"
-                                            [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
-                                            placeholder="Enter username">
-                                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                            <div *ngIf="f.username.errors.required">Userame is required</div>
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" formControlName="firstName" class="form-control" id="firstName"
+                                            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+                                            placeholder="Enter FirstName">
+                                        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                            <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" formControlName="lastName" class="form-control" id="lastName"
+                                            [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+                                            placeholder="Enter LastName">
+                                        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                                            <div *ngIf="f.lastName.errors.required">Last name is required</div>
                                         </div>
                                     </div>
 
@@ -139,19 +149,19 @@
                                         <h5 class="font-size-14 mb-3">Sign up using</h5>
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
-                                                <a href="javascript::void()"
+                                                <a href="#"
                                                     class="social-list-item bg-primary text-white border-primary">
                                                     <i class="mdi mdi-facebook"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item">
-                                                <a href="javascript::void()"
+                                                <a href="#"
                                                     class="social-list-item bg-info text-white border-info">
                                                     <i class="mdi mdi-twitter"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item">
-                                                <a href="javascript::void()"
+                                                <a href="#"
                                                     class="social-list-item bg-danger text-white border-danger">
                                                     <i class="mdi mdi-google"></i>
                                                 </a>
@@ -161,7 +171,7 @@
                                 </form>
 
                                 <div class="mt-5 text-center">
-                                    <p>Already have an account ? <a routerLink="/account/login-2"
+                                    <p>Already have an account ? <a routerLink="/account/login"
                                             class="fw-medium text-primary"> Login</a> </p>
                                 </div>
                             </div>

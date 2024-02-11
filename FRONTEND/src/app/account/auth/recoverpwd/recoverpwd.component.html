@@ -96,7 +96,7 @@
                                     <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
                                         <div class="mb-3">
                                             <label for="useremail">Email</label>
-                                            <input type="email" formControlName="email" 
+                                            <input type="email" formControlName="email"
                                             [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control" id="useremail"
                                                 placeholder="Enter email">
                                                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
@@ -112,7 +112,7 @@
 
                                     </form>
                                     <div class="mt-5 text-center">
-                                        <p>Remember It ? <a routerLink="/account/login-2"
+                                        <p>Remember It ? <a routerLink="/account/login"
                                                 class="fw-medium text-primary"> Sign In here</a> </p>
                                     </div>
                                 </div>

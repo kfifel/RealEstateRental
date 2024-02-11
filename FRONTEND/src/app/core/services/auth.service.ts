@@ -23,8 +23,8 @@ export class AuthenticationService {
   /**
    * Registers the user with given details
    */
-  register(email: string, password: string): Observable<JwtAuthenticationResponse> {
-    return this.http.post<JwtAuthenticationResponse>(this.apiUrl + "register", {email, password});
+  register(...user: any): Observable<JwtAuthenticationResponse> {
+    return this.http.post<JwtAuthenticationResponse>(this.apiUrl + "register", {...user} as User);
   }
 
   /**

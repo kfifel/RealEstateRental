@@ -1,0 +1,727 @@
+<nav class="navbar navbar-expand-lg navigation fixed-top sticky" (window:scroll)="windowScroll()" id="navbar">
+  <div class="container">
+    <a class="navbar-logo" routerLink="/">
+      <img src="../../../assets/images/logo-dark.png" alt="" height="19" class="logo logo-dark">
+      <img src="../../../assets/images/logo-light.png" alt="" height="19" class="logo logo-light">
+    </a>
+
+    <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item"
+            data-toggle="collapse" data-target="#topnav-menu-content" (click)="toggleMenu()">
+      <i class="fa fa-fw fa-bars"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="topnav-menu-content">
+      <ul class="navbar-nav ms-auto" id="topnav-menu">
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'home'"
+             [ngClass]="{'active':currentSection === 'home'}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'about'"
+             [ngClass]="{'active':currentSection === 'about'}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'features'"
+             [ngxScrollToOffset]="5" [ngClass]="{'active':currentSection === 'features'}">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'roadmap'"
+             [ngxScrollToOffset]="5" [ngClass]="{'active':currentSection === 'roadmap'}">Roadmap</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'team'" [ngxScrollToOffset]="5"
+             [ngClass]="{'active':currentSection === 'team'}">Team</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'news'" [ngxScrollToOffset]="5"
+             [ngClass]="{'active':currentSection === 'news'}">News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'faqs'"
+             [ngClass]="{'active':currentSection === 'faqs'}">FAQs</a>
+        </li>
+
+      </ul>
+
+      <div class="my-2 ms-lg-2">
+        <a routerLink="/login" class="btn btn-outline-success w-xs">Sign in</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div appScrollspy [spiedTags]="['SECTION']" (sectionChange)="onSectionChange($event)">
+  <!-- hero section start -->
+  <section class="section hero-section bg-ico-hero" id="home">
+    <div class="bg-overlay bg-primary"></div>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5">
+          <div class="text-white-50">
+            <h1 class="text-white fw-semibold mb-3 hero-title">
+              Real Estate Rental
+            </h1>
+            <p class="font-size-14">Find Your Ideal Rental Property Today.
+              Discover a Range of Properties Tailored to Your Needs.
+              Experience Hassle-Free Renting with Our Expert Services.
+              Start Your Journey to Your Dream Rental Home Now.</p>
+
+            <div class="button-items mt-4">
+              <a href="javascript: void(0);" class="btn btn-success">Get Started</a>
+              <a href="javascript: void(0);" class="btn btn-light">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto">
+          <div class="card overflow-hidden mb-0 mt-5 mt-lg-0">
+            <div class="card-header text-center">
+              <h5 class="mb-0">Search for Your Ideal Rental</h5>
+            </div>
+            <div class="card-body">
+              <div class="text-center">
+                <p class="text-muted">Enter your preferences to find the perfect rental property:</p>
+                <form>
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Location">
+                  </div>
+                  <div class="mb-3">
+                    <input type="number" class="form-control" placeholder="Number of Bedrooms">
+                  </div>
+                  <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Maximum Rent">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Search Now</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </section>
+  <!-- hero section end -->
+  <!-- rental price section start -->
+  <section class="section bg-white p-0">
+    <div class="container">
+      <div class="rental-price">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <div class="avatar-xs me-3">
+                  <span class="avatar-title rounded-circle bg-soft bg-warning text-warning font-size-18">
+                    <i class="mdi mdi-house"></i>
+                  </span>
+                  </div>
+                  <div class="media-body">
+                    <p class="text-muted">Average House Rent</p>
+                    <h5>$1500</h5>
+                    <p class="text-muted text-truncate mb-0">+2.5% compared to last month <i
+                      class="mdi mdi-arrow-up ms-1 text-success"></i></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <div class="avatar-xs me-3">
+                  <span class="avatar-title rounded-circle bg-soft bg-primary text-primary font-size-18">
+                    <i class="mdi mdi-apartment"></i>
+                  </span>
+                  </div>
+                  <div class="media-body">
+                    <p class="text-muted">Average Apartment Rent</p>
+                    <h5>$1200</h5>
+                    <p class="text-muted text-truncate mb-0">+1.8% compared to last month <i
+                      class="mdi mdi-arrow-up ms-1 text-success"></i></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <div class="avatar-xs me-3">
+                  <span class="avatar-title rounded-circle bg-soft bg-info text-info font-size-18">
+                    <i class="mdi mdi-building"></i>
+                  </span>
+                  </div>
+                  <div class="media-body">
+                    <p class="text-muted">Average Commercial Property Rent</p>
+                    <h5>$2500</h5>
+                    <p class="text-muted text-truncate mb-0">Stable compared to last month <i
+                      class="mdi mdi-minus ms-1 text-muted"></i></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end row -->
+      </div>
+    </div>
+    <!-- end container -->
+  </section>
+  <!-- rental price section end -->
+
+
+  <!-- about section start -->
+  <section class="section pt-4 bg-white" id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-center mb-5">
+            <div class="small-title">About Real Estate Rental</div>
+            <h4>Discover Your Ideal Rental Property</h4>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-lg-5">
+          <div class="text-muted">
+            <h4>Your Trusted Rental Solution</h4>
+            <p>Real Estate Rental provides a comprehensive platform to help you find the perfect rental property for
+              your needs. Whether you're searching for an apartment, house, or condominium, we've got you covered. Our
+              user-friendly interface and advanced search options make the rental process simple and hassle-free.</p>
+
+            <div class="button-items">
+              <a href="javascript: void(0);" class="btn btn-success">Learn More</a>
+              <a href="javascript: void(0);" class="btn btn-outline-primary">Contact Us</a>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-lg-4 col-6">
+                <div class="mt-4">
+                  <h4>Trusted by Thousands</h4>
+                  <p>Join our community of satisfied users</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-6">
+                <div class="mt-4">
+                  <h4>Quality Service</h4>
+                  <p>Our dedicated team ensures a seamless rental experience</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 ms-auto">
+          <div class="mt-4 mt-lg-0">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="card border">
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <i class="mdi mdi-home h2 text-success"></i>
+                    </div>
+                    <h5>Wide Range of Properties</h5>
+                    <p class="text-muted mb-0">Explore a diverse selection of rental options</p>
+                  </div>
+                  <div class="card-footer bg-transparent border-top text-center">
+                    <a href="javascript: void(0);" class="text-primary">Browse Listings</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card border mt-lg-5">
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <i class="mdi mdi-account-multiple h2 text-success"></i>
+                    </div>
+                    <h5>Expert Support</h5>
+                    <p class="text-muted mb-0">Get assistance from our experienced team</p>
+                  </div>
+                  <div class="card-footer bg-transparent border-top text-center">
+                    <a href="javascript: void(0);" class="text-primary">Contact Us</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <hr class="my-5">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <owl-carousel-o [options]="carouselOption" class="events navs-carousel">
+            <ng-template carouselSlide>
+              <div class="item">
+                <div class="client-images">
+                  <img src="../../../assets/images/clients/1.png" alt="client-img"
+                       class="mx-auto img-fluid d-block">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div class="item">
+                <div class="client-images">
+                  <img src="../../../assets/images/clients/2.png" alt="client-img"
+                       class="mx-auto img-fluid d-block">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div class="item">
+                <div class="client-images">
+                  <img src="../../../assets/images/clients/3.png" alt="client-img"
+                       class="mx-auto img-fluid d-block">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div class="item">
+                <div class="client-images">
+                  <img src="../../../assets/images/clients/4.png" alt="client-img"
+                       class="mx-auto img-fluid d-block">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div class="item">
+                <div class="client-images">
+                  <img src="../../../assets/images/clients/5.png" alt="client-img"
+                       class="mx-auto img-fluid d-block">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template carouselSlide>
+              <div class="item">
+                <div class="client-images">
+                  <img src="../../../assets/images/clients/6.png" alt="client-img"
+                       class="mx-auto img-fluid d-block">
+                </div>
+              </div>
+            </ng-template>
+          </owl-carousel-o>
+        </div>
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </section>
+  <!-- about section end -->
+
+  <!-- Real Estate Rental Features start -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-center mb-5">
+            <div class="small-title">Features</div>
+            <h4>Key features of Real Estate Rental</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <div class="row align-items-center pt-4">
+        <div class="col-md-6 col-sm-8">
+          <div>
+            <img src="../../../assets/images/crypto/features-img/img-1.png"  alt="" class="img-fluid mx-auto d-block">
+          </div>
+        </div>
+        <div class="col-md-5 ms-auto">
+          <div class="mt-4 mt-md-auto">
+            <div class="d-flex align-items-center mb-2">
+              <div class="features-number fw-semibold display-4 me-3">01</div>
+              <h4 class="mb-0">Property Listing</h4>
+            </div>
+            <p class="text-muted">List your property effortlessly on Real Estate Rental platform and reach potential tenants quickly.</p>
+            <div class="text-muted mt-4">
+              <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Easy property listing process</p>
+              <p><i class="mdi mdi-circle-medium text-success me-1"></i>Increased visibility to potential tenants</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <div class="row align-items-center mt-5 pt-md-5">
+        <div class="col-md-5">
+          <div class="mt-4 mt-md-0">
+            <div class="d-flex align-items-center mb-2">
+              <div class="features-number fw-semibold display-4 me-3">02</div>
+              <h4 class="mb-0">Tenant Search</h4>
+            </div>
+            <p class="text-muted">Efficiently search for rental properties based on your preferences and requirements.</p>
+            <div class="text-muted mt-4">
+              <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>User-friendly property search</p>
+              <p><i class="mdi mdi-circle-medium text-success me-1"></i>Advanced filtering options</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6  col-sm-8 ms-md-auto">
+          <div class="mt-4 me-md-0">
+            <img src="../../../assets/images/crypto/features-img/img-2.png"  alt="" class="img-fluid mx-auto d-block">
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center mt-5 pt-md-5">
+        <div class="col-md-6  col-sm-8 ms-md-auto">
+          <div class="mt-4 me-md-0">
+            <img src="../../../assets/images/crypto/features-img/img-2.png" alt="" class="img-fluid mx-auto d-block">
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="mt-4 mt-md-0">
+            <div class="d-flex align-items-center mb-2">
+              <div class="features-number fw-semibold display-4 me-3">03</div>
+              <h4 class="mb-0">Data Security</h4>
+            </div>
+            <p class="text-muted">Ensuring the security and confidentiality of your data is our top priority.</p>
+            <div class="text-muted mt-4">
+              <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Robust data encryption</p>
+              <p><i class="mdi mdi-circle-medium text-success me-1"></i>Secure storage practices</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </section>
+  <!-- Real Estate Rental Features end -->
+
+
+  <!-- Real Estate Rental News start -->
+  <section class="section bg-white" id="news">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-center mb-5">
+            <div class="small-title">Blog</div>
+            <h4>Latest News</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <div class="row">
+        <div class="col-xl-4 col-sm-6">
+          <div class="blog-box mb-4 mb-xl-0">
+            <div class="position-relative">
+              <img src="../../../assets/images/real_estate/blog/img-1.jpg" alt=""
+                   class="rounded img-fluid mx-auto d-block">
+              <div class="badge bg-success blog-badge font-size-11">Real Estate</div>
+            </div>
+
+            <div class="mt-4 text-muted">
+              <p class="mb-2"><i class="bx bx-calendar me-1"></i> 04 Mar, 2023</p>
+              <h5 class="mb-3">Find Your Dream Rental Home</h5>
+              <p>Discover how to find your ideal rental property and make hassle-free renting a reality.</p>
+
+              <div>
+                <a href="javascript: void(0);">Read more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-6">
+          <div class="blog-box mb-4 mb-xl-0">
+
+            <div class="position-relative">
+              <img src="../../../assets/images/real_estate/blog/img-2.jpg" alt=""
+                   class="rounded img-fluid mx-auto d-block">
+              <div class="badge bg-success blog-badge font-size-11">Real Estate</div>
+            </div>
+
+            <div class="mt-4 text-muted">
+              <p class="mb-2"><i class="bx bx-calendar me-1"></i> 12 Feb, 2023</p>
+              <h5 class="mb-3">Tips for First-Time Renters</h5>
+              <p>Learn essential tips and tricks for first-time renters to ensure a smooth renting experience.</p>
+
+              <div>
+                <a href="javascript: void(0);">Read more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-6">
+          <div class="blog-box mb-4 mb-xl-0">
+            <div class="position-relative">
+              <img src="../../../assets/images/real_estate/blog/img-3.jpg" alt=""
+                   class="rounded img-fluid mx-auto d-block">
+              <div class="badge bg-success blog-badge font-size-11">Real Estate</div>
+            </div>
+
+            <div class="mt-4 text-muted">
+              <p class="mb-2"><i class="bx bx-calendar me-1"></i> 06 Jan, 2023</p>
+              <h5 class="mb-3">Choosing the Right Neighborhood</h5>
+              <p>Explore tips on how to choose the right neighborhood for your rental property.</p>
+
+              <div>
+                <a href="javascript: void(0);">Read more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+    </div>
+    <!-- end container -->
+  </section>
+  <!-- Real Estate Rental News end -->
+
+  <!-- Estate Rental FAQs start -->
+  <section class="section" id="faqs">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-center mb-5">
+            <div class="small-title">FAQs</div>
+            <h4>Frequently asked questions</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="vertical-nav">
+            <div class="row">
+              <div class="col-lg-2 col-sm-4">
+                <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-pills flex-column">
+                  <li [ngbNavItem]="1">
+                    <a ngbNavLink>
+                      <i class="bx bx-help-circle nav-icon d-block mb-2"></i>
+                      <p class="fw-bold mb-0">General Questions</p>
+                    </a>
+                    <ng-template ngbNavContent>
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title mb-4">General Questions</h4>
+
+                          <ngb-accordion [closeOthers]="true" activeIds="static-1"
+                                         class="custom-accordion">
+                            <ngb-panel id="static-1">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>What are the basic requirements for renting a property?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">The basic requirements usually include a security deposit, proof of income, and a rental application.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="static-2">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>How do I search for rental properties?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">You can search for rental properties online through real estate websites, or you can work with a real estate agent.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="static-3">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>What is the typical lease duration?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">The typical lease duration is usually one year, but it can vary depending on the landlord and the rental agreement.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="static-4">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>What should I do if I have issues with my rental property?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">You should contact your landlord or property management company to address any issues with your rental property.</p>
+                              </ng-template>
+                            </ngb-panel>
+                          </ngb-accordion>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                  <li [ngbNavItem]="2">
+                    <a ngbNavLink>
+                      <i class="bx bx-receipt nav-icon d-block mb-2"></i>
+                      <p class="fw-bold mb-0">Token Sale</p>
+                    </a>
+                    <ng-template ngbNavContent>
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title mb-4">Token Sale</h4>
+
+                          <ngb-accordion [closeOthers]="true" activeIds="static-6"
+                                         class="custom-accordion">
+                            <ngb-panel id="static-5">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>Why should I invest in this token sale?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">Investing in this token sale offers various benefits, such as potential returns, access to exclusive features, and supporting the development of the platform.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="static-7">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>How do I participate in the token sale?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">To participate in the token sale, you typically need to register on the platform, complete the necessary KYC procedures, and follow the instructions provided by the organizers.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <!-- Add more FAQ items related to Token Sale as needed -->
+                          </ngb-accordion>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                  <li [ngbNavItem]="3">
+                    <a ngbNavLink>
+                      <i class="bx bx-timer d-block nav-icon mb-2"></i>
+                      <p class="fw-bold mb-0">Roadmap</p>
+                    </a>
+                    <ng-template ngbNavContent>
+                      <div class="card">
+                        <div class="card-body">
+                          <h4 class="card-title mb-4">Roadmap</h4>
+
+                          <ngb-accordion [closeOthers]="true" activeIds="static-10"
+                                         class="custom-accordion">
+                            <ngb-panel id="static-10">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>What are the key milestones in the project roadmap?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">The project roadmap outlines key milestones, such as platform development stages, partnership acquisitions, and community growth targets.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="static-11">
+                              <ng-template ngbPanelTitle>
+                                <a href="javascript: void(0);" class="accordion-list">
+                                  <div>How is the roadmap created and updated?</div>
+                                </a>
+                              </ng-template>
+                              <ng-template ngbPanelContent>
+                                <p class="mb-0">The roadmap is typically created by the project team based on their development plans and goals. It is periodically updated to reflect progress, changes in strategy, and new developments.</p>
+                              </ng-template>
+                            </ngb-panel>
+                            <!-- Add more FAQ items related to Roadmap as needed -->
+                          </ngb-accordion>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-10">
+                <div [ngbNavOutlet]="nav"></div>
+              </div>
+            </div>
+            <!-- end vertical nav -->
+          </div>
+        </div>
+        <!-- end row -->
+      </div>
+    </div>
+    <!-- end container -->
+  </section>
+  <!-- Estate Rental FAQs end -->
+
+
+  <!-- Estate Rental Footer start -->
+  <footer class="landing-footer">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-lg-3 col-sm-6">
+          <div class="mb-4 mb-lg-0">
+            <h5 class="mb-3 footer-list-title">Company</h5>
+            <ul class="list-unstyled footer-list-menu">
+              <li><a href="javascript: void(0);">About Us</a></li>
+              <li><a href="javascript: void(0);">Features</a></li>
+              <li><a href="javascript: void(0);">Team</a></li>
+              <li><a href="javascript: void(0);">News</a></li>
+              <li><a href="javascript: void(0);">FAQs</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="mb-4 mb-lg-0">
+            <h5 class="mb-3 footer-list-title">Resources</h5>
+            <ul class="list-unstyled footer-list-menu">
+              <li><a href="javascript: void(0);">Whitepaper</a></li>
+              <li><a href="javascript: void(0);">Token sales</a></li>
+              <li><a href="javascript: void(0);">Privacy Policy</a></li>
+              <li><a href="javascript: void(0);">Terms & Conditions</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="mb-4 mb-lg-0">
+            <h5 class="mb-3 footer-list-title">Links</h5>
+            <ul class="list-unstyled footer-list-menu">
+              <li><a href="javascript: void(0);">Tokens</a></li>
+              <li><a href="javascript: void(0);">Roadmap</a></li>
+              <li><a href="javascript: void(0);">FAQs</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+          <div class="mb-4 mb-lg-0">
+            <h5 class="mb-3 footer-list-title">Latest News</h5>
+            <div class="blog-post">
+              <a href="javascript: void(0);" class="post">
+                <div class="badge badge-soft-success font-size-11 mb-3">Estate Rental</div>
+                <h5 class="post-title">New Trends in Estate Rental Market</h5>
+                <p class="mb-0"><i class="bx bx-calendar me-1"></i> 15 Jan, 2024</p>
+              </a>
+              <a href="javascript: void(0);" class="post">
+                <div class="badge badge-soft-success font-size-11 mb-3">Estate Rental</div>
+                <h5 class="post-title">Tips for Finding the Perfect Rental Property</h5>
+                <p class="mb-0"><i class="bx bx-calendar me-1"></i> 22 Jan, 2024</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end row -->
+
+      <hr class="footer-border my-5">
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="mb-4">
+            <img src="../../../assets/images/logo-light.png" alt="" height="20">
+          </div>
+
+          <p class="mb-2">{{year}} © Estate Rental. Design & Develop by Themesbrand</p>
+        </div>
+
+      </div>
+    </div>
+    <!-- end container -->
+  </footer>
+  <!-- Estate Rental Footer end -->
+
+
+</div>

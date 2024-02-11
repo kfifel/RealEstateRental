@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthenticationService } from '../../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
 
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +25,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   error = '';
   returnUrl: string;
+  showPassword: boolean = false;
 
   // set the currenr year
   year: number = new Date().getFullYear();
@@ -60,7 +57,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
   /**
@@ -85,5 +81,9 @@ export class LoginComponent implements OnInit {
           }
         });
     }
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

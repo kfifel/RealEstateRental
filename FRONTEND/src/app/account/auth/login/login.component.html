@@ -104,16 +104,16 @@
 
                                     <div class="mb-3">
                                         <div class="float-end">
-                                            <a routerLink="/account/recoverpwd-2" class="text-muted">Forgot
+                                            <a routerLink="/account/reset-password" class="text-muted">Forgot
                                                 password?</a>
                                         </div>
-                                        <label for="userpassword">Password</label>
+                                        <label for="password">Password</label>
                                         <div class="input-group auth-pass-inputgroup">
-                                            <input type="password" class="form-control" formControlName="password"
+                                            <input [type]="showPassword? 'text' : 'password'" id="password" class="form-control" formControlName="password"
                                                 [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
                                                 placeholder="Enter password" aria-label="Password"
                                                 aria-describedby="password-addon">
-                                            <button class="btn btn-light " type="button" id="password-addon"><i
+                                            <button class="btn btn-light " (click)="togglePassword()" type="button" id="password-addon"><i
                                                     class="mdi mdi-eye-outline"></i></button>
                                             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                                                 <span *ngIf="f.password.errors.required">Password is required</span>
@@ -138,19 +138,19 @@
 
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
-                                                <a href="javascript::void()"
+                                                <a href="#"
                                                     class="social-list-item bg-primary text-white border-primary">
                                                     <i class="mdi mdi-facebook"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item">
-                                                <a href="javascript::void()"
+                                                <a href="#"
                                                     class="social-list-item bg-info text-white border-info">
                                                     <i class="mdi mdi-twitter"></i>
                                                 </a>
                                             </li>
                                             <li class="list-inline-item">
-                                                <a href="javascript::void()"
+                                                <a href="#"
                                                     class="social-list-item bg-danger text-white border-danger">
                                                     <i class="mdi mdi-google"></i>
                                                 </a>
@@ -160,7 +160,7 @@
 
                                 </form>
                                 <div class="mt-5 text-center">
-                                    <p>Don't have an account ? <a routerLink="/account/signup-2"
+                                    <p>Don't have an account ? <a routerLink="/account/signup"
                                             class="fw-medium text-primary"> Signup now </a> </p>
                                 </div>
                             </div>
