@@ -20,6 +20,7 @@ export class ClientDashboardComponent implements OnInit {
   year: number = new Date().getFullYear();
   currentSection = 'home';
   isUserAuth: boolean = false;
+  isAdmin: boolean;
 
   carouselOption: OwlOptions = {
     items: 1,
@@ -85,6 +86,8 @@ export class ClientDashboardComponent implements OnInit {
       });
 
     this.isUserAuth = authUtils.isAuthenticate();
+    this.isAdmin = authUtils.canAccessToBackOffice();
+    console.log(this.isAdmin)
   }
 
   getDays(t) {
@@ -136,4 +139,5 @@ export class ClientDashboardComponent implements OnInit {
   logout() {
     this.authService.logout()
   }
+
 }

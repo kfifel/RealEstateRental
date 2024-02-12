@@ -1,3 +1,5 @@
+import {Role} from "./role.enum";
+
 export class User {
     id: number;
     token?: string;
@@ -6,5 +8,5 @@ export class User {
     email: string;
     createdAt: string;
     verifiedAt: string;
-    authorities: string[];
+    authorities: Role[];
 }

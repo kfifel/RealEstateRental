@@ -64,13 +64,23 @@ class AuthUtils {
     let user = this.currentUserValue();
     if(!user)
       return false;
-
     return user.authorities.includes(role);
-
   }
 
   isAuthenticate() {
     return this.getAuthenticatedUser() != null;
+  }
+
+  isAdmin() {
+    return this.hasCurrentUserRole(Role.ROLE_ADMIN);
+  }
+
+  isLandlord() {
+    return this.hasCurrentUserRole(Role.ROLE_PROPERTY);
+  }
+
+  canAccessToBackOffice() {
+    return this.isAdmin() || this.hasCurrentUserRole(Role.ROLE_PROPERTY);
   }
 }
 

@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     } else {
@@ -77,11 +76,11 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/dashboard'])
               .then(r => console.log(r))
               .catch(e => console.error(e));
-            this.isLoading = true;
+            this.isLoading = false;
           },
           error: error => {
             this.error = error ? error : '';
-            this.isLoading = true;
+            this.isLoading = false;
           }
         });
     }

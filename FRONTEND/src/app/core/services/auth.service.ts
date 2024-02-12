@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { authUtils } from '../../authUtils';
 
 import { User } from '../models/auth.models';
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {JwtAuthenticationResponse} from "../../account/auth/jwt-authentication-response.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {map, mergeMap, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
@@ -35,32 +35,25 @@ export class AuthenticationService {
   login(email: string, password: string): Observable<JwtAuthenticationResponse> {
     return this.http.post<JwtAuthenticationResponse>(this.apiUrl + "login", {email, password})
       .pipe(
-        map((response: JwtAuthenticationResponse) => {
+        mergeMap((response: JwtAuthenticationResponse) => {
           // login successful if there's a jwt token in the response
           if (response && response.accessToken && response.refreshToken) {
             // retrieve the user info
-            this.me(response.accessToken).subscribe({
-              next: (user: User) => {
+            return this.me(response.accessToken).pipe(
+              tap((user: User) => {
                 authUtils.setLoggedCredentials(user, response);
-              }
-            });
-
+              }),
+              map(() => response)
+            );
+          } else {
+            return of(response);
           }
-          return response;
-        }
-      ));
+        })
+      );
   }
 
   me(access_token: string): Observable<User> {
-    return this.http.get<User>(this.apiUrl + "me", {headers: {Authorization: `Bearer ${access_token}`}})
-      .pipe(
-        map((response: User) => {
-          if (response) {
-            authUtils.setLoggedCredentials(response, null);
-          }
-          return response;
-        })
-      );
+    return this.http.get<User>(this.apiUrl + "me", {headers: {Authorization: `Bearer ${access_token}`}});
   }
 
   /**
