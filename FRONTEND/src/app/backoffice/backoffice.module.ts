@@ -14,10 +14,10 @@ import { LightboxModule } from 'ngx-lightbox';
 import { WidgetModule } from '../shared/widget/widget.module';
 import { UIModule } from '../shared/ui/ui.module';
 
-import { PagesRoutingModule } from './pages-routing.module';
+import { BackofficeRoutingModule } from './backoffice-routing.module';
 
 import { DashboardsModule } from './dashboards/dashboards.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CompetitionComponent } from './competition/competition.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -35,7 +35,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FormsModule,
     NgbDropdownModule,
     NgbModalModule,
-    PagesRoutingModule,
+    BackofficeRoutingModule,
     NgApexchartsModule,
     ReactiveFormsModule,
     DashboardsModule,
@@ -50,4 +50,4 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     LightboxModule
   ],
 })
-export class PagesModule { }
+export class BackofficeModule { }

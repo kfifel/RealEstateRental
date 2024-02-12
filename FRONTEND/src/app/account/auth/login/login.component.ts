@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
  */
 export class LoginComponent implements OnInit {
 
+  isLoading: boolean = false;
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
@@ -69,15 +70,18 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
+      this.isLoading = true;
       this.authenticationService.login(this.f.email.value, this.f.password.value)
         .subscribe({
           next: () => {
             this.router.navigate(['/dashboard'])
               .then(r => console.log(r))
               .catch(e => console.error(e));
+            this.isLoading = true;
           },
           error: error => {
             this.error = error ? error : '';
+            this.isLoading = true;
           }
         });
     }

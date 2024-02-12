@@ -43,9 +43,12 @@
 
       </ul>
 
-      <div class="my-2 ms-lg-2">
-        <a routerLink="/login" class="btn btn-outline-success w-xs">Sign in</a>
+      <div class="my-2 ms-lg-2" *ngIf="!isUserAuth">
+        <a routerLink="/account/auth/login" class="btn btn-outline-success w-xs">Sign in</a>
       </div>
+        <div class="my-2 ms-lg-2" *ngIf="isUserAuth">
+          <button (click)="logout()" class="btn btn-outline-success w-xs">Logout</button>
+        </div>
     </div>
   </div>
 </nav>

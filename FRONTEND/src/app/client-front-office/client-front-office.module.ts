@@ -9,6 +9,7 @@ import {ExtrapagesModule} from "../extrapages/extrapages.module";
 import {CarouselModule} from "ngx-owl-carousel-o";
 import * as ClientOfficeShardMadule from "./shared/shared.module";
 import {SharedModule}  from "../shared/shared.module";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {SharedModule}  from "../shared/shared.module";
     NgbTooltipModule,
     SharedModule,
     ClientOfficeShardMadule.SharedModule,
+    RouterModule
   ]
 })
 export class ClientFrontOfficeModule { }

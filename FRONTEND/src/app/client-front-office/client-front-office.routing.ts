@@ -7,6 +7,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: ClientDashboardComponent
+  },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   }
 ];
 

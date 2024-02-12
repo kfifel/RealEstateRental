@@ -8,6 +8,7 @@ import {JwtAuthenticationResponse} from "../../account/auth/jwt-authentication-r
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 
@@ -17,7 +18,8 @@ export class AuthenticationService {
 
   user: User;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
   }
 
   /**
@@ -74,6 +76,7 @@ export class AuthenticationService {
   logout() {
       // logout the user
       authUtils.logout();
+      this.router.navigate(['/account/auth/login']);
   }
 }
 

@@ -68,6 +68,10 @@ class AuthUtils {
     return user.authorities.includes(role);
 
   }
+
+  isAuthenticate() {
+    return this.getAuthenticatedUser() != null;
+  }
 }
 
 export const authUtils = new AuthUtils();

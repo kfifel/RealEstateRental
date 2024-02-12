@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { interval } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import {authUtils} from "../../authUtils";
+import {AuthenticationService} from "../../core/services/auth.service";
 
 @Component({
   selector: 'app-client-front-office',
@@ -17,6 +19,7 @@ export class ClientDashboardComponent implements OnInit {
   // set the currenr year
   year: number = new Date().getFullYear();
   currentSection = 'home';
+  isUserAuth: boolean = false;
 
   carouselOption: OwlOptions = {
     items: 1,
@@ -64,7 +67,7 @@ export class ClientDashboardComponent implements OnInit {
   _minutes: number;
   _seconds: number;
 
-  constructor() {
+  constructor(private authService: AuthenticationService) {
 
   }
 
@@ -80,6 +83,8 @@ export class ClientDashboardComponent implements OnInit {
         this._minutes = this.getMinutes(this._diff);
         this._seconds = this.getSeconds(this._diff);
       });
+
+    this.isUserAuth = authUtils.isAuthenticate();
   }
 
   getDays(t) {
@@ -126,5 +131,9 @@ export class ClientDashboardComponent implements OnInit {
    */
   onSectionChange(sectionId: string) {
     this.currentSection = sectionId;
+  }
+
+  logout() {
+    this.authService.logout()
   }
 }

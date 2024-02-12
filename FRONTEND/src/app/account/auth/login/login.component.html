@@ -129,7 +129,11 @@
                                     </div>
 
                                     <div class="mt-3 d-grid">
-                                        <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                                        <button class="btn btn-primary btn-block" type="submit">
+                                          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                          <!-- Display the spinner icon when isLoading is true -->
+                                          {{ isLoading ? 'Logging In...' : 'Log In' }} <!-- Display 'Logging In...' or 'Log In' based on isLoading -->
+                                        </button>
                                     </div>
 
 
