@@ -25,7 +25,7 @@ public class CityDataLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // if there is any cities so do not save any
         if(cityRepository.count() > 0) return;
         // Load data from cities.json and save to the database

@@ -1,14 +1,8 @@
 package com.fil.rouge.web.mapper;
 
-import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.domain.City;
 import com.fil.rouge.domain.Property;
-import com.fil.rouge.domain.enums.PropertyType;
 import com.fil.rouge.web.dto.PropertyDto;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
 
 public class PropertyDtoMapper {
 

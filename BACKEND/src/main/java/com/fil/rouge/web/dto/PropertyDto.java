@@ -1,7 +1,5 @@
 package com.fil.rouge.web.dto;
 
-import com.fil.rouge.domain.AppUser;
-import com.fil.rouge.domain.City;
 import com.fil.rouge.domain.enums.PropertyType;
 import lombok.Builder;
 import lombok.Data;
