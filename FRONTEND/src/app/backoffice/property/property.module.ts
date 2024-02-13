@@ -4,6 +4,8 @@ import { PropertyListComponent } from './property-list/property-list.component';
 import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../../shared/shared.module";
 import {PropertyResolver} from "./service/property.resolver";
+import {UIModule} from "../../shared/ui/ui.module";
+import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 let routes: Routes = [
@@ -22,7 +24,9 @@ let routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    UIModule,
+    NgbDropdownModule
   ]
 })
 export class PropertyModule { }

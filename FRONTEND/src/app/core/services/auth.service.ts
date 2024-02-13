@@ -56,6 +56,10 @@ export class AuthenticationService {
     return this.http.get<User>(this.apiUrl + "me", {headers: {Authorization: `Bearer ${access_token}`}});
   }
 
+  refresh(refresh_token: string): Observable<JwtAuthenticationResponse> {
+    return this.http.get<JwtAuthenticationResponse>(this.apiUrl + "token/refresh", {headers: {Authorization: `Bearer ${refresh_token}`}});
+  }
+
   /**
    * forget Password user with given details
    */
