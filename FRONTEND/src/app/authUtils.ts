@@ -29,8 +29,16 @@ class AuthUtils {
     localStorage.setItem('refresh_token', refreshToken);
   }
 
+  getRefreshToken(): string {
+    return localStorage.getItem('refresh_token');
+  }
+
   setAccessToken(accessToken: string) {
     localStorage.setItem('access_token', accessToken);
+  }
+
+  getAccessToken(): string {
+    return localStorage.getItem('access_token');
   }
 
   /**
