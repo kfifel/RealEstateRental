@@ -39,11 +39,11 @@ public class PropertyDto {
     @NotNull
     private Double price;
 
-    private AppUser owner;
+    private Long ownerId;
 
     @NotNull
     private PropertyType propertyType;
 
     @NotNull
-    private City city;
+    private String city;
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1707819037205-1" author="fifle (generated)">
+        <addColumn tableName="city">
+            <column name="name" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1707819037205-2" author="fifle (generated)">
+        <addUniqueConstraint columnNames="name" constraintName="uc_city_name" tableName="city"/>
+    </changeSet>
+    <changeSet id="1707819037205-3" author="fifle (generated)">
+        <dropColumn columnName="city_description" tableName="city"/>
+
+        <dropColumn columnName="city_name" tableName="city"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,20 +1,21 @@
 package com.fil.rouge.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cityName;
-
-    private String cityDescription;
+    @Column(unique = true)
+    private String name;
 
 }

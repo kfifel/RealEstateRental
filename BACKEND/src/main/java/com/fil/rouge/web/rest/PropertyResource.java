@@ -28,7 +28,7 @@ public class PropertyResource {
                         .findAll()
                         .stream()
                         .map(PropertyDtoMapper::toDto)
-                        .collect(Collectors.toList())
+                        .toList()
                 );
     }
 
@@ -37,6 +37,7 @@ public class PropertyResource {
         Property property = propertyService.findById(propertyId).orElseThrow();
         return PropertyDtoMapper.toDto(property);
     }
+
     @PostMapping
     public ResponseEntity<PropertyDto> createProperty(@RequestBody @Valid PropertyDto propertyDto) {
         Property propertyDto1 = propertyService.create(PropertyDtoMapper.toEntity(propertyDto));
