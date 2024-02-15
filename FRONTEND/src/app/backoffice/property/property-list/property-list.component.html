@@ -1,71 +1,63 @@
 <div class="container-fluid">
-  <app-page-title title="Projects List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <app-page-title title="Properties List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
-  <div class="row">
-    <div class="col-lg-12">
-      <div class>
-        <div class="table-responsive">
-          <table class="table project-list-table table-nowrap align-middle table-borderless">
-            <thead>
-            <tr>
-              <th scope="col" style="width: 100px">#</th>
-              <th scope="col">Projects</th>
-              <th scope="col">Due Date</th>
-              <th scope="col">Status</th>
-              <th scope="col">Team</th>
-              <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let project of property">
-              <td>
-                <img src="{{project.city}}" alt class="avatar-sm" />
-              </td>
-              <td>
-                <h5 class="text-truncate font-size-14">
-                  <a href="javascript: void(0);" class="text-dark">{{project.address}}</a>
-                </h5>
-                <p class="text-muted mb-0">{{project.description}}</p>
-              </td>
-              <td>{{project.pricePerDay}}</td>
-              <td>
-                  <span class="badge" [ngClass]="{ 'bg-success': project.hasBalcony}">Has Balcony {{project.hasBalcony }}</span>
-              </td>
-              <td>
-                <div class="avatar-group">
-                  <div class="avatar-group-item">
-                    <a href="javascript: void(0);" class="d-inline-block">
-                      <img src="{{project.landlord[0]}}" class="rounded-circle avatar-xs" alt />
+  <div class="container">
+    <button class="btn btn-primary" routerLink="new">new property</button>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class>
+          <div class="table-responsive">
+            <table class="table project-list-table table-nowrap align-middle table-borderless">
+              <thead>
+              <tr>
+                <th scope="col" style="width: 100px">#</th>
+                <th scope="col">Projects</th>
+                <th scope="col">propertyType</th>
+                <th scope="col">address</th>
+                <th scope="col">city</th>
+                <th scope="col">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let property of properties">
+                <td>
+                  <img src="{{property.images[0]}}" alt class="avatar-sm" />
+                </td>
+                <td>
+                  <h5 class="text-truncate font-size-14">
+                    <a href="javascript: void(0);" class="text-dark">{{property.title}}</a>
+                  </h5>
+                  <p class="text-muted mb-0">{{property.description}}</p>
+                </td>
+                <td>{{property.address}}</td>
+                <td>
+                  <span class="badge" [ngClass]="{ 'bg-primary': property.propertyType}">{{ property.propertyType }}</span>
+                </td>
+                <td>
+                  {{ property.city }}
+                </td>
+                <td>
+                  <div class="dropdown" ngbDropdown placement="bottom-right">
+                    <a href="javascript: void(0);" class="dropdown-toggle card-drop" ngbDropdownToggle>
+                      <i class="mdi mdi-dots-horizontal font-size-18"></i>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                      <a class="dropdown-item" href="javascript: void(0);">Action</a>
+                      <a class="dropdown-item" href="javascript: void(0);">Another action</a>
+                      <a class="dropdown-item" href="javascript: void(0);">Something else here</a>
+                    </div>
                   </div>
-                  <div class="avatar-group-item" *ngIf="project.landlord[1]">
-                    <a href="javascript: void(0);" class="d-inline-block">
-                      <img src="{{project.landlord[1]}}" class="rounded-circle avatar-xs" alt />
-                    </a>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="dropdown" ngbDropdown placement="bottom-right">
-                  <a href="javascript: void(0);" class="dropdown-toggle card-drop" ngbDropdownToggle>
-                    <i class="mdi mdi-dots-horizontal font-size-18"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                    <a class="dropdown-item" href="javascript: void(0);">Action</a>
-                    <a class="dropdown-item" href="javascript: void(0);">Another action</a>
-                    <a class="dropdown-item" href="javascript: void(0);">Something else here</a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- end row -->
+    <!-- end row -->
 
+  </div>
   <div class="row">
     <div class="col-12">
       <div class="text-center my-3">

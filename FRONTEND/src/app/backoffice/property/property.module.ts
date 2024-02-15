@@ -6,10 +6,17 @@ import {SharedModule} from "../../shared/shared.module";
 import {PropertyResolver} from "./service/property.resolver";
 import {UIModule} from "../../shared/ui/ui.module";
 import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
+import {PropertyCreateComponent} from "./property-create/property-create.component";
+import {DropzoneModule} from "ngx-dropzone-wrapper";
+import {NgxDropzoneModule} from "ngx-dropzone";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import {FormsModule} from "@angular/forms";
+import {UiSwitchModule} from "ngx-ui-switch";
 
 
 let routes: Routes = [
   { path: '', component: PropertyListComponent },
+  { path: 'new', component: PropertyCreateComponent },
   {
     path: ':id',
     component: PropertyListComponent,
@@ -19,14 +26,20 @@ let routes: Routes = [
 
 @NgModule({
   declarations: [
-    PropertyListComponent
+    PropertyListComponent,
+    PropertyCreateComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
     UIModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    DropzoneModule,
+    NgxDropzoneModule,
+    CKEditorModule,
+    FormsModule,
+    UiSwitchModule
   ]
 })
 export class PropertyModule { }

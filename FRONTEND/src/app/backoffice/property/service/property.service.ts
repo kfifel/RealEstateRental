@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {IProperty} from "../property.model";
-import {tap} from "rxjs/operators";
+import {IProperty, PropertyModel} from "../property.model";
+import {mergeMap, tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +18,18 @@ export class PropertyService {
   }
 
   getAll(): Observable<IProperty[]> {
-    return this.http.get<IProperty[]>(this.apiUrl).pipe(
-      tap((res: any) => {
-        console.log(res)
+    return this.http.get<IProperty[]>(this.apiUrl);
+  }
+
+  createProperty(property: IProperty, images:FormData): Observable<PropertyModel> {
+    return this.http.post<PropertyModel>(this.apiUrl, property).pipe(
+      mergeMap((property: PropertyModel) => {
+        return this.createPropertyImages(property.id, images);
       })
-    );
+    )
+  }
+
+  createPropertyImages(propertyId: number, images: FormData): Observable<PropertyModel> {
+    return this.http.post<PropertyModel>(`${this.apiUrl}/${propertyId}/images`, images);
   }
 }

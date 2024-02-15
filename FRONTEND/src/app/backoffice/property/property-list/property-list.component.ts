@@ -9,7 +9,7 @@ import {PropertyService} from "../service/property.service";
 })
 export class PropertyListComponent implements OnInit {
 
-  property: IProperty[];
+  properties: IProperty[];
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -23,7 +23,7 @@ export class PropertyListComponent implements OnInit {
 
   loadProperties() {
     this.propertyService.getAll().subscribe(data => {
-      this.property = data;
+      this.properties = data;
     });
   }
 }
