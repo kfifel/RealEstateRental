@@ -4,6 +4,7 @@ import com.fil.rouge.domain.enums.PropertyType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String title;
@@ -30,6 +32,9 @@ public class Property {
 
     private boolean hasBalcony;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "property", fetch = FetchType.LAZY)
+    private List<PropertyImage> images;
+    
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 

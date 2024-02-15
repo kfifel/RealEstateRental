@@ -12,14 +12,16 @@ public class PropertyDtoMapper {
                 .id(propertyDto.getId())
                 .address(propertyDto.getAddress())
                 .city(City.builder()
-                        .name(propertyDto.getName())
-                        .build()
+                        .name(propertyDto.getCity())
+                    .build()
                 )
                 .description(propertyDto.getDescription())
                 .numberOfRooms(propertyDto.getNumberOfRooms())
                 .pricePerDay(propertyDto.getPricePerMonth())
                 .pricePerMonth(propertyDto.getPricePerMonth())
                 .propertyType(propertyDto.getPropertyType())
+                .size(propertyDto.getSize())
+                .title(propertyDto.getTitle())
                 .build();
     }
 
@@ -33,6 +35,9 @@ public class PropertyDtoMapper {
                 .pricePerDay(property.getPricePerMonth())
                 .pricePerMonth(property.getPricePerMonth())
                 .propertyType(property.getPropertyType())
+                .size(property.getSize())
+                .ownerId(property.getLandlord().getId())
+                .title(property.getTitle())
                 .build();
     }
 }
