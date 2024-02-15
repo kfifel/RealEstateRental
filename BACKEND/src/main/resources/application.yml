@@ -52,3 +52,5 @@ token:
     refresh:
       in:
         month: 1
+file:
+  upload-dir: E:\env\fileStorage\fil-rouge

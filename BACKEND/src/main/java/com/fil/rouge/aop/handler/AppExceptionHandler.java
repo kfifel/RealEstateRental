@@ -4,8 +4,10 @@ import com.fil.rouge.utils.CustomError;
 import com.fil.rouge.utils.ResponseApi;
 import com.fil.rouge.utils.ValidationException;
 import com.fil.rouge.web.exception.InsufficientTokensException;
+import com.fil.rouge.web.exception.PropertyExistsException;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.exception.UnauthorizedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class AppExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -67,6 +70,7 @@ public class AppExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ResponseApi<Object>> handleValidationExceptions(Exception ex) {
+        log.error(ex.getMessage(), ex);
         return ResponseEntity.internalServerError().body(ResponseApi.builder()
                 .message("Internal server error")
                         .result(ex.getMessage())
@@ -82,8 +86,8 @@ public class AppExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex) {
+    @ExceptionHandler({IllegalArgumentException.class, PropertyExistsException.class})
+    public ResponseEntity<Object> handleIllegalArgumentException(RuntimeException ex) {
         HashMap<String, String> error = new HashMap<>();
         error.put("message", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

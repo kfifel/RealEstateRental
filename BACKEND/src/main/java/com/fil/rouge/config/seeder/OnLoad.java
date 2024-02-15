@@ -1,4 +1,4 @@
-package com.fil.rouge.config;
+package com.fil.rouge.config.seeder;
 
 
 import com.fil.rouge.domain.AppUser;
@@ -21,9 +21,10 @@ public class OnLoad implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final String PASSWORD = "password";
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         List<Role> roles = createRoles();
         createUsers(roles);
     }
@@ -35,7 +36,7 @@ public class OnLoad implements CommandLineRunner {
             if(role.getName().equals(AuthoritiesConstants.ROLE_ADMIN))
                 userRepository.save(AppUser.builder()
                         .email("admin@gmail.com")
-                        .password(passwordEncoder.encode("password"))
+                        .password(passwordEncoder.encode(PASSWORD))
                         .firstName("Admin")
                         .lastName("User")
                         .verifiedAt(LocalDateTime.now())
@@ -45,7 +46,7 @@ public class OnLoad implements CommandLineRunner {
             if (role.getName().equals(AuthoritiesConstants.ROLE_PROPERTY))
                 userRepository.save(AppUser.builder()
                         .email("property@gmail.com")
-                        .password(passwordEncoder.encode("password"))
+                        .password(passwordEncoder.encode(PASSWORD))
                         .firstName("Property")
                         .lastName("User")
                         .verifiedAt(LocalDateTime.now())
@@ -54,7 +55,7 @@ public class OnLoad implements CommandLineRunner {
             if (role.getName().equals(AuthoritiesConstants.ROLE_TENANT)) {
                 userRepository.save(AppUser.builder()
                         .email("tenant@gmail.com")
-                        .password(passwordEncoder.encode("password"))
+                        .password(passwordEncoder.encode(PASSWORD))
                         .firstName("Tenant")
                         .lastName("User")
                         .verifiedAt(LocalDateTime.now())
