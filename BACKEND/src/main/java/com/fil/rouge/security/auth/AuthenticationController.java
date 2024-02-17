@@ -42,7 +42,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(UserDtoMapper.toDto(result));
     }
 
-    @PostMapping("/token/refresh")
+    @GetMapping("/token/refresh")
     public ResponseEntity<JwtAuthenticationResponse> refreshToken(HttpServletRequest request) throws ValidationException {
         String authorization = request.getHeader("Authorization");
         if(authorization == null || !authorization.startsWith("Bearer ")) {
