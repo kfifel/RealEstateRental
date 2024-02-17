@@ -90,6 +90,10 @@ class AuthUtils {
   canAccessToBackOffice() {
     return this.isAdmin() || this.hasCurrentUserRole(Role.ROLE_PROPERTY);
   }
+
+  removeAccessToken() {
+    localStorage.removeItem('access_token');
+  }
 }
 
 export const authUtils = new AuthUtils();

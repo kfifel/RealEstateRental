@@ -63,13 +63,14 @@ export class RegisterComponent implements OnInit {
     if (this.signupForm.invalid) {
       return;
     } else {
+      console.log(typeof this.signupForm.value, this.signupForm.value);
       this.authenticationService.register(this.signupForm.value)
         .pipe(first())
         .subscribe(
           data => {
             this.successmsg = true;
             if (this.successmsg) {
-              this.router.navigate(['/account/login']);
+              this.router.navigate(['/dashboard']);
             }
           },
           error => {

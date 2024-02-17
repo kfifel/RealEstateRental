@@ -26,6 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     refreshToken() {
 
       let refresh_token = authUtils.getRefreshToken();
+      authUtils.removeAccessToken();
       this.authenticationService.refresh(refresh_token).subscribe(
         (response) => {
           if (response && response.accessToken && response.refreshToken) {

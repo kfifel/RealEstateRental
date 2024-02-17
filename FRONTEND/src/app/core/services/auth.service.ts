@@ -22,34 +22,36 @@ export class AuthenticationService {
               private router: Router) {
   }
 
+  private fetchMe = mergeMap((response: JwtAuthenticationResponse) => {
+    // login successful if there's a jwt token in the response
+    if (response && response.accessToken && response.refreshToken) {
+      // retrieve the user info
+      return this.me(response.accessToken).pipe(
+        tap((user: User) => {
+          authUtils.setLoggedCredentials(user, response);
+        }),
+        map(() => response)
+      );
+    } else {
+      return of(response);
+    }
+  });
+
   /**
    * Registers the user with given details
    */
-  register(...user: any): Observable<JwtAuthenticationResponse> {
-    return this.http.post<JwtAuthenticationResponse>(this.apiUrl + "register", {...user} as User);
+  register(user: User): Observable<JwtAuthenticationResponse> {
+    return this.http.post<JwtAuthenticationResponse>(this.apiUrl + "register", user)
+      .pipe(this.fetchMe);
   }
 
   /**
    * Login user with given details
    */
   login(email: string, password: string): Observable<JwtAuthenticationResponse> {
+
     return this.http.post<JwtAuthenticationResponse>(this.apiUrl + "login", {email, password})
-      .pipe(
-        mergeMap((response: JwtAuthenticationResponse) => {
-          // login successful if there's a jwt token in the response
-          if (response && response.accessToken && response.refreshToken) {
-            // retrieve the user info
-            return this.me(response.accessToken).pipe(
-              tap((user: User) => {
-                authUtils.setLoggedCredentials(user, response);
-              }),
-              map(() => response)
-            );
-          } else {
-            return of(response);
-          }
-        })
-      );
+      .pipe(this.fetchMe);
   }
 
   me(access_token: string): Observable<User> {

@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {CityService} from "../../../core/services/city.service";
 import {User} from "../../../core/models/auth.models";
 import {PropertyService} from "../service/property.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-property-create',
@@ -34,7 +35,8 @@ export class PropertyCreateComponent implements OnInit {
   cities$: Observable<string[]>;
 
   constructor(private cityService: CityService,
-              private propertyService: PropertyService) { }
+              private propertyService: PropertyService,
+              private router: Router) { }
 
   ngOnInit() {
     this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property new', active: true }];
@@ -66,6 +68,7 @@ export class PropertyCreateComponent implements OnInit {
     this.propertyService.createProperty(this.property, images)
       .subscribe((property) => {
         console.log(property);
+        this.router.navigate(['/admin/property'])
       });
   }
 }

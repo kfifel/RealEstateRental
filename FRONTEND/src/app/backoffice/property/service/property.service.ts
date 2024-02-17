@@ -29,7 +29,7 @@ export class PropertyService {
     )
   }
 
-  createPropertyImages(propertyId: number, images: FormData): Observable<PropertyModel> {
+  private createPropertyImages(propertyId: number, images: FormData): Observable<PropertyModel> {
     return this.http.post<PropertyModel>(`${this.apiUrl}/${propertyId}/images`, images);
   }
 }
