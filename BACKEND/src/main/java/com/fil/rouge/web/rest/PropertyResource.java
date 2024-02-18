@@ -7,6 +7,11 @@ import com.fil.rouge.web.dto.PropertyDto;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.mapper.PropertyDtoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +30,32 @@ public class PropertyResource {
     private final PropertyDtoMapper propertyDtoMapper;
 
     @GetMapping
-    public ResponseEntity<List<PropertyDto>> getAllProperties() {
-        return ResponseEntity
-                .ok(propertyService
-                        .findAll()
-                        .stream()
-                        .map(propertyDtoMapper::toDto)
-                        .toList()
-                );
+    public ResponseEntity<List<PropertyDto>> getAllProperties(
+            @ParameterObject Pageable pageable,
+            @Param("query") String query
+    ) {
+        Page<PropertyDto> properties;
+
+        if (query != null && !query.isEmpty()) {
+            properties = propertyService.search(query, pageable)
+                    .map(property -> propertyDtoMapper.toDto(property, true));
+        } else {
+            properties = propertyService.findAll(pageable)
+                    .map(property -> propertyDtoMapper.toDto(property, true));
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", String.valueOf(properties.getTotalElements()));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(properties.getContent());
     }
 
     @GetMapping("/{propertyId}")
     public PropertyDto getPropertyById(@PathVariable Long propertyId) {
         Property property = propertyService.findById(propertyId).orElseThrow();
-        return propertyDtoMapper.toDto(property);
+        return propertyDtoMapper.toDto(property, false);
     }
 
     @PostMapping
@@ -47,7 +64,7 @@ public class PropertyResource {
     ) throws ResourceNotFoundException {
         Property propertyDto1 = propertyService.create(propertyDtoMapper.toEntity(propertyDto));
         URI uri = URI.create("/api/v1/properties/" + propertyDto.getId());
-        return ResponseEntity.created(uri).body(propertyDtoMapper.toDto(propertyDto1));
+        return ResponseEntity.created(uri).body(propertyDtoMapper.toDto(propertyDto1, true));
     }
 
     @PostMapping("/{propertyId}/images")
@@ -57,7 +74,7 @@ public class PropertyResource {
         Property propertyDto1 = propertyService.createPropertyImages(id, images);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(propertyDtoMapper.toDto(propertyDto1));
+                .body(propertyDtoMapper.toDto(propertyDto1, true));
     }
 
     @PutMapping

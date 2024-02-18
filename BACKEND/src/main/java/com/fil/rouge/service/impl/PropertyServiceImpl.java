@@ -16,6 +16,8 @@ import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,8 +39,13 @@ public class PropertyServiceImpl implements PropertyService {
     private final FileUtils fileUtils;
 
     @Override
-    public List<Property> findAll() {
-        return propertyRepository.findAll();
+    public Page<Property> findAll(Pageable pageable) {
+        return propertyRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Property> search(String query, Pageable pageable) {
+        return propertyRepository.search(query, pageable);
     }
 
     @Override

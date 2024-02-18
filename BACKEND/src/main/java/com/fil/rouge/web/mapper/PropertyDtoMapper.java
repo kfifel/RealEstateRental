@@ -35,19 +35,25 @@ public class PropertyDtoMapper {
                 .build();
     }
 
-    public PropertyDto toDto(Property property) {
+    /*
+    ** @params boolean onePhoto if is true then it returns only one photo else it returns all the photos
+     */
+    public PropertyDto toDto(Property property, boolean onePhoto) {
         final List<byte[]>  images = new ArrayList<>();
         if(property.getImages() != null && !property.getImages().isEmpty())
         {
-            property.getImages().forEach(image -> {
-                byte[] bytes;
-                try {
-                    bytes = fileUtils.fileToByteArray(image.getPath());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                images.add(bytes);
-            });
+            property.getImages()
+                    .stream()
+                    .limit(onePhoto? 1: property.getImages().size())
+                    .forEach(image -> {
+                        byte[] bytes;
+                        try {
+                            bytes = fileUtils.fileToByteArray(image.getPath());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        images.add(bytes);
+                    });
         }
         return PropertyDto.builder()
                 .id(property.getId())
