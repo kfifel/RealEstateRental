@@ -44,4 +44,6 @@ public class PropertyDto {
 
     @NotNull
     private String city;
+
+    private List<byte[]> images;
 }

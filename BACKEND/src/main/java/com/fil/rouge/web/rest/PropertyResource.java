@@ -22,6 +22,7 @@ import java.util.List;
 public class PropertyResource {
 
     private final PropertyService propertyService;
+    private final PropertyDtoMapper propertyDtoMapper;
 
     @GetMapping
     public ResponseEntity<List<PropertyDto>> getAllProperties() {
@@ -29,7 +30,7 @@ public class PropertyResource {
                 .ok(propertyService
                         .findAll()
                         .stream()
-                        .map(PropertyDtoMapper::toDto)
+                        .map(propertyDtoMapper::toDto)
                         .toList()
                 );
     }
@@ -37,16 +38,16 @@ public class PropertyResource {
     @GetMapping("/{propertyId}")
     public PropertyDto getPropertyById(@PathVariable Long propertyId) {
         Property property = propertyService.findById(propertyId).orElseThrow();
-        return PropertyDtoMapper.toDto(property);
+        return propertyDtoMapper.toDto(property);
     }
 
     @PostMapping
     public ResponseEntity<PropertyDto> createProperty(
             @RequestBody @Valid PropertyDto propertyDto
     ) throws ResourceNotFoundException {
-        Property propertyDto1 = propertyService.create(PropertyDtoMapper.toEntity(propertyDto));
+        Property propertyDto1 = propertyService.create(propertyDtoMapper.toEntity(propertyDto));
         URI uri = URI.create("/api/v1/properties/" + propertyDto.getId());
-        return ResponseEntity.created(uri).body(PropertyDtoMapper.toDto(propertyDto1));
+        return ResponseEntity.created(uri).body(propertyDtoMapper.toDto(propertyDto1));
     }
 
     @PostMapping("/{propertyId}/images")
@@ -56,12 +57,12 @@ public class PropertyResource {
         Property propertyDto1 = propertyService.createPropertyImages(id, images);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(PropertyDtoMapper.toDto(propertyDto1));
+                .body(propertyDtoMapper.toDto(propertyDto1));
     }
 
     @PutMapping
     public ResponseEntity<String> updateProperty(@RequestBody @Valid PropertyDto updatedPropertyDto) {
-        propertyService.update(PropertyDtoMapper.toEntity(updatedPropertyDto));
+        propertyService.update(propertyDtoMapper.toEntity(updatedPropertyDto));
         return ResponseEntity.ok("Property updated successfully");
     }
 

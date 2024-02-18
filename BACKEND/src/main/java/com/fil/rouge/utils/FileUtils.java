@@ -34,6 +34,11 @@ public class FileUtils {
         return fileName;
     }
 
+    public byte[] fileToByteArray(String filename) throws IOException {
+        Path path = Path.of(uploadDir + "/" + filename);
+        return Files.readAllBytes(path);
+    }
+
     public boolean deleteFile(String fileName) throws IOException {
         // Resolve the file path
         Path filePath = Paths.get(uploadDir).resolve(fileName);

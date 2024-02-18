@@ -2,12 +2,22 @@ package com.fil.rouge.web.mapper;
 
 import com.fil.rouge.domain.City;
 import com.fil.rouge.domain.Property;
+import com.fil.rouge.utils.FileUtils;
 import com.fil.rouge.web.dto.PropertyDto;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@AllArgsConstructor
 public class PropertyDtoMapper {
 
+    private FileUtils fileUtils;
 
-    public static Property toEntity(PropertyDto propertyDto) {
+    public Property toEntity(PropertyDto propertyDto) {
         return Property.builder()
                 .id(propertyDto.getId())
                 .address(propertyDto.getAddress())
@@ -25,7 +35,20 @@ public class PropertyDtoMapper {
                 .build();
     }
 
-    public static PropertyDto toDto(Property property) {
+    public PropertyDto toDto(Property property) {
+        final List<byte[]>  images = new ArrayList<>();
+        if(property.getImages() != null && !property.getImages().isEmpty())
+        {
+            property.getImages().forEach(image -> {
+                byte[] bytes;
+                try {
+                    bytes = fileUtils.fileToByteArray(image.getPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                images.add(bytes);
+            });
+        }
         return PropertyDto.builder()
                 .id(property.getId())
                 .address(property.getAddress())
@@ -38,6 +61,7 @@ public class PropertyDtoMapper {
                 .size(property.getSize())
                 .ownerId(property.getLandlord().getId())
                 .title(property.getTitle())
+                .images(images)
                 .build();
     }
 }
