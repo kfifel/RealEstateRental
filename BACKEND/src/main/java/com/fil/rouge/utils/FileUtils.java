@@ -19,7 +19,7 @@ public class FileUtils {
 
     public String storeFile(MultipartFile file) throws IOException {
         // Generate a unique filename
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
         // Create the upload directory if it doesn't exist
         Path directory = Paths.get(uploadDir);

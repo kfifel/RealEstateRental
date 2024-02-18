@@ -3,8 +3,6 @@ package com.fil.rouge.web.dto;
 import com.fil.rouge.domain.enums.PropertyType;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
