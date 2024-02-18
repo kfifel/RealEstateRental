@@ -14,7 +14,7 @@ export interface IProperty {
   landlord?: User; // Optional as it might not be available until associated
   address: string;
   city?: string; // Optional as it might not be available until associated
-  images: File[];
+  images?: File[];
 }
 
 export class PropertyModel implements IProperty {
@@ -30,7 +30,7 @@ export class PropertyModel implements IProperty {
   landlord?: User;
   address: string;
   city?: string;
-  images: File[];
+  images?: File[];
 
   constructor(data: Partial<IProperty> = {}) {
     Object.assign(this, data);

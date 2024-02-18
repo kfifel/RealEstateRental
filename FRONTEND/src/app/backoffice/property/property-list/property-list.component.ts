@@ -16,7 +16,7 @@ export class PropertyListComponent implements OnInit {
   constructor(private propertyService: PropertyService) { }
 
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Properties' }, { label: 'Property List', active: true }];
+    this.breadCrumbItems = [{ label: 'Properties', link: '/admin/property' }, { label: 'Property List', active: true }];
 
     this.loadProperties();
   }

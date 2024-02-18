@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PropertyModel, PropertyType} from "../property.model";
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {Observable} from "rxjs";
 import {CityService} from "../../../core/services/city.service";
-import {User} from "../../../core/models/auth.models";
 import {PropertyService} from "../service/property.service";
 import {Router} from "@angular/router";
 
@@ -22,7 +21,7 @@ export class PropertyCreateComponent implements OnInit {
     description: '',
     pricePerMonth: 0,
     pricePerDay: null,
-    images: [],
+    images: null,
     propertyType: PropertyType.APARTMENT,
     address: "",
     city: "",
@@ -39,20 +38,18 @@ export class PropertyCreateComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property new', active: true }];
+    this.breadCrumbItems = [{ label: 'Property', link: '/admin/property'  }, { label: 'Property new', active: true }];
 
     this.cities$ = this.cityService.getCities();
   }
 
   onSelect(event) {
     this.files.push(...event.addedFiles);
-    this.property.images.push(...event.addedFiles)
 
   }
 
   onRemove(event) {
     this.files.splice(this.files.indexOf(event), 1);
-    this.property.images.splice(this.files.indexOf(event), 1)
   }
 
   onContentDescriptionChange(event: any) {
@@ -61,7 +58,7 @@ export class PropertyCreateComponent implements OnInit {
 
   onsubmit() {
     let images = new FormData();
-    this.property.images.forEach((file, index) => {
+    this.files.forEach((file) => {
       images.append(`images`, file);
     });
 

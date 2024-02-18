@@ -3,7 +3,7 @@
 
   <div class="">
     <div class="d-flex justify-content-between">
-      <h2>Property ({{properties.length}})</h2>
+      <h2>Property ({{properties?.length}})</h2>
       <button class="btn btn-primary" routerLink="new">new property</button>
     </div>
     <div class="row">
@@ -45,7 +45,7 @@
                         <i class="mdi mdi-dots-horizontal font-size-18"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                        <a class="dropdown-item" href="javascript: void(0);">Action</a>
+                        <a class="dropdown-item" [routerLink]="[property.id]">details</a>
                         <a class="dropdown-item" href="javascript: void(0);">Another action</a>
                         <a class="dropdown-item" href="javascript: void(0);">Something else here</a>
                       </div>
