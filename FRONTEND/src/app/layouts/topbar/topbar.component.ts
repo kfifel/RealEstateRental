@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { AuthenticationService } from '../../core/services/auth.service';
 import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
-import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../core/services/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import {User} from "../../core/models/auth.models";
+import {authUtils} from "../../authUtils";
 
 @Component({
   selector: 'app-topbar',
@@ -24,9 +25,9 @@ export class TopbarComponent implements OnInit {
   flagvalue;
   countryName;
   valueset;
+  user: User = authUtils.getAuthenticatedUser();
 
   constructor(@Inject(DOCUMENT) private document: any, private router: Router, private authService: AuthenticationService,
-              private authFackservice: AuthfakeauthenticationService,
               public languageService: LanguageService,
               public translate: TranslateService,
               public _cookiesService: CookieService) {

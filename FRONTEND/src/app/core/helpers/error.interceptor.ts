@@ -1,49 +1,72 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {catchError, concatMap, filter, finalize, take} from 'rxjs/operators';
 
 import { AuthenticationService } from '../services/auth.service';
 import {authUtils} from "../../authUtils";
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService) { }
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  isRefreshingToken = false;
 
-        return next.handle(request).pipe(catchError(err => {
-            if (err.status === 401) {
-                // auto logout if 401 response returned from api
-              this.refreshToken();
-            }
-            console.error(err);
-            const error = err.error?.message || err?.statusText || "An error occurred. Please try again later.";
-            return throwError(error);
-        }));
-    }
+  tokenRefreshed$ = new BehaviorSubject<boolean>(false);
 
-    refreshToken() {
+  constructor(private authenticationService: AuthenticationService) {
+  }
 
-      let refresh_token = authUtils.getRefreshToken();
-      authUtils.removeAccessToken();
-      this.authenticationService.refresh(refresh_token).subscribe(
-        (response) => {
-          if (response && response.accessToken && response.refreshToken) {
-            // retrieve the user info
-            this.authenticationService.me(response.accessToken).subscribe((user) => {
-              authUtils.setLoggedCredentials(user, response);
-              location.reload();
-            });
-          } else {
-            this.authenticationService.logout();
-            location.reload();
-          }
-        },
-        (error) => {
-          this.authenticationService.logout();
-          location.reload();
+  addToken(req: HttpRequest<any>): HttpRequest<any> {
+    const token = authUtils.getAccessToken();
+    return token ? req.clone({ setHeaders: { Authorization: 'Bearer ' + token } }) : req;
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(this.addToken(req)).pipe(
+      catchError(err => {
+        if (err.status === 401) {
+          return this.handle401Error(req, next);
         }
+
+        return throwError(err);
+      })
+    );
+  }
+
+  private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    if (this.isRefreshingToken) {
+      return this.tokenRefreshed$.pipe(
+        filter(Boolean),
+        take(1),
+        concatMap(() => next.handle(this.addToken(req)))
       );
     }
+
+    this.isRefreshingToken = true;
+
+    // Reset here so that the following requests wait until the token
+    // comes back from the refreshToken call.
+    this.tokenRefreshed$.next(false);
+    authUtils.removeAccessToken();
+
+    return this.authenticationService.refresh(authUtils.getRefreshToken()).pipe(
+      concatMap((res) => {
+        authUtils.setAccessToken(res.accessToken);
+        if (!environment.production) {
+          console.info('Token was successfully refreshed'); // tslint:disable-line
+        }
+
+        this.tokenRefreshed$.next(true);
+        return next.handle(this.addToken(req));
+      }),
+      catchError((err) => {
+        this.authenticationService.logout();
+        return throwError(err);
+      }),
+      finalize(() => {
+        this.isRefreshingToken = false;
+      })
+    );
+  }
 }

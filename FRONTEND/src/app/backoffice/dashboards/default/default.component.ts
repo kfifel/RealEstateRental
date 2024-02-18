@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../../core/services/event.service';
 
 import { ConfigService } from '../../../core/services/config.service';
+import {User} from "../../../core/models/auth.models";
+import {authUtils} from "../../../authUtils";
 
 @Component({
   selector: 'app-default',
@@ -19,7 +21,7 @@ export class DefaultComponent implements OnInit {
   monthlyEarningChart: ChartType;
   transactions: Array<[]>;
   statData: Array<[]>;
-
+  user: User = authUtils.getAuthenticatedUser();
   isActive: string;
 
   @ViewChild('content') content;

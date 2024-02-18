@@ -17,12 +17,13 @@ $sidebar-collapsed-width:  70px;
 $sidebar-width-sm:  160px;
 
 // Vertical Sidebar - Dark
-$sidebar-dark-bg: #2a3042; //2c313a
-$sidebar-dark-menu-item-color: #a6b0cf;
-$sidebar-dark-menu-sub-item-color: #79829c;
-$sidebar-dark-menu-item-icon-color: #6a7187;
-$sidebar-dark-menu-item-hover-color: #ffffff;
-$sidebar-dark-menu-item-active-color: #ffffff;
+$sidebar-dark-bg: #262626; // Dark gray
+$sidebar-dark-menu-item-color: #c0c0c0; // Light gray
+$sidebar-dark-menu-sub-item-color: #b3b3b3; // Light gray
+$sidebar-dark-menu-item-icon-color: #808080; // Medium gray
+$sidebar-dark-menu-item-hover-color: #ffffff; // White
+$sidebar-dark-menu-item-active-color: #ffffff; // White
+
 
 // Topbar - Deafult Light
 $header-height: 70px;
@@ -54,7 +55,7 @@ $rightbar-width:  280px;
 $display-none: none;
 $display-block: block;
 
-// Brand 
+// Brand
 $navbar-brand-box-width: 250px;
 
 // Boxed layout width

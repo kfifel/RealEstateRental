@@ -2,8 +2,20 @@
   <app-page-title title="Properties List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mb-3">
       <h2>Property ({{properties?.length}})</h2>
+      <div>
+        <form (ngSubmit)="handleSearch()">
+          <div class="input-group">
+            <input type="text" name="search" [(ngModel)]="currentSearch" class="form-control"
+                   placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"
+                   (input)="onSearchChange()">
+            <button class="btn btn-primary" type="submit">
+              Search <i class="fas fa-circle-notch ml-1" [class.fa-spin]="isLoading"></i>
+            </button>
+          </div>
+        </form>
+      </div>
       <button class="btn btn-primary" routerLink="new">new property</button>
     </div>
     <div class="row">
@@ -24,7 +36,7 @@
               <tbody>
                 <tr *ngFor="let property of properties">
                   <td>
-                    <img src="#" alt class="avatar-sm" />
+                    <img [src]="'data:image/jpeg;base64,'+property.images[0]" alt class="avatar-sm" />
                   </td>
                   <td>
                     <h5 class="text-truncate font-size-14">

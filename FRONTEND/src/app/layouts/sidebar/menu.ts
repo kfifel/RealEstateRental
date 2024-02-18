@@ -10,6 +10,7 @@ export const MENU: MenuItem[] = [
         id: 2,
         label: 'MENUITEMS.DASHBOARDS.TEXT',
         icon: 'bx-home-circle',
+        link: '/admin/dashboard',
         badge: {
             variant: 'info',
             text: 'MENUITEMS.DASHBOARDS.BADGE',
