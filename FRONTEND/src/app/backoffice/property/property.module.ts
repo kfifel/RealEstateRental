@@ -5,7 +5,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../../shared/shared.module";
 import {PropertyResolver} from "./service/property.resolver";
 import {UIModule} from "../../shared/ui/ui.module";
-import {NgbDropdownModule, NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDropdownModule, NgbNavModule, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {PropertyCreateComponent} from "./property-create/property-create.component";
 import {DropzoneModule} from "ngx-dropzone-wrapper";
 import {NgxDropzoneModule} from "ngx-dropzone";
@@ -31,18 +31,19 @@ let routes: Routes = [
     PropertyCreateComponent,
     PropertyDetailComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    UIModule,
-    NgbDropdownModule,
-    DropzoneModule,
-    NgxDropzoneModule,
-    CKEditorModule,
-    FormsModule,
-    UiSwitchModule,
-    NgbNavModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        SharedModule,
+        UIModule,
+        NgbDropdownModule,
+        DropzoneModule,
+        NgxDropzoneModule,
+        CKEditorModule,
+        FormsModule,
+        UiSwitchModule,
+        NgbNavModule,
+        NgbPaginationModule
+    ]
 })
 export class PropertyModule { }

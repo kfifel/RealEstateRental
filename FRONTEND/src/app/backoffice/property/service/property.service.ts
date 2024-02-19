@@ -42,4 +42,8 @@ export class PropertyService {
   private createPropertyImages(propertyId: number, images: FormData): Observable<PropertyModel> {
     return this.http.post<PropertyModel>(`${this.resourceUrl}/${propertyId}/images`, images);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrl}/${id}`);
+  }
 }

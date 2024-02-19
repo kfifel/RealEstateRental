@@ -19,11 +19,9 @@ export class PropertyListComponent implements OnInit {
   private searchSubject: Subject<string> = new Subject<string>();
   isLoading = false;
 
-  totalItems = 0;
+  totalItems$ = new Subject<number>();
   itemsPerPage = 5;
   page?: number;
-  predicate!: string;
-  ascending!: boolean;
 
   constructor(private propertyService: PropertyService) { }
 
@@ -37,9 +35,9 @@ export class PropertyListComponent implements OnInit {
   loadAll(page?: number) {
     const pageToLoad: number = page ?? this.page ?? 1;
     this.isLoading = true;
-    let requestObservable:Observable<any>;
+    let requestObservable$: Observable<any>;
     if (this.currentSearch) {
-      requestObservable = this.propertyService
+      requestObservable$ = this.propertyService
         .search({
           page: pageToLoad - 1,
           query: this.currentSearch,
@@ -47,7 +45,7 @@ export class PropertyListComponent implements OnInit {
           sort: ['id,desc'],
         });
     } else {
-      requestObservable = this.propertyService
+      requestObservable$ = this.propertyService
         .query({
           page: pageToLoad - 1,
           size: this.itemsPerPage,
@@ -55,7 +53,7 @@ export class PropertyListComponent implements OnInit {
         })
     }
 
-    requestObservable
+    requestObservable$
       .subscribe({
         next: (res: HttpResponse<IProperty[]>) => {
           this.isLoading = false;
@@ -79,12 +77,29 @@ export class PropertyListComponent implements OnInit {
 
   private onSuccess(body: IProperty[], headers: HttpHeaders, pageToLoad: number) {
     this.isLoading = false;
-    this.totalItems = Number(headers.get('X-Total-Count'));
+    const totalCount = Number(headers.get('X-Total-Count'));
+    this.totalItems$.next(totalCount);
     this.page = pageToLoad;
     this.properties = body;
   }
 
   private onError() {
     console.error("Error loading properties.")
+  }
+
+  base64ToFile(base64: string) {
+    if (!base64)
+      return '#';
+    return 'data:image/jpeg;base64,' + base64;
+  }
+
+  delete(id: number): void {
+
+    this.propertyService.delete(id).subscribe(
+  () => {
+        this.loadAll();
+      }
+    );
+
   }
 }
