@@ -18,7 +18,7 @@ public interface PropertyService {
     Optional<Property> findById(Long propertyId);
     Property create(Property property) throws ResourceNotFoundException;
     void update(Property property);
-    void delete(Long propertyId);
+    void delete(Long propertyId) throws ResourceNotFoundException;
 
     Property createPropertyImages(Long id, List<MultipartFile> images);
 

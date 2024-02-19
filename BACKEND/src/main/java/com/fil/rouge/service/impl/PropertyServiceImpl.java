@@ -100,8 +100,19 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public void delete(Long propertyId) {
-
+    @Transactional
+    public void delete(Long propertyId) throws ResourceNotFoundException {
+        Property property = findById(propertyId).orElseThrow(
+                () -> new ResourceNotFoundException("Property", "Property with id: " + propertyId)
+        );
+        property.getImages().forEach(image -> {
+            try {
+                fileUtils.deleteFile(image.getPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        propertyRepository.delete(property);
     }
 
     @Override

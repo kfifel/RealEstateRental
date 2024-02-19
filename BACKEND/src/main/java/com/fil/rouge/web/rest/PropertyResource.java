@@ -3,6 +3,7 @@ package com.fil.rouge.web.rest;
 
 import com.fil.rouge.domain.Property;
 import com.fil.rouge.service.PropertyService;
+import com.fil.rouge.utils.ResponseApi;
 import com.fil.rouge.web.dto.PropertyDto;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.mapper.PropertyDtoMapper;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/properties")
@@ -84,9 +86,12 @@ public class PropertyResource {
     }
 
     @DeleteMapping("/{propertyId}")
-    public ResponseEntity<String> deleteProperty(@PathVariable Long propertyId) {
+    public ResponseEntity<ResponseApi<String>> deleteProperty(@PathVariable Long propertyId) throws ResourceNotFoundException {
         propertyService.delete(propertyId);
-        return ResponseEntity.ok("Property deleted successfully");
+        return ResponseEntity.ok(ResponseApi.
+                <String>builder()
+                        .message("Property deleted successfully")
+                .build());
     }
 
     @GetMapping("/become-landlord")
