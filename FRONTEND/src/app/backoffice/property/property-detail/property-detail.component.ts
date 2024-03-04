@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {IProperty} from "../property.model";
+import {fileUtils} from "../../../core/utils/file.utils";
 
 @Component({
   selector: 'app-property-detail',
@@ -24,8 +25,5 @@ export class PropertyDetailComponent implements OnInit {
     });
   }
 
-  getImageUrl(image: File): string {
-      return 'data:image/jpeg;base64,' + image;
-  }
-
+  readonly fileUtils = fileUtils;
 }

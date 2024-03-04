@@ -14,10 +14,10 @@
                   <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="vertical">
                     <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-2">
                       <a ngbNavLink>
-                        <img [src]="getImageUrl(image)" alt="" class="img-fluid mx-auto d-block rounded" />
+                        <img [src]="fileUtils.getImageUrl(image)" alt="" class="img-fluid mx-auto d-block rounded" />
                       </a>
                       <ng-template ngbNavContent>
-                        <img [src]="getImageUrl(image)" id="expandedImg" alt="" class="img-fluid mx-auto d-block">
+                        <img [src]="fileUtils.getImageUrl(image)" id="expandedImg" alt="" class="img-fluid mx-auto d-block">
                       </ng-template>
                     </li>
                   </ul>

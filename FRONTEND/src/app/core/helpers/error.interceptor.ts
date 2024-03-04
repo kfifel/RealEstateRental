@@ -53,9 +53,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     return this.authenticationService.refresh(authUtils.getRefreshToken()).pipe(
       concatMap((res) => {
         authUtils.setAccessToken(res.accessToken);
-        if (!environment.production) {
-          console.info('Token was successfully refreshed'); // tslint:disable-line
-        }
 
         this.tokenRefreshed$.next(true);
         return next.handle(this.addToken(req));

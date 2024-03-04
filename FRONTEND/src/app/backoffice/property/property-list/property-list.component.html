@@ -3,7 +3,7 @@
 
   <div class="">
     <div class="d-flex justify-content-between mb-3">
-      <h2>Property ({{properties?.length}})</h2>
+      <h2>Property ({{ totalItems$ | async }})</h2>
       <div>
         <form (ngSubmit)="handleSearch()">
           <div class="input-group">

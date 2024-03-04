@@ -1,0 +1,30 @@
+.mt--5 {
+  margin-top: -50px;
+}
+
+.img-property {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+  --dls-liteimage-object-fit: cover;
+  height: 100%;
+  width: 100%;
+  vertical-align: bottom;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 100%; /* Set to maintain aspect ratio (1:1 in this case) */
+  overflow: hidden;
+}
+
+.property-img-fluid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  object-fit: cover; /* Maintain aspect ratio and cover the entire container */
+}

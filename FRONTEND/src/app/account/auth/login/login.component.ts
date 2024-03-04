@@ -79,7 +79,10 @@ export class LoginComponent implements OnInit {
             this.isLoading = false;
           },
           error: error => {
-            this.error = error ? error : '';
+            this.error = error.error?.message;
+            console.log(error.error?.message)
+            this.error = this.error ? error : 'Server Error'
+            console.log(this.error)
             this.isLoading = false;
           }
         });

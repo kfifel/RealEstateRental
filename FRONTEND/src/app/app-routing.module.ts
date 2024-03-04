@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./client-front-office/client-front-office.module').then(m => m.ClientFrontOfficeModule),
+    loadChildren: () => import('./frontoffice/client-front-office.module').then(m => m.ClientFrontOfficeModule),
   },
   { path: '**', component: Page404Component },
 ];

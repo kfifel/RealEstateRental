@@ -107,13 +107,13 @@
     </div>
     <!-- end container -->
   </section>
-  <!-- hero section end -->
+
   <!-- rental price section start -->
   <section class="section bg-white p-0">
     <div class="container">
       <div class="rental-price">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4 mt--5">
             <div class="card">
               <div class="card-body">
                 <div class="media">
@@ -132,7 +132,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mt--5">
             <div class="card">
               <div class="card-body">
                 <div class="media">
@@ -151,7 +151,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mt--5">
             <div class="card">
               <div class="card-body">
                 <div class="media">
@@ -178,6 +178,49 @@
   </section>
   <!-- rental price section end -->
 
+  <section id="top-property">
+    <div class="container p-3">
+      <div class="row align-items-center mb-4">
+        <div class="col">
+          <h1 class="mb-0">Top 4 Trending Accommodations</h1>
+          <p class="text-muted mt-2">Explore the most popular accommodations that everyone is talking about.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-3 col-sm-6" *ngFor="let property of (property$ | async)">
+          <div class="card">
+            <div class="card-body">
+              <div class="image-container">
+                <a [routerLink]="['/ecommerce/product-detail', property.id]" href="javascript: void(0);">
+                  <img [src]="fileUtils.getImageUrl(property.images[0])"
+                       [alt]="property.title"
+                       class="property-img-fluid mx-auto">
+                </a>
+              </div>
+              <div class="mt-4 text-center">
+                <h5 class="mb-3 text-truncate">
+                  <a [routerLink]="['/ecommerce/product-detail',property.id]" href="javascript: void(0);" class="text-dark">{{ property.title}} </a>
+                </h5>
+                <p class="text-muted">
+                  <i class="bx bx-star text-warning"></i>
+                  <i class="bx bx-star text-warning"></i>
+                  <i class="bx bx-star text-warning"></i>
+                  <i class="bx bx-star text-warning"></i>
+                  <i class="bx bx-star text-warning"></i>
+                </p>
+                <h5 class="my-0">
+                  <span class="text-muted mr-2"><del>{{property.pricePerDay}}</del></span>
+                  MAD<b>{{property.pricePerDay}} MAD</b>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- hero section end -->
 
   <!-- about section start -->
   <section class="section pt-4 bg-white" id="about">

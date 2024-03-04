@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import {interval, Observable} from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import {authUtils} from "../../authUtils";
 import {AuthenticationService} from "../../core/services/auth.service";
+import {PropertyService} from "../../backoffice/property/service/property.service";
+import {IProperty} from "../../backoffice/property/property.model";
+import {fileUtils} from "../../core/utils/file.utils";
 
 @Component({
-  selector: 'app-client-front-office',
+  selector: 'app-frontoffice',
   templateUrl: './Client-dashboard.component.html',
   styleUrls: ['./Client-dashboard.component.scss']
 })
@@ -67,8 +70,10 @@ export class ClientDashboardComponent implements OnInit {
   _hours: number;
   _minutes: number;
   _seconds: number;
+  property$: Observable<IProperty[]>;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private propertyService: PropertyService) {
 
   }
 
@@ -87,7 +92,15 @@ export class ClientDashboardComponent implements OnInit {
 
     this.isUserAuth = authUtils.isAuthenticate();
     this.isAdmin = authUtils.canAccessToBackOffice();
-    console.log(this.isAdmin)
+
+    this.property$ = this.propertyService.query({
+      page: 0,
+      size: 4,
+      sort: ['id,desc'],
+    })
+      .pipe(
+        map((response) => response.body)
+    );
   }
 
   getDays(t) {
@@ -140,4 +153,5 @@ export class ClientDashboardComponent implements OnInit {
     this.authService.logout()
   }
 
+  readonly fileUtils = fileUtils;
 }

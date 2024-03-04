@@ -81,8 +81,11 @@
                             </a>
                         </div>
                         <div class="my-auto">
+                          <ngb-alert type="danger" *ngIf="error" [dismissible]="false">
+                            {{ error }}
+                          </ngb-alert>
 
-                            <div>
+                          <div>
                                 <h5 class="text-primary">Welcome Back !</h5>
                                 <p class="text-muted">Sign in to continue to Skote.</p>
                             </div>
