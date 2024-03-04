@@ -1,13 +1,11 @@
 package com.fil.rouge.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Getter
 @Setter
+@ToString
 @Builder
 @AllArgsConstructor
 public class CustomError {

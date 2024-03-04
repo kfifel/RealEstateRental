@@ -48,7 +48,7 @@ token:
   validity:
     access:
       in:
-        minutes: 1
+        minutes: 1000
     refresh:
       in:
         month: 1
