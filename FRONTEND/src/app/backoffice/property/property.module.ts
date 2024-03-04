@@ -31,19 +31,19 @@ let routes: Routes = [
     PropertyCreateComponent,
     PropertyDetailComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        SharedModule,
-        UIModule,
-        NgbDropdownModule,
-        DropzoneModule,
-        NgxDropzoneModule,
-        CKEditorModule,
-        FormsModule,
-        UiSwitchModule,
-        NgbNavModule,
-        NgbPaginationModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SharedModule,
+    UIModule,
+    NgbDropdownModule,
+    DropzoneModule,
+    NgxDropzoneModule,
+    CKEditorModule,
+    FormsModule,
+    UiSwitchModule,
+    NgbNavModule,
+    NgbPaginationModule
+  ]
 })
 export class PropertyModule { }

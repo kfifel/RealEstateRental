@@ -191,7 +191,7 @@
           <div class="card">
             <div class="card-body">
               <div class="image-container">
-                <a [routerLink]="['/ecommerce/product-detail', property.id]" href="javascript: void(0);">
+                <a [routerLink]="['/client/property', property.id]" href="javascript: void(0);">
                   <img [src]="fileUtils.getImageUrl(property.images[0])"
                        [alt]="property.title"
                        class="property-img-fluid mx-auto">
@@ -199,7 +199,7 @@
               </div>
               <div class="mt-4 text-center">
                 <h5 class="mb-3 text-truncate">
-                  <a [routerLink]="['/ecommerce/product-detail',property.id]" href="javascript: void(0);" class="text-dark">{{ property.title}} </a>
+                  <a [routerLink]="['/client/property',property.id]" href="javascript: void(0);" class="text-dark">{{ property.title}} </a>
                 </h5>
                 <p class="text-muted">
                   <i class="bx bx-star text-warning"></i>

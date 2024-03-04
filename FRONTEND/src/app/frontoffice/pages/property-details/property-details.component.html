@@ -1,0 +1,69 @@
+<div class="container-fluid">
+
+  <!-- start page title -->
+  <app-page-title title="Property Detail" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl-6">
+              <div class="product-detai-imgs" *ngIf="property?.images?.length">
+                <div class="row">
+                  <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="vertical">
+                    <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-2">
+                      <a ngbNavLink>
+                        <img [src]="fileUtils.getImageUrl(image)" alt="" class="img-fluid mx-auto d-block rounded" />
+                      </a>
+                      <ng-template ngbNavContent>
+                        <img [src]="fileUtils.getImageUrl(image)" id="expandedImg" alt="" class="img-fluid mx-auto d-block">
+                      </ng-template>
+                    </li>
+                  </ul>
+                  <div [ngbNavOutlet]="nav" class="col-md-7 offset-md-1 col-sm-9 col-8"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6">
+              <div class="mt-4 mt-xl-3">
+                <a href="javascript: void(0);" class="text-primary">{{property?.propertyType}}</a>
+                <h4 class="mt-1 mb-3">{{property?.title}}</h4>
+
+                <!-- Price -->
+                <h5 class="mb-4">Price : <span class="text-muted me-2"><del>${{property?.pricePerDay}} USD</del></span> <b>${{property?.pricePerMonth}} USD</b></h5>
+
+                <!-- Description -->
+                <p class="text-muted mb-4"
+                   [innerHTML]="property?.description"
+                   style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 100px; max-height: 200px; overflow-y: auto; display: block; width: 100%;"
+                ></p>
+
+                <!-- Features -->
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.numberOfRooms}} Rooms</p>
+                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.size}} m<sup>2</sup></p>
+                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}</p>
+                  </div>
+                  <!-- Add more features if needed -->
+                </div>
+
+                <!-- Address -->
+                <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
+
+                <!-- Landlord -->
+                <p class="text-muted mb-4" *ngIf="property?.landlord">Landlord: {{property?.landlord?.firstName}}</p>
+
+              </div>
+            </div>
+          </div>
+          <!-- end row -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

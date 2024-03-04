@@ -10,6 +10,8 @@ import {CarouselModule} from "ngx-owl-carousel-o";
 import * as ClientOfficeShardMadule from "./shared/shared.module";
 import {SharedModule}  from "../shared/shared.module";
 import {RouterModule} from "@angular/router";
+import {PropertyModule} from "../backoffice/property/property.module";
+import {UIModule} from "../shared/ui/ui.module";
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import {RouterModule} from "@angular/router";
     NgbTooltipModule,
     SharedModule,
     ClientOfficeShardMadule.SharedModule,
-    RouterModule
+    RouterModule,
+    PropertyModule,
+    UIModule
   ]
 })
 export class ClientFrontOfficeModule { }

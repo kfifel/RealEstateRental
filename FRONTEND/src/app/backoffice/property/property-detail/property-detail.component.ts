@@ -4,7 +4,7 @@ import {IProperty} from "../property.model";
 import {fileUtils} from "../../../core/utils/file.utils";
 
 @Component({
-  selector: 'app-property-detail',
+  selector: 'app-admin-property-detail',
   templateUrl: './property-detail.component.html',
   styleUrls: ['./property-detail.component.scss']
 })
@@ -20,7 +20,6 @@ export class PropertyDetailComponent implements OnInit {
     this.breadCrumbItems = [{ label: 'Property', link: '/admin/property'  }, { label: 'Property Details', active: true }];
 
     this.route.data.subscribe(data => {
-      console.log(data.property);
       this.property = data.property;
     });
   }
