@@ -26,6 +26,14 @@ export class PropertyService {
     return this.http.get<IProperty[]>(this.resourceUrl,  { params: options, observe: 'response' });
   }
 
+  available(startDate: string, endDate: string, city: string, req?: Pagination):  Observable<EntityArrayResponseType> {
+    let options = createRequestOption(req);
+    options = options.append('startDate', startDate);
+    options = options.append('endDate', endDate);
+    options = options.append('city', city);
+    return this.http.get<IProperty[]>(`${this.resourceUrl}/available`,  { params: options, observe: 'response' });
+  }
+
   search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IProperty[]>(`${this.resourceUrl}`, { params: options, observe: 'response' });

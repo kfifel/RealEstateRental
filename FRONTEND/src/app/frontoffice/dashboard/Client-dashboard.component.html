@@ -78,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto">
+        <div class="col-lg-5 col-md-8 col-sm-10 ms-lg-auto bg-white px-3 py-2 search-property">
           <div class="card overflow-hidden mb-0 mt-5 mt-lg-0">
             <div class="card-header text-center">
               <h5 class="mb-0">Search for Your Ideal Rental</h5>
@@ -86,21 +86,46 @@
             <div class="card-body">
               <div class="text-center">
                 <p class="text-muted">Enter your preferences to find the perfect rental property:</p>
-                <form>
-                  <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Location">
-                  </div>
-                  <div class="mb-3">
-                    <input type="number" class="form-control" placeholder="Number of Bedrooms">
-                  </div>
-                  <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Maximum Rent">
-                  </div>
-                  <button type="submit" class="btn btn-primary">Search Now</button>
-                </form>
               </div>
             </div>
           </div>
+        <form (ngSubmit)="searchProperty()">
+          <div class="mb-3">
+            <div class="date-container d-flex my-4" (click)="hidden=!hidden">
+              <div class="date-item-left">
+                <div class="h5 fw-bold">ARRIVAL</div>
+                <div>{{ searchQueries.startDate == null ? 'Add A Date' : (searchQueries.startDate | date:'EEEE, MMMM d, y') }}</div>
+              </div>
+
+              <div class="date-item-right">
+                <div class="h5 fw-bold">DEPARTURE</div>
+                <div>{{ searchQueries.endDate == null ? 'Add A Date' : (searchQueries.endDate | date:'EEEE, MMMM d, y' ) }}</div>
+              </div>
+            </div>
+            <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+                            outsideDays="hidden" [hidden]="hidden">
+            </ngb-datepicker>
+            <ng-template #t let-date let-focused="focused">
+                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                      [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                      (mouseleave)="hoveredDate = null">
+                  {{ date.day }}
+                </span>
+            </ng-template>
+          </div>
+          <div class="mb-3">
+            <ng-select [items]="citySuggestions"
+                       bindLabel="."
+                       placeholder="Search your city"
+                       [typeahead]="searchInput"
+                       [typeToSearchText]="'Type to search your city'"
+                       [loadingText]="'Loading...'"
+                       [notFoundText]="'No matches found'"
+                       (change)="onCitySelected($event)">
+            </ng-select>
+          </div>
+          <button type="submit" class="btn btn-primary">Search Now</button>
+        </form>
         </div>
       </div>
       <!-- end row -->
@@ -376,6 +401,7 @@
       <!-- end row -->
 
       <div class="row align-items-center pt-4">
+        3AAA
         <div class="col-md-6 col-sm-8">
           <div>
             <img src="../../../assets/images/crypto/features-img/img-1.png"  alt="" class="img-fluid mx-auto d-block">
@@ -445,87 +471,6 @@
   </section>
   <!-- Real Estate Rental Features end -->
 
-
-  <!-- Real Estate Rental News start -->
-  <section class="section bg-white" id="news">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="text-center mb-5">
-            <div class="small-title">Blog</div>
-            <h4>Latest News</h4>
-          </div>
-        </div>
-      </div>
-      <!-- end row -->
-
-      <div class="row">
-        <div class="col-xl-4 col-sm-6">
-          <div class="blog-box mb-4 mb-xl-0">
-            <div class="position-relative">
-              <img src="../../../assets/images/real_estate/blog/img-1.jpg" alt=""
-                   class="rounded img-fluid mx-auto d-block">
-              <div class="badge bg-success blog-badge font-size-11">Real Estate</div>
-            </div>
-
-            <div class="mt-4 text-muted">
-              <p class="mb-2"><i class="bx bx-calendar me-1"></i> 04 Mar, 2023</p>
-              <h5 class="mb-3">Find Your Dream Rental Home</h5>
-              <p>Discover how to find your ideal rental property and make hassle-free renting a reality.</p>
-
-              <div>
-                <a href="javascript: void(0);">Read more</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-          <div class="blog-box mb-4 mb-xl-0">
-
-            <div class="position-relative">
-              <img src="../../../assets/images/real_estate/blog/img-2.jpg" alt=""
-                   class="rounded img-fluid mx-auto d-block">
-              <div class="badge bg-success blog-badge font-size-11">Real Estate</div>
-            </div>
-
-            <div class="mt-4 text-muted">
-              <p class="mb-2"><i class="bx bx-calendar me-1"></i> 12 Feb, 2023</p>
-              <h5 class="mb-3">Tips for First-Time Renters</h5>
-              <p>Learn essential tips and tricks for first-time renters to ensure a smooth renting experience.</p>
-
-              <div>
-                <a href="javascript: void(0);">Read more</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-          <div class="blog-box mb-4 mb-xl-0">
-            <div class="position-relative">
-              <img src="../../../assets/images/real_estate/blog/img-3.jpg" alt=""
-                   class="rounded img-fluid mx-auto d-block">
-              <div class="badge bg-success blog-badge font-size-11">Real Estate</div>
-            </div>
-
-            <div class="mt-4 text-muted">
-              <p class="mb-2"><i class="bx bx-calendar me-1"></i> 06 Jan, 2023</p>
-              <h5 class="mb-3">Choosing the Right Neighborhood</h5>
-              <p>Explore tips on how to choose the right neighborhood for your rental property.</p>
-
-              <div>
-                <a href="javascript: void(0);">Read more</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- end row -->
-    </div>
-    <!-- end container -->
-  </section>
-  <!-- Real Estate Rental News end -->
 
   <!-- Estate Rental FAQs start -->
   <section class="section" id="faqs">
@@ -771,6 +716,4 @@
     <!-- end container -->
   </footer>
   <!-- Estate Rental Footer end -->
-
-
 </div>

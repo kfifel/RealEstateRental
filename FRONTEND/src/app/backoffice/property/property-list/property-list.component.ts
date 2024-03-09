@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IProperty} from "../property.model";
 import {PropertyService} from "../service/property.service";
 import {HttpHeaders, HttpResponse} from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Component({
   selector: 'app-property-list',
@@ -11,7 +11,7 @@ import {Observable, Subject} from "rxjs";
 })
 export class PropertyListComponent implements OnInit {
 
-  properties: IProperty[];
+  properties: IProperty[] = [];
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -19,9 +19,9 @@ export class PropertyListComponent implements OnInit {
   private searchSubject: Subject<string> = new Subject<string>();
   isLoading = false;
 
-  totalItems$ = new Subject<number>();
+  totalItems$ = new BehaviorSubject<number>(0);
   itemsPerPage = 5;
-  page?: number;
+  page: number = 1;
 
   constructor(private propertyService: PropertyService) { }
 

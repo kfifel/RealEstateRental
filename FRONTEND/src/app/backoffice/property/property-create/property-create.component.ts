@@ -32,6 +32,7 @@ export class PropertyCreateComponent implements OnInit {
   public Editor = ClassicEditor;
   description: any = "Hello world";
   cities$: Observable<string[]>;
+  isLoading = false;
 
   constructor(private cityService: CityService,
               private propertyService: PropertyService,
@@ -57,15 +58,20 @@ export class PropertyCreateComponent implements OnInit {
   }
 
   onsubmit() {
+    this.isLoading = true;
     let images = new FormData();
     this.files.forEach((file) => {
       images.append(`images`, file);
     });
 
     this.propertyService.createProperty(this.property, images)
-      .subscribe((property) => {
-        console.log(property);
+      .subscribe(() => {
+        this.isLoading = false;
         this.router.navigate(['/admin/property'])
+      },
+      () => {
+        this.isLoading = false;
       });
+
   }
 }

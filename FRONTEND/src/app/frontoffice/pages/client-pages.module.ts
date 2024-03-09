@@ -4,11 +4,15 @@ import {PropertyDetailsComponent} from "./property-details/property-details.comp
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {UIModule} from "../../shared/ui/ui.module";
-import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDatepickerModule, NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
+import {FormsModule} from "@angular/forms";
+import { PropertyListComponent } from './property-list/property-list.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
-    PropertyDetailsComponent
+    PropertyDetailsComponent,
+    PropertyListComponent
   ],
   imports: [
     CommonModule,
@@ -16,6 +20,9 @@ import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
     SharedModule,
     UIModule,
     NgbNavModule,
+    NgbDatepickerModule,
+    FormsModule,
+    RouterModule,
   ],
 })
 export class ClientPagesModule2 {

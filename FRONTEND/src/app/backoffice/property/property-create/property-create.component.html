@@ -88,7 +88,6 @@
                 <div class="col-md-4">
                   <div class="mb-3">
                     <label for="form-hasBalcony-input">Has Balcony</label>
-                    <input type="checkbox" class="form-check-input" />
                     <br/>
                     <ui-switch defaultBoColor="#dfdfdf" id="form-hasBalcony-input"
                                color="#7266ba"
@@ -135,7 +134,10 @@
               </div>
 
               <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" [disabled] = "isLoading">
+                  Submit
+                  <i class="fa fa-spin fa-spinner" *ngIf="isLoading"></i>
+                </button>
               </div>
             </form>
           </div>

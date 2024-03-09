@@ -25,4 +25,13 @@ export class CityService {
       })
     );
   }
+
+  getSuggestions(value: string): Observable<string[]> {
+    value = value?.toLowerCase();
+    return this.getCities().pipe(
+      map(cities => {
+        return cities.filter(city => city.toLowerCase().includes(value))
+      })
+    )
+  }
 }

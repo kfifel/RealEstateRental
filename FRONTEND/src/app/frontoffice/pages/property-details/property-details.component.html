@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="px-5">
 
   <!-- start page title -->
   <app-page-title title="Property Detail" [breadcrumbItems]="breadCrumbItems"></app-page-title>
@@ -7,59 +7,134 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <div class="row">
-            <div class="col-xl-6">
-              <div class="product-detai-imgs" *ngIf="property?.images?.length">
-                <div class="row">
-                  <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="vertical">
-                    <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-2">
-                      <a ngbNavLink>
-                        <img [src]="fileUtils.getImageUrl(image)" alt="" class="img-fluid mx-auto d-block rounded" />
-                      </a>
-                      <ng-template ngbNavContent>
-                        <img [src]="fileUtils.getImageUrl(image)" id="expandedImg" alt="" class="img-fluid mx-auto d-block">
-                      </ng-template>
-                    </li>
-                  </ul>
-                  <div [ngbNavOutlet]="nav" class="col-md-7 offset-md-1 col-sm-9 col-8"></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-6">
-              <div class="mt-4 mt-xl-3">
-                <a href="javascript: void(0);" class="text-primary">{{property?.propertyType}}</a>
-                <h4 class="mt-1 mb-3">{{property?.title}}</h4>
-
-                <!-- Price -->
-                <h5 class="mb-4">Price : <span class="text-muted me-2"><del>${{property?.pricePerDay}} USD</del></span> <b>${{property?.pricePerMonth}} USD</b></h5>
-
-                <!-- Description -->
-                <p class="text-muted mb-4"
-                   [innerHTML]="property?.description"
-                   style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 100px; max-height: 200px; overflow-y: auto; display: block; width: 100%;"
-                ></p>
-
-                <!-- Features -->
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.numberOfRooms}} Rooms</p>
-                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.size}} m<sup>2</sup></p>
-                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}</p>
-                  </div>
-                  <!-- Add more features if needed -->
-                </div>
-
-                <!-- Address -->
-                <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
-
-                <!-- Landlord -->
-                <p class="text-muted mb-4" *ngIf="property?.landlord">Landlord: {{property?.landlord?.firstName}}</p>
-
-              </div>
+          <div class="product-detai-imgs" *ngIf="property?.images?.length">
+            <div class="row">
+              <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="horizontal" style="height: 75vh; overflow-y: auto;">
+                <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-1">
+                  <a ngbNavLink>
+                    <img [src]="image" alt="" class="img-fluid mx-auto d-block rounded"/>
+                    <p class="text-center">{{ i + 1 }} / {{ property.images.length }}</p>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <img [src]="image" id="expandedImg" alt=""
+                         class="img-fluid mx-auto d-block">
+                  </ng-template>
+                </li>
+              </ul>
+              <div [ngbNavOutlet]="nav" class="col-md-7 offset-md-1 col-sm-9 col-12"></div>
             </div>
           </div>
           <!-- end row -->
+          <hr class="my-4">
+
+          <div class="row">
+            <div class="col-8 mt-4 mt-xl-4">
+              <a href="javascript: void(0);" class="text-primary">{{property?.propertyType}}</a>
+              <h4 class="mt-1 mb-3">{{property?.title}}</h4>
+
+              <!-- Price -->
+              <h5 class="font-weight-semibold">Prices</h5>
+              <h5 class="mb-4"><b>${{property?.pricePerMonth}} USD / Month</b></h5>
+              <h5 class="mb-4"><b>${{property?.pricePerDay}} USD / Day</b></h5>
+
+              <!-- Description -->
+              <h5 class="font-weight-semibold">Description</h5>
+              <p class="text-muted mb-4"
+                 [innerHTML]="property?.description"
+                 style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 100px; overflow-y: auto; display: block; width: 100%;"
+              ></p>
+
+              <!-- Features -->
+              <h5>Features</h5>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <p class="text-muted"><i
+                    class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.numberOfRooms}}
+                    Rooms</p>
+                  <p class="text-muted"><i
+                    class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.size}}
+                    m<sup>2</sup></p>
+                  <p class="text-muted"><i
+                    class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}
+                  </p>
+                </div>
+                <!-- Add more features if needed -->
+              </div>
+
+              <!-- Address -->
+              <h5>Address</h5>
+              <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
+
+              <!-- Landlord -->
+              <h5>Landlord</h5>
+              <p class="text-muted mb-4" *ngIf="property?.landlord">Landlord: {{property?.landlord?.firstName}}</p>
+
+            </div>
+            <div class="col-xl-3 position-relative">
+              <div class="div6 position-sticky w-100">
+                <div>
+                  <div>
+                    <div>
+                      <h2>
+                        <span class="fw-bold">{{property.pricePerDay}} MAD</span>
+                        Per Night
+                      </h2>
+                    </div>
+                    <div>
+
+                      <ng-template #t let-date let-focused="focused">
+                        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                              [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                              (mouseleave)="hoveredDate = null">
+                          {{ date.day }}
+                        </span>
+                      </ng-template>
+
+
+                      <div class="date-container my-4"  (click)="hidden=!hidden">
+                        <div class="date-item-left">
+                          <div class="h5 fw-bold">ARRIVAL</div>
+                          <div>{{ selected.split('-')[0] == '' ? 'Add A Date' : selected.split('-')[0] }}</div>
+                        </div>
+
+                        <div class="date-item-right">
+                          <div class="h5 fw-bold">DEPARTURE</div>
+                          <div>{{ selected.split('-')[1] ?? 'Add A Date' }}</div>
+                        </div>
+                      </div>
+                      <div class="my-4">
+                        <div class="row">
+                          <div class="col-12">
+                            <button
+                              (click)="reserveProperty()"
+                              class="btn btn-primary btn-lg btn-block w-100"
+                            >
+                              Reserve Property
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="totalPrice">
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                          <div class="h6 fw-bold">
+                            Estimating Booking Price:
+                          </div>
+                          <div class="h5">
+                            {{totalPrice}} MAD
+                          </div>
+                        </div>
+                      </div>
+                      <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+                                      outsideDays="hidden" [hidden]="hidden">
+                      </ngb-datepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
 
         </div>
       </div>
