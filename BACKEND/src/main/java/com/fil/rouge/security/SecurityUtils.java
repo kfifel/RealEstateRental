@@ -1,5 +1,6 @@
 package com.fil.rouge.security;
 
+import com.fil.rouge.domain.AppUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,16 +26,21 @@ public final class SecurityUtils {
     public static String getCurrentUserEmail() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        return extractPrincipal(authentication);
+        UserDetails userDetails = extractPrincipal(authentication);
+        return userDetails == null ? null : userDetails.getUsername();
     }
 
-    private static String extractPrincipal(Authentication authentication) {
+    public static AppUser getCurrentUser() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        return (AppUser) extractPrincipal(authentication);
+    }
+
+    private static UserDetails extractPrincipal(Authentication authentication) {
         if (authentication == null) {
             return null;
         } else if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
-            return springSecurityUser.getUsername();
-        } else if (authentication.getPrincipal() instanceof String username) {
-            return username;
+            return springSecurityUser;
         }
         return null;
     }

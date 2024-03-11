@@ -28,9 +28,11 @@ public class AppUser implements UserDetails {
 
     private String lastName;
 
-        private String email;
+    private String email;
 
-        private String password;
+    private String password;
+
+    private String phone;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -71,5 +73,9 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }

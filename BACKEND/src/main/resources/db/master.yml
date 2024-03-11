@@ -19,3 +19,7 @@ databaseChangeLog:
       file: db/changelog/2024/03/05-03-changelog.xml
   - include:
       file: db/changelog/2024/03/08-01-changelog.xml
+  - include:
+      file: db/changelog/2024/03/10-01-changelog.xml
+  - include:
+      file: db/changelog/2024/03/10-02-changelog.xml

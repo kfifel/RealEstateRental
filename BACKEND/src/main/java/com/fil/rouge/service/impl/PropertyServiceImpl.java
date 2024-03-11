@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,7 +110,7 @@ public class PropertyServiceImpl implements PropertyService {
             try {
                 fileUtils.deleteFile(image.getPath());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.error("Error to delete image with path: " + image.getPath(), e);
             }
         });
         propertyRepository.delete(property);
@@ -120,5 +121,13 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = this.findById(id).orElseThrow();
         uploadPropertyImages(property, images);
         return property;
+    }
+
+    @Override
+    public Page<Property> getAvailableProperties(LocalDate startDate, LocalDate endDate, String city, Pageable pageable) {
+        City city1 = cityRepository.findByNameIgnoreCase(city)
+                .orElse(null);
+
+        return propertyRepository.getAvailableProperties(startDate, endDate, city1, pageable);
     }
 }

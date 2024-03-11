@@ -7,6 +7,7 @@ import com.fil.rouge.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -38,11 +39,10 @@ public class SecurityConfiguration {
                     .disable()
                 .cors()
                 .and()
-//                    .oauth2Login()
-//                .and()
                     .authorizeHttpRequests()
                     .antMatchers("/api/v1/admin").hasAuthority(AuthoritiesConstants.ROLE_ADMIN)
                     .antMatchers("/api/v1/auth/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/v1/properties").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

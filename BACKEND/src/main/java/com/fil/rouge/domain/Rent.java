@@ -1,7 +1,7 @@
 package com.fil.rouge.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fil.rouge.domain.enums.RentStatus;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +9,9 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +23,13 @@ public class Rent {
 
     private Double totalPrice;
 
+    private boolean isPaid;
+
+    @Enumerated(EnumType.STRING)
+    private RentStatus status;
+
     @ManyToOne
-    private PropertyListing propertyListing;
+    private Property property;
 
     @ManyToOne
     private AppUser tenant;

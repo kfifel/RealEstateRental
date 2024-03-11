@@ -3,11 +3,11 @@ package com.fil.rouge.service;
 
 import com.fil.rouge.domain.Property;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +22,5 @@ public interface PropertyService {
 
     Property createPropertyImages(Long id, List<MultipartFile> images);
 
+    Page<Property> getAvailableProperties(LocalDate startDate, LocalDate endDate, String city, Pageable pageable);
 }

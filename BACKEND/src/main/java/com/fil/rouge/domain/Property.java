@@ -20,6 +20,8 @@ public class Property {
 
     private String title;
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private Double size;
@@ -45,5 +47,4 @@ public class Property {
 
     @ManyToOne
     private City city;
-
 }

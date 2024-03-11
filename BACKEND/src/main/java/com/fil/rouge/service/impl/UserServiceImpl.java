@@ -156,6 +156,4 @@ public class UserServiceImpl implements UserService {
     public void forceDelete(Long id) {
         userRepository.forceDelete(id);
     }
-
-
 }

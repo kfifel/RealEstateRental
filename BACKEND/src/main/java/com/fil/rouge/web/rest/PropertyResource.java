@@ -12,6 +12,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/properties")
@@ -99,4 +100,25 @@ public class PropertyResource {
         return ResponseEntity.noContent()
                 .build();
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<PropertyDto>> getAvailableProperties(
+            @Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
+            @Param("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate,
+            @Param("city") String city,
+            @ParameterObject Pageable pageable
+    ) {
+        Page<Property> properties = propertyService.getAvailableProperties(startDate, endDate, city, pageable);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", String.valueOf(properties.getTotalElements()));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(
+                    properties.stream()
+                        .map(property -> propertyDtoMapper.toDto(property, true))
+                        .toList());
+    }
+
+
 }
