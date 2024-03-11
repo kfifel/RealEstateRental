@@ -4,7 +4,6 @@ package com.fil.rouge.web.rest;
 import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

@@ -4,6 +4,7 @@ import com.fil.rouge.domain.City;
 import com.fil.rouge.domain.Property;
 import com.fil.rouge.utils.FileUtils;
 import com.fil.rouge.web.dto.PropertyDto;
+import com.fil.rouge.web.dto.response.ImageDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,22 +40,7 @@ public class PropertyDtoMapper {
     ** @params boolean onePhoto if is true then it returns only one photo else it returns all the photos
      */
     public PropertyDto toDto(Property property, boolean onePhoto) {
-        final List<byte[]>  images = new ArrayList<>();
-        if(property.getImages() != null && !property.getImages().isEmpty())
-        {
-            property.getImages()
-                    .stream()
-                    .limit(onePhoto? 1: property.getImages().size())
-                    .forEach(image -> {
-                        byte[] bytes;
-                        try {
-                            bytes = fileUtils.fileToByteArray(image.getPath());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        images.add(bytes);
-                    });
-        }
+        final List<ImageDto> images = extractImages(property, onePhoto);
         return PropertyDto.builder()
                 .id(property.getId())
                 .address(property.getAddress())
@@ -69,5 +55,28 @@ public class PropertyDtoMapper {
                 .title(property.getTitle())
                 .images(images)
                 .build();
+    }
+
+    private List<ImageDto> extractImages(Property property, boolean onePhoto) {
+        final List<ImageDto>  images = new ArrayList<>();
+        if(property.getImages() != null && !property.getImages().isEmpty())
+        {
+            property.getImages()
+                    .stream()
+                    .limit(onePhoto ? 1: property.getImages().size())
+                    .forEach(image -> {
+                        byte[] bytes;
+                        try {
+                            bytes = fileUtils.fileToByteArray(image.getPath());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        images.add(ImageDto.builder()
+                                .id(image.getId())
+                                .base64(bytes)
+                                .build());
+                    });
+        }
+        return images;
     }
 }

@@ -82,14 +82,14 @@ public class LoggingAspect {
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Logger log = logger(joinPoint);
 
-        //if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
         log.debug("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getName(), Arrays.toString(joinPoint.getArgs()));
-        //}
+        }
         try {
             Object result = joinPoint.proceed();
-            //if (log.isDebugEnabled()) {
+            if (log.isDebugEnabled()) {
             log.info("Exit: {}() with result = {}", joinPoint.getSignature().getName(), result);
-            //}
+            }
             return result;
         } catch (IllegalArgumentException e) {
             log.error("Illegal argument: {} in {}()", Arrays.toString(joinPoint.getArgs()), joinPoint.getSignature().getName());

@@ -1,6 +1,7 @@
 package com.fil.rouge.web.dto;
 
 import com.fil.rouge.domain.enums.PropertyType;
+import com.fil.rouge.web.dto.response.ImageDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -43,5 +44,5 @@ public class PropertyDto {
     @NotNull
     private String city;
 
-    private List<byte[]> images;
+    private List<ImageDto> images;
 }
