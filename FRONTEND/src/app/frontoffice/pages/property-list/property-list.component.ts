@@ -4,7 +4,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {IProperty} from "../../../backoffice/property/property.model";
 import {PropertyService} from "../../../backoffice/property/service/property.service";
 import {catchError, map} from "rxjs/operators";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-property-list',
@@ -19,7 +19,7 @@ export class PropertyListComponent implements OnInit {
   breadCrumbItems: any;
 
   page = 1;
-  pageSize = 5;
+  pageSize = 10;
   loading = false;
   totalItems = 0;
 
@@ -31,11 +31,12 @@ export class PropertyListComponent implements OnInit {
   properties$ = new BehaviorSubject<IProperty[]>([]);
 
   constructor(private propertyService: PropertyService,
-              private route: ActivatedRoute) { }
+              private activeRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property Details', active: true }];
-    this.route.queryParams.subscribe(params => {
+    this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property Available', active: true }];
+    this.activeRoute.queryParams.subscribe(params => {
       this.searchQueries.city = params['city'] ?? null;
       this.searchQueries.startDate = new Date(params['startDate']) ?? null;
       this.searchQueries.endDate = new Date(params['endDate']) ?? null;
@@ -87,5 +88,9 @@ export class PropertyListComponent implements OnInit {
       this.page++;
       this.loadAvailableProperties();
     }
+  }
+
+  navigateToDetail(id: number) {
+    this.router.navigate(['/client/property', id], {queryParams: this.searchQueries});
   }
 }

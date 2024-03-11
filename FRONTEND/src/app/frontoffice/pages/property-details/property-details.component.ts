@@ -2,8 +2,11 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {IProperty} from "../../../backoffice/property/property.model";
 import {fileUtils} from "../../../core/utils/file.utils";
-import { NgbDate, NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDate, NgbCalendar, NgbDateStruct, NgbAlert, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import {map} from "rxjs/operators";
+import {PropertyService} from "../../../backoffice/property/service/property.service";
+import {RentService} from "../service/rent.service";
+import * as sweetalert2 from "sweetalert2";
 
 @Component({
   selector: 'app-property-details',
@@ -21,7 +24,7 @@ export class PropertyDetailsComponent implements OnInit {
   toNGDate: NgbDate;
 
   hidden: boolean;
-  selected: any;
+  selected: string = '';
 
   totalPrice: number;
 
@@ -29,7 +32,16 @@ export class PropertyDetailsComponent implements OnInit {
   @Input() toDate: Date;
   @ViewChild('dp', { static: true }) datePicker: any;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  errors = {
+    startDate: null,
+    endDate: null,
+    message: null
+  }
+
+  isReserved: boolean = false;
+
+  constructor(private activatedRoute: ActivatedRoute,
+              private rentService: RentService) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property Details', active: true }];
@@ -46,9 +58,19 @@ export class PropertyDetailsComponent implements OnInit {
         this.property = property
       })
 
-    this.selected = '';
+    this.activatedRoute.queryParams.subscribe(params => {
+      const param1 = params['startDate'];
+      const param2 = params['endDate'];
+      if (param2 && param1) {
+        let startDate = new Date(param1);
+        let endDate = new Date(param2);
+        this.selected = this.dateToString(startDate) + '-' + this.dateToString(endDate);
+        this.calculateTotalPrice();
+      }
+    })
     this.hidden = true;
   }
+
   isHovered(date: NgbDate) {
     return this.fromNGDate && !this.toNGDate && this.hoveredDate && date.after(this.fromNGDate) && date.before(this.hoveredDate);
   }
@@ -120,10 +142,33 @@ export class PropertyDetailsComponent implements OnInit {
     return new Date(parseInt(year), parseInt(month) , parseInt(day));
   }
 
+  dateToString(date: Date) {
+    return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+  }
+
   reserveProperty() {
+    this.errors.message = null;
     if (this.selected.split('-').length < 2){
       this.hidden = !this.hidden;
       return;
     }
+
+    if (this.errors.startDate || this.errors.endDate)
+      return;
+
+    const [startDateStr, endDateStr] = this.selected.split('-');
+    const startDate = this.stringToDate(startDateStr);
+    const endDate = this.stringToDate(endDateStr);
+
+    this.isReserved = true;
+    this.rentService.reserveProperty(this.property.id, startDate, endDate)
+        .subscribe(() => {
+            sweetalert2.default.fire('Success', 'Property reserved successfully', 'success');
+        },
+          (error) => {
+            this.errors.message = error.error.message ?? 'Error has been occurred';
+            this.isReserved = false;
+          })
+
   }
 }

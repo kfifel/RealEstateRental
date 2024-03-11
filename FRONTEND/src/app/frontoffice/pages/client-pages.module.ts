@@ -4,7 +4,7 @@ import {PropertyDetailsComponent} from "./property-details/property-details.comp
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {UIModule} from "../../shared/ui/ui.module";
-import {NgbDatepickerModule, NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbAlertModule, NgbDatepickerModule, NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule} from "@angular/forms";
 import { PropertyListComponent } from './property-list/property-list.component';
 import {RouterModule} from "@angular/router";
@@ -14,16 +14,17 @@ import {RouterModule} from "@angular/router";
     PropertyDetailsComponent,
     PropertyListComponent
   ],
-  imports: [
-    CommonModule,
-    ClientPagesRouting,
-    SharedModule,
-    UIModule,
-    NgbNavModule,
-    NgbDatepickerModule,
-    FormsModule,
-    RouterModule,
-  ],
+    imports: [
+        CommonModule,
+        ClientPagesRouting,
+        SharedModule,
+        UIModule,
+        NgbNavModule,
+        NgbDatepickerModule,
+        FormsModule,
+        RouterModule,
+        NgbAlertModule,
+    ],
 })
 export class ClientPagesModule2 {
 
