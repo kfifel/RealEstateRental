@@ -27,10 +27,7 @@ export class PropertyService {
   }
 
   available(startDate: string, endDate: string, city: string, req?: Pagination):  Observable<EntityArrayResponseType> {
-    let options = createRequestOption(req);
-    options = options.append('startDate', startDate);
-    options = options.append('endDate', endDate);
-    options = options.append('city', city);
+    let options = createRequestOption({...req, startDate, endDate, city});
     return this.http.get<IProperty[]>(`${this.resourceUrl}/available`,  { params: options, observe: 'response' });
   }
 

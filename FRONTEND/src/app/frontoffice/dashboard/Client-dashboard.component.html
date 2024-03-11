@@ -94,12 +94,12 @@
             <div class="date-container d-flex my-4" (click)="hidden=!hidden">
               <div class="date-item-left">
                 <div class="h5 fw-bold">ARRIVAL</div>
-                <div>{{ searchQueries.startDate == null ? 'Add A Date' : (searchQueries.startDate | date:'EEEE, MMMM d, y') }}</div>
+                <div>{{ searchQueries.startDate ? 'Add A Date' : (searchQueries.startDate | date:'EEEE, MMMM d, y') }}</div>
               </div>
 
               <div class="date-item-right">
                 <div class="h5 fw-bold">DEPARTURE</div>
-                <div>{{ searchQueries.endDate == null ? 'Add A Date' : (searchQueries.endDate | date:'EEEE, MMMM d, y' ) }}</div>
+                <div>{{ searchQueries.endDate  ? 'Add A Date' : (searchQueries.endDate | date:'EEEE, MMMM d, y' ) }}</div>
               </div>
             </div>
             <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
@@ -217,7 +217,7 @@
             <div class="card-body">
               <div class="image-container">
                 <a [routerLink]="['/client/property', property.id]" href="javascript: void(0);">
-                  <img [src]="fileUtils.getImageUrl(property.images[0])"
+                  <img [src]="fileUtils.getImageUrl(property.images[0]?.base64)"
                        [alt]="property.title"
                        class="property-img-fluid mx-auto">
                 </a>

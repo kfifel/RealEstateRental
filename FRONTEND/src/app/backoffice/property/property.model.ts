@@ -14,7 +14,7 @@ export interface IProperty {
   landlord?: User; // Optional as it might not be available until associated
   address: string;
   city?: string; // Optional as it might not be available until associated
-  images?: string[];
+  images?: Image[];
 }
 
 export class PropertyModel implements IProperty {
@@ -30,7 +30,7 @@ export class PropertyModel implements IProperty {
   landlord?: User;
   address: string;
   city?: string;
-  images?: string[];
+  images?: Image[];
 
   constructor(data: Partial<IProperty> = {}) {
     Object.assign(this, data);
@@ -53,4 +53,10 @@ export enum PropertyType {
   CONDO = 'CONDO',
   ROOM = 'ROOM',
   OTHER = 'OTHER'
+}
+
+export interface Image {
+
+  id: number;
+  base64: string;
 }

@@ -158,14 +158,10 @@ export class ClientDashboardComponent implements OnInit {
 
   searchProperty() {
 
-    if(!this.searchQueries.startDate || !this.searchQueries.endDate || !this.searchQueries.city) {
-        return;
-    }
-
     const queryParams = {
-      city: this.searchQueries.city,
-      startDate: this.searchQueries.startDate.toISOString(),
-      endDate: this.searchQueries.endDate.toISOString()
+      ...this.searchQueries.city && { city: this.searchQueries.city },
+      ...this.searchQueries.startDate && { startDate: this.searchQueries.startDate.toISOString() },
+      ...this.searchQueries.endDate && { endDate: this.searchQueries.endDate.toISOString() },
     };
 
     this.router.navigate(['/client/property'], { queryParams });

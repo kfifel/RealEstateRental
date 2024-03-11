@@ -7,7 +7,10 @@
     <div class="container p-3">
       <div class="row align-items-center mb-4">
         <div class="col">
-          <h1 class="mb-0">Available Accommodations for {{ searchQueries.startDate | date: 'mediumDate' }} - {{ searchQueries.endDate | date: 'mediumDate' }}</h1>
+          <h1 class="mb-0">{{totalItems}} Available Accommodations
+            <span *ngIf="searchQueries.startDate && searchQueries.endDate">for {{ searchQueries.startDate | date: 'mediumDate' }} - {{ searchQueries.endDate | date: 'mediumDate' }}</span>
+            <span *ngIf="searchQueries.city === '' "> in the city {{searchQueries.city}}</span>
+          </h1>
           <p class="text-muted mt-2">Explore the accommodations that are available for booking between these dates.</p>
         </div>
       </div>
@@ -17,15 +20,22 @@
             <div class="card-body">
               <div class="image-container">
                 <a (click)="navigateToDetail(property.id)" href="javascript: void(0);">
-                  <img [src]="fileUtils.getImageUrl(property.images[0])"
+                  <img [src]="fileUtils.getImageUrl(property.images[0]?.base64)"
                        [alt]="property.title"
                        class="property-img-fluid mx-auto">
                 </a>
               </div>
               <div class="mt-4 text-center">
                 <h5 class="mb-3 text-truncate">
-                  <a (click)="navigateToDetail(property.id)" href="javascript: void(0);" class="text-dark">{{ property.title}} </a>
+                  <a (click)="navigateToDetail(property.id)" href="javascript: void(0);" class="text-dark">{{ property.title }}</a>
                 </h5>
+
+                <!-- City display with an icon -->
+                <div class="city-display d-flex align-items-center justify-content-center mb-2">
+                  <i class="bx bx-map-pin icon-city mr-2"></i> <!-- Replace 'bx-map-pin' with the icon class for the city icon you want to use -->
+                  <span class="city-name">{{ property.city }}</span>
+                </div>
+
                 <p class="text-muted">
                   <i class="bx bx-star text-warning"></i>
                   <i class="bx bx-star text-warning"></i>
@@ -34,14 +44,15 @@
                   <i class="bx bx-star text-warning"></i>
                 </p>
                 <h5 class="my-0">
-                  <span class="text-muted mr-2"><del>{{property.pricePerDay}}</del></span>
-                  MAD<b>{{property.pricePerDay}} MAD</b>
+                  <span class="text-muted mr-2"><del>{{ property.pricePerDay }}</del></span>
+                  MAD<b>{{ property.pricePerDay }} MAD</b>
                 </h5>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="row" *ngIf="loading">
         <div class="col text-center mt-4">
           <div class="spinner-border text-primary" role="status">

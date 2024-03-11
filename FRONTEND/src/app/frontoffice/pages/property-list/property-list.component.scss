@@ -28,3 +28,16 @@
   border-radius: 1rem;
   object-fit: cover; /* Maintain aspect ratio and cover the entire container */
 }
+
+.city-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Adjust size as needed */
+  color: #333; /* Adjust color as needed */
+}
+
+.icon-city {
+  font-size: 1.25rem; /* Adjust icon size as needed */
+  margin-right: 0.5rem; /* Adjust spacing as needed */
+}

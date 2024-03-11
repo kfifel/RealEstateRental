@@ -50,7 +50,12 @@ export class PropertyDetailsComponent implements OnInit {
       .pipe(
         map((data) => data?.property as IProperty),
         map(property => {
-          property.images = property.images.map(image => this.fileUtils.getImageUrl(image));
+          property.images = property.images.map(image => {
+            return {
+              id : image.id,
+              base64: this.fileUtils.getImageUrl(image.base64)
+            }
+          });
           return property;
         })
       )

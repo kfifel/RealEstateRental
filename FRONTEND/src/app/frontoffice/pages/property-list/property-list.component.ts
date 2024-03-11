@@ -38,13 +38,13 @@ export class PropertyListComponent implements OnInit {
     this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property Available', active: true }];
     this.activeRoute.queryParams.subscribe(params => {
       this.searchQueries.city = params['city'] ?? null;
-      this.searchQueries.startDate = new Date(params['startDate']) ?? null;
-      this.searchQueries.endDate = new Date(params['endDate']) ?? null;
+      if (params['startDate'])
+        this.searchQueries.startDate = new Date(params['startDate']);
+      if (params['endDate'])
+        this.searchQueries.endDate = new Date(params['endDate']);
     });
 
-    if (this.searchQueries.city || this.searchQueries.startDate || this.searchQueries.endDate) {
-      this.loadAvailableProperties()
-    }
+    this.loadAvailableProperties()
   }
 
   @HostListener('window:scroll', ['$event'])
@@ -61,9 +61,19 @@ export class PropertyListComponent implements OnInit {
 
   private loadAvailableProperties() {
     this.loading = true;
+    let startDateISOString: string | null = null;
+    let endDateISOString: string | null = null;
+
+    if (this.searchQueries.startDate) {
+      startDateISOString = this.searchQueries.startDate.toISOString();
+    }
+
+    if (this.searchQueries.endDate) {
+      endDateISOString = this.searchQueries.endDate.toISOString();
+    }
     this.propertyService.available(
-      this.searchQueries.startDate.toISOString(),
-      this.searchQueries.endDate.toISOString(),
+      startDateISOString,
+      endDateISOString,
       this.searchQueries.city,
     {
         page: this.page - 1,
@@ -84,7 +94,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   private loadMore() {
-    if (!this.loading && this.totalItems >= (this.page + 1) * this.pageSize) {
+    if (!this.loading && this.totalItems > this.page * this.pageSize) {
       this.page++;
       this.loadAvailableProperties();
     }
