@@ -1,18 +1,17 @@
 package com.fil.rouge.service.impl;
 
 import com.fil.rouge.domain.*;
-import com.fil.rouge.domain.enums.RentStatus;
 import com.fil.rouge.repository.*;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.utils.FileUtils;
+import com.fil.rouge.web.dto.request.PropertyByCriteriaRequest;
 import com.fil.rouge.web.exception.PropertyExistsException;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +53,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     @Transactional
-    public Property create(Property property) throws ResourceNotFoundException {
+    public Property create(Property property, List<MultipartFile> images) throws ResourceNotFoundException {
 
         // Check if the property with the given address already exists
         if (propertyRepository.existsByAddress(property.getAddress())) {
@@ -69,7 +68,9 @@ public class PropertyServiceImpl implements PropertyService {
         property.setCity(city);
         property.setLandlord(owner);
 
-        return propertyRepository.save(property);
+        Property save = propertyRepository.save(property);
+        this.createPropertyImages(save.getId(), images);
+        return save;
     }
 
     private void uploadPropertyImages(Property property, List<MultipartFile> images) {
@@ -113,15 +114,18 @@ public class PropertyServiceImpl implements PropertyService {
         propertyRepository.delete(property);
     }
 
-    @Override
-    public Property createPropertyImages(Long id, List<MultipartFile> images) {
+    private void createPropertyImages(Long id, List<MultipartFile> images) {
         Property property = this.findById(id).orElseThrow();
         uploadPropertyImages(property, images);
-        return property;
     }
 
     @Override
     public Page<Property> getAvailableProperties(LocalDate startDate, LocalDate endDate, String city, Pageable pageable) {
         return propertySearchRepository.searchByCityAndDateAvailability(startDate, endDate, city, pageable);
+    }
+
+    @Override
+    public Page<Property> searchProperties(PropertyByCriteriaRequest request, Pageable pageable) {
+        return propertySearchRepository.searchProperties(request, pageable);
     }
 }

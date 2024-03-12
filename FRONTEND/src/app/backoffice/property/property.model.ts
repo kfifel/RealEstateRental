@@ -37,6 +37,18 @@ export class PropertyModel implements IProperty {
   }
 }
 
+export interface PropertySearch {
+
+  title: string;
+  description: string;
+   address: string;
+  numberOfRooms: number;
+  minPricePerDay: number;
+  maxPricePerDay: number;
+  propertyType: PropertyType;
+  city: string;
+}
+
 
 
 export enum PropertyType {

@@ -59,12 +59,13 @@ export class PropertyCreateComponent implements OnInit {
 
   onsubmit() {
     this.isLoading = true;
-    let images = new FormData();
+    let formData = new FormData();
     this.files.forEach((file) => {
-      images.append(`images`, file);
+      formData.append(`images`, file);
     });
+    formData.append('property', JSON.stringify(this.property));
 
-    this.propertyService.createProperty(this.property, images)
+    this.propertyService.createProperty(formData)
       .subscribe(() => {
         this.isLoading = false;
         this.router.navigate(['/admin/property'])

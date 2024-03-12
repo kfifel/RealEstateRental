@@ -1,10 +1,13 @@
 package com.fil.rouge.web.rest;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fil.rouge.domain.Property;
 import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.utils.ResponseApi;
 import com.fil.rouge.web.dto.PropertyDto;
+import com.fil.rouge.web.dto.request.PropertyByCriteriaRequest;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.mapper.PropertyDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +33,8 @@ public class PropertyResource {
 
     private final PropertyService propertyService;
     private final PropertyDtoMapper propertyDtoMapper;
+    private final ObjectMapper objectMapper;
+    private static final String X_TOTAL_COUNT = "X-Total-Count";
 
     @GetMapping
     public ResponseEntity<List<PropertyDto>> getAllProperties(
@@ -48,7 +52,7 @@ public class PropertyResource {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", String.valueOf(properties.getTotalElements()));
+        headers.add(X_TOTAL_COUNT, String.valueOf(properties.getTotalElements()));
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -63,21 +67,15 @@ public class PropertyResource {
 
     @PostMapping
     public ResponseEntity<PropertyDto> createProperty(
-            @RequestBody @Valid PropertyDto propertyDto
-    ) throws ResourceNotFoundException {
-        Property propertyDto1 = propertyService.create(propertyDtoMapper.toEntity(propertyDto));
+            @RequestParam("property") String propertyStr,
+            @RequestParam("images") List<MultipartFile> images
+    ) throws ResourceNotFoundException, JsonProcessingException {
+        PropertyDto propertyDto = objectMapper.readValue(propertyStr, PropertyDto.class);
+        Property propertyDto1 = propertyService.create(
+                propertyDtoMapper.toEntity(propertyDto),
+                images);
         URI uri = URI.create("/api/v1/properties/" + propertyDto.getId());
         return ResponseEntity.created(uri).body(propertyDtoMapper.toDto(propertyDto1, true));
-    }
-
-    @PostMapping("/{propertyId}/images")
-    public ResponseEntity<PropertyDto> createPropertyImages(
-            @PathVariable("propertyId")  Long id,
-            @RequestParam("images") List<MultipartFile> images) {
-        Property propertyDto1 = propertyService.createPropertyImages(id, images);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(propertyDtoMapper.toDto(propertyDto1, true));
     }
 
     @PutMapping
@@ -110,7 +108,7 @@ public class PropertyResource {
     ) {
         Page<Property> properties = propertyService.getAvailableProperties(startDate, endDate, city, pageable);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", String.valueOf(properties.getTotalElements()));
+        headers.add(X_TOTAL_COUNT, String.valueOf(properties.getTotalElements()));
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -120,5 +118,21 @@ public class PropertyResource {
                         .toList());
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<List<PropertyDto>> searchProperties(
+            @RequestBody PropertyByCriteriaRequest request,
+            @ParameterObject Pageable pageable
+    ) {
+        Page<Property> properties = propertyService.searchProperties(request, pageable);
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(X_TOTAL_COUNT, String.valueOf(properties.getTotalElements()));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(
+                        properties.stream()
+                                .map(property -> propertyDtoMapper.toDto(property, true))
+                                .toList());
+    }
 }

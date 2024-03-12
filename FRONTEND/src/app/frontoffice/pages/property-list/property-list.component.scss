@@ -41,3 +41,35 @@
   font-size: 1.25rem; /* Adjust icon size as needed */
   margin-right: 0.5rem; /* Adjust spacing as needed */
 }
+
+.content-property-list{
+  margin-top: -50px!important;
+}
+
+.filters-container {
+  background-color: #fff; /* Set your desired background color */
+  border-radius: 10px; /* Adjust the border-radius for rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+  padding: 15px; /* Add padding for a cleaner look */
+  margin-bottom: 20px; /* Add margin for separation */
+}
+
+/* Optional: Style individual form elements */
+.filters-container input,
+.filters-container select {
+  margin-bottom: 10px;
+}
+
+.btn-filter {
+  background-color: #03A8B5; /* Set your desired background color */
+  border: 1px solid #dee2e6; /* Add a subtle border */
+  color: #ffffff; /* Set your desired text color */
+  padding: 10px 15px; /* Add padding for a cleaner look */
+  border-radius: 5px; /* Adjust the border-radius for rounded corners */
+  margin-right: 10px; /* Add margin for separation */
+}
+
+.btn-filter:hover {
+  background-color: #e9ecef; /* Set your desired background color */
+  color: #333; /* Set your desired text color */
+}

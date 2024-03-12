@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {IProperty, PropertyModel} from "../property.model";
+import {IProperty, PropertyModel, PropertySearch} from "../property.model";
 import {mergeMap} from "rxjs/operators";
 import {Pagination, SearchWithPagination} from "../../../core/request/request.model";
 import {createRequestOption} from "../../../core/request/request.util";
@@ -36,16 +36,13 @@ export class PropertyService {
     return this.http.get<IProperty[]>(`${this.resourceUrl}`, { params: options, observe: 'response' });
   }
 
-  createProperty(property: IProperty, images:FormData): Observable<PropertyModel> {
-    return this.http.post<PropertyModel>(this.resourceUrl, property).pipe(
-      mergeMap((property: PropertyModel) => {
-        return this.createPropertyImages(property.id, images);
-      })
-    )
+  deepSearch(propertySearch: PropertySearch, req: Pagination): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.post<IProperty[]>(`${this.resourceUrl}/search`, propertySearch, { params: options, observe: 'response' });
   }
 
-  private createPropertyImages(propertyId: number, images: FormData): Observable<PropertyModel> {
-    return this.http.post<PropertyModel>(`${this.resourceUrl}/${propertyId}/images`, images);
+  createProperty(formData: FormData): Observable<PropertyModel> {
+    return this.http.post<PropertyModel>(this.resourceUrl, formData);
   }
 
   delete(id: number): Observable<void> {

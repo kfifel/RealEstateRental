@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {fileUtils} from "../../../core/utils/file.utils";
 import {BehaviorSubject, Observable} from "rxjs";
-import {IProperty} from "../../../backoffice/property/property.model";
+import {IProperty, PropertySearch, PropertyType} from "../../../backoffice/property/property.model";
 import {PropertyService} from "../../../backoffice/property/service/property.service";
 import {catchError, map} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -28,6 +28,20 @@ export class PropertyListComponent implements OnInit {
     endDate: null,
     city: null
   } ;
+
+  deepSearchQueries: PropertySearch = {
+    title: null,
+    description: null,
+    address: null,
+    numberOfRooms: null,
+    minPricePerDay: null,
+    maxPricePerDay: null,
+    propertyType: null,
+    city: null,
+  };
+
+  propertyKeys = Object.keys(PropertyType);
+
   properties$ = new BehaviorSubject<IProperty[]>([]);
 
   constructor(private propertyService: PropertyService,
@@ -102,5 +116,27 @@ export class PropertyListComponent implements OnInit {
 
   navigateToDetail(id: number) {
     this.router.navigate(['/client/property', id], {queryParams: this.searchQueries});
+  }
+
+  deepFilter() {
+    this.loading = true;
+    this.page = 1;
+    this.properties$.next([]);
+
+    this.propertyService.deepSearch(this.deepSearchQueries, {
+      page: 0,
+      size: this.pageSize,
+      sort: null
+    }).subscribe(
+      (response) => {
+        this.totalItems = Number(response.headers.get('X-Total-Count')) ?? 0;
+        this.properties$.next(response.body);
+        this.loading = false;
+      },
+      () => {
+        this.loading = false;
+          return [];
+      }
+    );
   }
 }
