@@ -2,10 +2,7 @@ package com.fil.rouge.service.impl;
 
 import com.fil.rouge.domain.*;
 import com.fil.rouge.domain.enums.RentStatus;
-import com.fil.rouge.repository.CityRepository;
-import com.fil.rouge.repository.PropertyImageRepository;
-import com.fil.rouge.repository.PropertyRepository;
-import com.fil.rouge.repository.UserRepository;
+import com.fil.rouge.repository.*;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.utils.FileUtils;
@@ -21,9 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,8 +33,8 @@ public class PropertyServiceImpl implements PropertyService {
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
     private final PropertyImageRepository propertyImageRepository;
+    private final PropertySearchRepository propertySearchRepository;
     private final FileUtils fileUtils;
-    private final EntityManager entityManager;
 
     @Override
     public Page<Property> findAll(Pageable pageable) {
@@ -128,45 +122,6 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Page<Property> getAvailableProperties(LocalDate startDate, LocalDate endDate, String city, Pageable pageable) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Property> cq = cb.createQuery(Property.class);
-        Root<Property> property = cq.from(Property.class);
-        List<Predicate> predicates = new ArrayList<>();
-
-        // Subquery to find properties that are not rented during the given period
-        Subquery<Long> subquery = cq.subquery(Long.class);
-        Root<Rent> rent = subquery.from(Rent.class);
-        subquery.select(rent.get("property").get("id")).where(
-                cb.equal(rent.get("status"), RentStatus.ONGOING),
-                cb.or(
-                        cb.and(cb.lessThanOrEqualTo(rent.get("startDate"), startDate),
-                                cb.greaterThanOrEqualTo(rent.get("endDate"), startDate)),
-                        cb.and(cb.lessThanOrEqualTo(rent.get("startDate"), endDate),
-                                cb.greaterThanOrEqualTo(rent.get("endDate"), endDate)),
-                        cb.and(cb.greaterThanOrEqualTo(rent.get("startDate"), startDate),
-                                cb.lessThanOrEqualTo(rent.get("endDate"), endDate))
-                )
-        );
-
-        predicates.add(cb.not(property.get("id").in(subquery)));
-
-        // Additional condition for the city if it's provided
-        if (city != null && !city.isEmpty()) {
-            // Assuming there's a many-to-one relation between Property and City
-            Join<Property, City> propertyCity = property.join("city");
-            predicates.add(cb.equal(cb.lower(propertyCity.get("name")), city.toLowerCase()));
-        }
-
-        cq.select(property).where(predicates.toArray(new Predicate[0]));
-
-        TypedQuery<Property> query = entityManager.createQuery(cq);
-
-        // Apply pagination
-        int totalRows = query.getResultList().size();
-        query.setFirstResult((int) pageable.getOffset());
-        query.setMaxResults(pageable.getPageSize());
-
-        // Return a new PageImpl object
-        return new PageImpl<>(query.getResultList(), pageable, totalRows);
+        return propertySearchRepository.searchByCityAndDateAvailability(startDate, endDate, city, pageable);
     }
 }
