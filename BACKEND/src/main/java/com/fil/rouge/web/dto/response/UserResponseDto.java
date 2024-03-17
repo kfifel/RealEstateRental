@@ -20,5 +20,6 @@ public class UserResponseDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime verifiedAt;
+    private boolean enabled;
     private List<String> authorities;
 }

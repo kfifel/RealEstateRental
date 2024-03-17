@@ -69,7 +69,7 @@ public class PropertyServiceImpl implements PropertyService {
         property.setLandlord(owner);
 
         Property save = propertyRepository.save(property);
-        this.createPropertyImages(save.getId(), images);
+        uploadPropertyImages(property, images);
         return save;
     }
 
@@ -114,10 +114,6 @@ public class PropertyServiceImpl implements PropertyService {
         propertyRepository.delete(property);
     }
 
-    private void createPropertyImages(Long id, List<MultipartFile> images) {
-        Property property = this.findById(id).orElseThrow();
-        uploadPropertyImages(property, images);
-    }
 
     @Override
     public Page<Property> getAvailableProperties(LocalDate startDate, LocalDate endDate, String city, Pageable pageable) {

@@ -3,7 +3,13 @@ package com.fil.rouge.web.rest;
 
 import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.service.UserService;
+import com.fil.rouge.web.dto.response.UserResponseDto;
+import com.fil.rouge.web.mapper.UserDtoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +26,19 @@ public class UserResource {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<AppUser>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.findAll());
+    public ResponseEntity<List<UserResponseDto>> getAllUsers(
+            @ParameterObject Pageable pageable,
+            @RequestParam(name = "query", required = false) String query
+            ) {
+        Page<AppUser> page = userService.findAll(pageable, query);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", String.valueOf(page.getTotalElements()));
+        return ResponseEntity.ok().headers(headers).body(
+                page
+                    .stream()
+                    .map(UserDtoMapper::toDto)
+                    .toList()
+        );
     }
 
     @PostMapping
@@ -42,6 +59,13 @@ public class UserResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> softDelete(@PathVariable Long id) {
         userService.softDelete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/{enable}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> enableUser(@PathVariable Long id, @PathVariable boolean enable) {
+        userService.enable(id, enable);
         return ResponseEntity.noContent().build();
     }
 

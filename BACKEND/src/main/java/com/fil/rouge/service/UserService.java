@@ -4,6 +4,8 @@ import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.utils.ValidationException;
 import com.fil.rouge.web.dto.RoleDto;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ public interface UserService {
 
     AppUser save (AppUser user);
 
-    List<AppUser> findAll();
+    Page<AppUser> findAll(Pageable pageable, String query);
 
     Optional<AppUser> findById(Long id);
 
@@ -40,4 +42,6 @@ public interface UserService {
     void softDelete(Long id);
 
     void forceDelete(Long id);
+
+    void enable(Long id, boolean enable);
 }

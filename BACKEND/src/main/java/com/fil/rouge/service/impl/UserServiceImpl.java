@@ -12,7 +12,10 @@ import com.fil.rouge.web.exception.EmailAlreadyExistException;
 import com.fil.rouge.repository.UserRepository;
 import com.fil.rouge.service.UserService;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
+import com.fil.rouge.web.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,8 +46,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<AppUser> findAll() {
-        return userRepository.findAll();
+    public Page<AppUser> findAll(Pageable pageable, String query) {
+        if (query != null && !query.isEmpty())
+            return userRepository.searchByQuery(query, pageable);
+        return userRepository.findAll(pageable);
     }
 
     @Override
@@ -155,5 +160,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void forceDelete(Long id) {
         userRepository.forceDelete(id);
+    }
+
+    @Override
+    public void enable(Long id, boolean enable) {
+        this.findById(id).ifPresentOrElse(user -> {
+            user.setEnabled(enable);
+            userRepository.save(user);
+        }, () -> {
+            throw new UserNotFoundException("User not found");
+        });
     }
 }

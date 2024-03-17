@@ -98,6 +98,11 @@ public class PropertySearchRepositoryImpl implements PropertySearchRepository {
             predicates.add(cb.equal(property.get("propertyType"), request.getPropertyType()));
         }
 
+        if (request.getCity() != null && !request.getCity().isBlank()) {
+            Join<Property, City> propertyCity = property.join("city");
+            predicates.add(cb.equal(cb.lower(propertyCity.get("name")), request.getCity().toLowerCase()));
+        }
+
         return getProperties(pageable, cq, property, predicates);
     }
 

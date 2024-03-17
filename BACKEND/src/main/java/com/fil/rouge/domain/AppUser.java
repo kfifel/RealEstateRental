@@ -41,6 +41,8 @@ public class AppUser implements UserDetails {
 
     private LocalDateTime deletedAt;
 
+    private Boolean enabled;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Role> roles;
@@ -72,7 +74,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     public String getFullName() {

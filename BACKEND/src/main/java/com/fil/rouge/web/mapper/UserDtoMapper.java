@@ -40,6 +40,7 @@ public class UserDtoMapper {
                 .createdAt(user.getCreatedAt())
                 .verifiedAt(user.getVerifiedAt())
                 .authorities(user.getRoles().stream().map(Role::getName).toList())
+                .enabled(user.getEnabled())
                 .build();
     }
 }
