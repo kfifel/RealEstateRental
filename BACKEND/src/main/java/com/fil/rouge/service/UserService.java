@@ -2,7 +2,6 @@ package com.fil.rouge.service;
 
 import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.utils.ValidationException;
-import com.fil.rouge.web.dto.RoleDto;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +22,6 @@ public interface UserService {
 
     Optional<AppUser> findByEmail(String email);
 
-    void revokeRole(Long id, List<RoleDto> roles) throws ValidationException;
-
-    AppUser assigneRole(Long id, List<RoleDto> roles) throws ValidationException, ResourceNotFoundException;
-
     List<String> getAuthorities();
 
     UserDetailsService userDetailsService();
@@ -44,4 +39,6 @@ public interface UserService {
     void forceDelete(Long id);
 
     void enable(Long id, boolean enable);
+
+    void handleRoles(Long id, List<String> roles) throws ValidationException, ResourceNotFoundException;
 }

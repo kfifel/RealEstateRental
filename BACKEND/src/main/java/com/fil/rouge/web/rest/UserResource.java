@@ -3,7 +3,9 @@ package com.fil.rouge.web.rest;
 
 import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.service.UserService;
+import com.fil.rouge.utils.ValidationException;
 import com.fil.rouge.web.dto.response.UserResponseDto;
+import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.mapper.UserDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -72,6 +74,13 @@ public class UserResource {
     @DeleteMapping("/{id}/force")
     public ResponseEntity<Object> forceDelete(@PathVariable Long id) {
         userService.forceDelete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/roles")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Object> updateRoles(@PathVariable Long id, @RequestBody List<String> roles) throws ValidationException, ResourceNotFoundException {
+        userService.handleRoles(id, roles);
         return ResponseEntity.noContent().build();
     }
 }

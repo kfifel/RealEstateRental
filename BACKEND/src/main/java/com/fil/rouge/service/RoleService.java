@@ -15,4 +15,5 @@ public interface RoleService {
 
     Role findById(Long id);
 
+    List<Role> findAllByNameIn(List<String> roleNames);
 }

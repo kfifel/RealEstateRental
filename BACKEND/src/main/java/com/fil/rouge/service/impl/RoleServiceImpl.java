@@ -57,4 +57,9 @@ public class RoleServiceImpl implements RoleService {
             throw new IllegalArgumentException("role doesn't exist with this id: " + id);
         return roleOptional.get();
     }
+
+    @Override
+    public List<Role> findAllByNameIn(List<String> roleNames) {
+        return roleRepository.findAllByNameIn(roleNames);
+    }
 }

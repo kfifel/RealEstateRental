@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.fil.rouge.utils.AppConstants.USER_NOT_FOUND;
 
@@ -63,55 +64,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void revokeRole(Long id, List<RoleDto> roles) throws ValidationException {
-        Optional<AppUser> userOptional = userRepository.findById(id);
-        if(userOptional.isPresent()){
-            AppUser user = userOptional.get();
-            List<Role> roleList = new ArrayList<>();
-            roles.forEach(roleDto -> roleService.
-                    findByName(roleDto.getName()).ifPresent(roleList::add));
+    public void handleRoles(Long id, List<String> roleNames) throws ValidationException, ResourceNotFoundException {
+        if (roleNames.isEmpty()) {
+            throw new ValidationException(new CustomError("roles", "Roles cannot be empty"));
+        }
+        AppUser user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("user", USER_NOT_FOUND));
 
-            if (new HashSet<>(user.getRoles()).containsAll(roleList)) {
-                user.getRoles().removeAll(roleList);
-                userRepository.save(user);
-            } else {
-                throw new ValidationException(CustomError.builder()
-                        .field("roles")
-                        .message("User does not have all specified roles.")
-                        .build());
-            }
-        }
-        else {
-            throw new ValidationException(CustomError.builder()
-                    .field("user id")
-                    .message("User does not exist")
-                    .build());
-        }
-    }
+        List<Role> roles = roleService.findAllByNameIn(roleNames);
 
-    @Override
-    public AppUser assigneRole(Long id, List<RoleDto> roles) throws ValidationException, ResourceNotFoundException {
-        Optional<AppUser> userOptional = userRepository.findById(id);
-        if(userOptional.isPresent()){
-            AppUser user = userOptional.get();
-            List<Role> roleList = new ArrayList<>();
-            final int[] someExist = {0};
-            roles.forEach(roleDto ->
-                    roleService.findByName(roleDto.getName())
-                            .ifPresentOrElse(
-                                    role -> {
-                                        if (user.getRoles().contains(role))
-                                            someExist[0] = 1;
-                                        roleList.add(role);
-                                    },
-                                    () -> roleList.add(Role.builder().name(roleDto.getName()).build())));
-            if(someExist[0] == 1)
-                throw new ValidationException(CustomError.builder().field("roles").message("User already has some of specified roles.").build());
-            roleRepository.saveAll(roleList);
-            user.getRoles().addAll(roleList);
-            return userRepository.save(user);
+        if (roles.size() < roleNames.size()) {
+            List<String> notFoundRoles = roleNames.stream()
+                    .filter(roleName -> roles.stream().noneMatch(role -> role.getName().equals(roleName)))
+                    .toList();
+            throw new ResourceNotFoundException("role", "Roles not found: " + String.join(", ", notFoundRoles));
         }
-        throw new ResourceNotFoundException("user", USER_NOT_FOUND);
+
+        if (new HashSet<>(user.getRoles()).containsAll(roles) && new HashSet<>(roles).containsAll(user.getRoles())) {
+            throw new ValidationException(new CustomError("roles", "User already has the same roles"));
+        }
+
+        user.getRoles().clear();
+        user.getRoles().addAll( new HashSet<>(roles).stream().toList() );
+        userRepository.save(user);
     }
 
     @Override
