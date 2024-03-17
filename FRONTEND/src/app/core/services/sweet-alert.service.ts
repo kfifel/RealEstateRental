@@ -49,8 +49,8 @@ export class SweetAlertService {
       text: message,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#34c38f',
-      cancelButtonColor: '#f46a6a',
+      confirmButtonColor: '#03A8B5',
+      cancelButtonColor: '#9d4545',
       confirmButtonText: 'Yes'
     }).then(result => {
       if (result.value) {
@@ -60,6 +60,28 @@ export class SweetAlertService {
           cancelCallback();
         }
       }
+    });
+  }
+
+  isConfirm(title: string, message: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      Swal.fire({
+        title: title,
+        text: message,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#03A8B5',
+        cancelButtonColor: '#9d4545',
+        confirmButtonText: 'Yes'
+      }).then(result => {
+        if (result.value) {
+          resolve(true);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          resolve(false);
+        }
+      }).catch((error) => {
+        reject(error);
+      });
     });
   }
 

@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(this.addToken(req)).pipe(
       catchError(err => {
-        if (err.status === 401) {
+        if (err.status === 401 && !req.url.includes('auth/login')) {
           return this.handle401Error(req, next);
         }
 

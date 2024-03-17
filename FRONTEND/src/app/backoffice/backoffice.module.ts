@@ -28,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CompetitionComponent } from './competition/competition.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import {UiSwitchModule} from "ngx-ui-switch";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -59,7 +60,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         SimplebarAngularModule,
         LightboxModule,
         NgbPaginationModule,
-        UiSwitchModule
+        UiSwitchModule,
+        NgSelectModule
     ],
 })
 export class BackofficeModule { }

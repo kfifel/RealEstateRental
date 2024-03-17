@@ -6,6 +6,7 @@ import {environment} from "../../../environments/environment";
 import {Pagination, SearchWithPagination} from "../request/request.model";
 import {Observable} from "rxjs";
 import {createRequestOption} from "../request/request.util";
+import {Role} from "../models/role.enum";
 
 export type EntityArrayResponseType = Observable<HttpResponse<User[]>>;
 export type EntityResponseType = Observable<User>;
@@ -26,5 +27,9 @@ export class UserProfileService {
 
   enableMember(id: number, enable: boolean) {
     return this.http.patch(`${this.resourceUrl}/${id}/${enable}`, {});
+  }
+
+  updateRoles(userId: number, roles: Role[]) {
+    return this.http.put(`${this.resourceUrl}/${userId}/roles`, roles);
   }
 }

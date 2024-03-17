@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './layouts/layout.component';
 import { Page404Component } from './extrapages/page404/page404.component';
-import {AdminAccessGuard} from "./core/guards/admin-access.guard";
+import {BackOfficeGuard} from "./core/guards/back-office-guard.service";
 
 const routes: Routes = [
   { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'admin',
     component: LayoutComponent,
     loadChildren: () => import('./backoffice/backoffice.module').then(m => m.BackofficeModule),
-    canActivate: [AdminAccessGuard, AuthGuard]
+    canActivate: [BackOfficeGuard, AuthGuard]
   },
   {
     path: '',

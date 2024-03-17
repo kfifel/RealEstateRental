@@ -1,0 +1,7 @@
+.bg-color1 {
+  background-color: #03A8B5!important;
+  color: white!important;
+  &:hover {
+    background-color: darken(#03A8B5, 10%)!important;
+  }
+}

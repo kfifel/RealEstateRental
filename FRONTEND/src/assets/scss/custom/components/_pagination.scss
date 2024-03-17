@@ -1,6 +1,6 @@
-// 
+//
 // _pagination.scss
-// 
+//
 
 // Pagination rounded (Custom)
 .pagination-rounded {
@@ -15,3 +15,10 @@
         line-height: 32px;
     }
   }
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #03A8B5!important;
+    border-color: #03A8B5!important;
+}

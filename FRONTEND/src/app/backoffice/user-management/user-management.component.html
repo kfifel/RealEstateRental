@@ -10,13 +10,13 @@
             <input type="text" name="search" [(ngModel)]="currentSearch" class="form-control"
                    placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"
                    (input)="onSearchChange()">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn bg-color1" type="submit">
               Search <i class="fas fa-circle-notch ml-1" [class.fa-spin]="isLoading"></i>
             </button>
           </div>
         </form>
       </div>
-      <button class="btn btn-primary" routerLink="new">new users</button>
+      <button class="btn bg-color1" routerLink="new">new users</button>
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -41,15 +41,30 @@
                 </td>
                 <td>{{user.email}}</td>
                 <td>
-                  <span *ngFor="let role of user.authorities">{{ role }}</span>
+                  <div class="form-group d-flex">
+                    <ng-select [items]="allRoles"
+                               [closeOnSelect]="false"
+                               [multiple]="true"
+                               [(ngModel)]="selectedRoles[user.id]"
+                               bindLabel="name"
+                               placeholder="Select roles"
+                               [style.width.px]="150"
+                    ></ng-select>
+                    <button class="btn bg-color1 m-1 rounded-pill" (click)="updateRoles(user.id)">
+                      <i class="bx bx-check"></i>
+                    </button>
+                  </div>
                 </td>
-                <ui-switch defaultBoColor="#dfdfdf" id="form-hasBalcony-input"
-                           color="#7266ba"
-                           class="ms-1"
-                           name="enable"
-                           [(ngModel)]="user.enabled"
-                           (change)="alert($event, user?.id)"
-                ></ui-switch>
+                <td>
+                  <ui-switch defaultBoColor="#dfdfdf" id="form-hasBalcony-input"
+                             color="#03A8B5"
+                             class="ms-1"
+                             size="small"
+                             name="enable"
+                             [(ngModel)]="user.enabled"
+                             (change)="alert($event, user?.id)"
+                  ></ui-switch>
+                </td>
               </tr>
               </tbody>
               <ng-template #noProperty >
