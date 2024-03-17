@@ -1,17 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 import { User } from '../models/auth.models';
+import {environment} from "../../../environments/environment";
+import {Pagination, SearchWithPagination} from "../request/request.model";
+import {Observable} from "rxjs";
+import {createRequestOption} from "../request/request.util";
 
+export type EntityArrayResponseType = Observable<HttpResponse<User[]>>;
+export type EntityResponseType = Observable<User>;
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
-    constructor(private http: HttpClient) { }
+  private resourceUrl = environment.apiUrl + '/api/v1/users';
+  constructor(private http: HttpClient) { }
 
-    getAll() {
-        return this.http.get<User[]>(`/api/login`);
-    }
+    query(req?: Pagination): EntityArrayResponseType {
+        const options = createRequestOption(req);
+      return this.http.get<User[]>(this.resourceUrl, {params: options, observe: 'response' });
+  }
 
-    register(user: User) {
-        return this.http.post(`/users/register`, user);
-    }
+  search(req: SearchWithPagination): EntityArrayResponseType {
+    const options = createRequestOption(req);
+    return this.http.get<User[]>(`${this.resourceUrl}`, { params: options, observe: 'response' });
+  }
+
+  enableMember(id: number, enable: boolean) {
+    return this.http.patch(`${this.resourceUrl}/${id}/${enable}`, {});
+  }
 }

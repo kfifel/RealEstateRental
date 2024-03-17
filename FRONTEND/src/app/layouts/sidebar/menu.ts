@@ -31,5 +31,11 @@ export const MENU: MenuItem[] = [
         icon: 'bx-calendar',
         link: '/admin/property',
     },
+    {
+        id: 9,
+        label: 'MENUITEMS.USERS_MANAGEMENT.TEXT',
+        icon: 'bxs-user',
+        link: '/admin/users-management',
+    },
 ];
 

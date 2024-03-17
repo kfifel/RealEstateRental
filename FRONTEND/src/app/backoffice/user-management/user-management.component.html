@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <app-page-title title="Properties List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="">
+    <div class="d-flex justify-content-between mb-3">
+      <h2>Users ({{ totalItems }})</h2>
+      <div>
+        <form (ngSubmit)="handleSearch()">
+          <div class="input-group">
+            <input type="text" name="search" [(ngModel)]="currentSearch" class="form-control"
+                   placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"
+                   (input)="onSearchChange()">
+            <button class="btn btn-primary" type="submit">
+              Search <i class="fas fa-circle-notch ml-1" [class.fa-spin]="isLoading"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      <button class="btn btn-primary" routerLink="new">new users</button>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class>
+          <div class="table-responsive">
+            <table class="table project-list-table table-nowrap align-middle table-borderless">
+              <thead>
+              <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Enable</th>
+              </tr>
+              </thead>
+              <tbody *ngIf="users.length > 0; else noProperty">
+              <tr *ngFor="let user of users">
+                <td>
+                  <h5 class="text-truncate font-size-14">
+                    <a href="javascript: void(0);" [routerLink]="[user.id]" class="text-dark">{{user.lastName}}</a>
+                  </h5>
+                  <p class="text-muted mb-0">{{user.firstName}}  m<span class="superscript">2</span></p>
+                </td>
+                <td>{{user.email}}</td>
+                <td>
+                  <span *ngFor="let role of user.authorities">{{ role }}</span>
+                </td>
+                <ui-switch defaultBoColor="#dfdfdf" id="form-hasBalcony-input"
+                           color="#7266ba"
+                           class="ms-1"
+                           name="enable"
+                           [(ngModel)]="user.enabled"
+                           (change)="alert($event, user?.id)"
+                ></ui-switch>
+              </tr>
+              </tbody>
+              <ng-template #noProperty >
+                <tr>
+                  <td colspan="6" class="text-center">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <div class="text-center">
+                        <img src="assets/images/empty.svg" alt="" class="img-fluid" style="max-width: 200px;">
+                        <h5 class="mt-4">No Users Found</h5>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </table>
+          </div>
+          <!-- End table -->
+          <div class="row justify-content-md-between align-items-md-center mt-2"
+               *ngIf="users.length > 0">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing
+                {{ itemsPerPage * (page - 1) + 1 }} to
+                {{ totalItems < itemsPerPage || itemsPerPage * page > totalItems ? totalItems : itemsPerPage * page }}
+                of {{totalItems}}
+                entries
+              </div>
+            </div>
+            <!-- Pagination -->
+            <div class="col-sm-12 col-md-5">
+              <div class="text-md-right float-md-end pagination-rounded">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page"
+                                [pageSize]="itemsPerPage" (pageChange)="loadAll(page)">
+                </ngb-pagination>
+              </div>
+            </div>
+            <!-- End Pagination -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end row -->
+
+  </div>
+  <!-- end row -->
+</div>

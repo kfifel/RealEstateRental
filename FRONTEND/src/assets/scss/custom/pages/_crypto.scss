@@ -1,4 +1,4 @@
-// 
+//
 // crypto.scss
 //
 
@@ -78,7 +78,7 @@
     @media (max-width: 991.98px) {
         background-color: $topnav-bg;
     }
-    
+
     .navbar-logo{
         line-height: 70px;
         transition: all 0.4s;
@@ -95,7 +95,7 @@
             }
         }
     }
-    
+
 
     .navbar-nav{
         .nav-item{
@@ -170,7 +170,7 @@
     padding-bottom: 190px;
 
     &.bg-ico-hero{
-        background-image: url("../../../images/crypto/bg-ico-hero.jpg");
+        background-image: url("../../../images/crypto/bg-ico-home.png");
         background-size: cover;
         background-position: top;
     }

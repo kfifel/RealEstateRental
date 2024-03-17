@@ -25,16 +25,7 @@
              [ngxScrollToOffset]="5" [ngClass]="{'active':currentSection === 'features'}">Features</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'roadmap'"
-             [ngxScrollToOffset]="5" [ngClass]="{'active':currentSection === 'roadmap'}">Roadmap</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'team'" [ngxScrollToOffset]="5"
-             [ngClass]="{'active':currentSection === 'team'}">Team</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'news'" [ngxScrollToOffset]="5"
-             [ngClass]="{'active':currentSection === 'news'}">News</a>
+          <a class="nav-link" routerLink="/client/property" href="javascript: void(0);" >Properties</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="javascript: void(0);" [ngxScrollTo]="'faqs'"
@@ -59,7 +50,7 @@
 <div appScrollspy [spiedTags]="['SECTION']" (sectionChange)="onSectionChange($event)">
   <!-- hero section start -->
   <section class="section hero-section bg-ico-hero" id="home">
-    <div class="bg-overlay bg-primary"></div>
+    <div class="bg-overlay "></div>
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-5">
@@ -94,12 +85,12 @@
             <div class="date-container d-flex my-4" (click)="hidden=!hidden">
               <div class="date-item-left">
                 <div class="h5 fw-bold">ARRIVAL</div>
-                <div>{{ searchQueries.startDate ? 'Add A Date' : (searchQueries.startDate | date:'EEEE, MMMM d, y') }}</div>
+                <div>{{ ! searchQueries.startDate  ? 'Add A Date' : (searchQueries.startDate | date:'EEEE, MMMM dd, y') }}</div>
               </div>
 
               <div class="date-item-right">
                 <div class="h5 fw-bold">DEPARTURE</div>
-                <div>{{ searchQueries.endDate  ? 'Add A Date' : (searchQueries.endDate | date:'EEEE, MMMM d, y' ) }}</div>
+                <div>{{ ! searchQueries.endDate  ? 'Add A Date' : (searchQueries.endDate | date:'EEEE, MMMM d, y' ) }}</div>
               </div>
             </div>
             <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
@@ -401,7 +392,6 @@
       <!-- end row -->
 
       <div class="row align-items-center pt-4">
-        3AAA
         <div class="col-md-6 col-sm-8">
           <div>
             <img src="../../../assets/images/crypto/features-img/img-1.png"  alt="" class="img-fluid mx-auto d-block">

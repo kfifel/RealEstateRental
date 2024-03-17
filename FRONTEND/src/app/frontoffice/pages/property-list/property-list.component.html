@@ -45,6 +45,7 @@
           <div class="col-md-1">
             <label for="propertyType">Property Type:</label>
             <select class="form-select" id="propertyType" name="propertyType" [(ngModel)]="deepSearchQueries.propertyType">
+              <option [value]="null" >Select Your City</option>
               <option *ngFor="let type of propertyKeys" [value]="type">{{type}}</option>
             </select>
           </div>

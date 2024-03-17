@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgbNavModule, NgbDropdownModule, NgbModalModule, NgbTooltipModule , NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
+import {
+    NgbNavModule,
+    NgbDropdownModule,
+    NgbModalModule,
+    NgbTooltipModule,
+    NgbCollapseModule,
+    NgbPaginationModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { SimplebarAngularModule } from 'simplebar-angular';
@@ -19,6 +26,8 @@ import { BackofficeRoutingModule } from './backoffice-routing.module';
 import { DashboardsModule } from './dashboards/dashboards.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CompetitionComponent } from './competition/competition.component';
+import { UserManagementComponent } from './user-management/user-management.component';
+import {UiSwitchModule} from "ngx-ui-switch";
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -28,26 +37,29 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 
 @NgModule({
   declarations: [
-    CompetitionComponent
+    CompetitionComponent,
+    UserManagementComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgbDropdownModule,
-    NgbModalModule,
-    BackofficeRoutingModule,
-    NgApexchartsModule,
-    ReactiveFormsModule,
-    DashboardsModule,
-    HttpClientModule,
-    UIModule,
-    WidgetModule,
-    FullCalendarModule,
-    NgbNavModule,
-    NgbTooltipModule,
-    NgbCollapseModule,
-    SimplebarAngularModule,
-    LightboxModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgbDropdownModule,
+        NgbModalModule,
+        BackofficeRoutingModule,
+        NgApexchartsModule,
+        ReactiveFormsModule,
+        DashboardsModule,
+        HttpClientModule,
+        UIModule,
+        WidgetModule,
+        FullCalendarModule,
+        NgbNavModule,
+        NgbTooltipModule,
+        NgbCollapseModule,
+        SimplebarAngularModule,
+        LightboxModule,
+        NgbPaginationModule,
+        UiSwitchModule
+    ],
 })
 export class BackofficeModule { }

@@ -94,6 +94,9 @@
     "PROPERTY": {
       "TEXT": "Property"
     },
+    "USERS_MANAGEMENT": {
+      "TEXT": "Users Management"
+    },
     "CHAT": {
       "TEXT": "Chat",
       "BADGE": "New"
