@@ -124,4 +124,21 @@ public class PropertyServiceImpl implements PropertyService {
     public Page<Property> searchProperties(PropertyByCriteriaRequest request, Pageable pageable) {
         return propertySearchRepository.searchProperties(request, pageable);
     }
+
+    @Override
+    public Page<Property> findMyProperties(String query, Pageable pageable) {
+        AppUser authenticatedUser = SecurityUtils.getCurrentUser();
+        if (authenticatedUser == null) {
+            return Page.empty();
+        }
+        if (query != null && !query.isBlank()) {
+            return propertyRepository.search(query, authenticatedUser, pageable);
+        }
+        return propertyRepository.findByLandlord(authenticatedUser, pageable);
+    }
+
+    @Override
+    public List<Property> getTop4Properties() {
+        return propertyRepository.findTop4ByOrderByIdDesc();
+    }
 }

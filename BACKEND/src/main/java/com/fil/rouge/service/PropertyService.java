@@ -22,4 +22,6 @@ public interface PropertyService {
     void delete(Long propertyId) throws ResourceNotFoundException;
     Page<Property> getAvailableProperties(LocalDate startDate, LocalDate endDate, String city, Pageable pageable);
     Page<Property> searchProperties(PropertyByCriteriaRequest request, Pageable pageable);
+    Page<Property> findMyProperties(String query, Pageable pageable);
+    List<Property> getTop4Properties();
 }

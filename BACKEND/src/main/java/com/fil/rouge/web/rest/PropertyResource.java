@@ -18,6 +18,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,6 +60,23 @@ public class PropertyResource {
                 .body(properties.getContent());
     }
 
+    @GetMapping("my-property")
+    @PreAuthorize("hasRole('ROLE_PROPERTY')")
+    public ResponseEntity<List<PropertyDto>> findMyProperty(
+            @ParameterObject Pageable pageable,
+            @Param("query") String query) {
+        Page<Property> properties = propertyService.findMyProperties(query, pageable);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(X_TOTAL_COUNT, String.valueOf(properties.getTotalElements()));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(
+                    properties.stream()
+                        .map(property -> propertyDtoMapper.toDto(property, true))
+                        .toList());
+    }
+
     @GetMapping("/{propertyId}")
     public PropertyDto getPropertyById(@PathVariable Long propertyId) {
         Property property = propertyService.findById(propertyId).orElseThrow();
@@ -76,6 +94,15 @@ public class PropertyResource {
                 images);
         URI uri = URI.create("/api/v1/properties/" + propertyDto.getId());
         return ResponseEntity.created(uri).body(propertyDtoMapper.toDto(propertyDto1, true));
+    }
+
+    @GetMapping("/top-4")
+    public ResponseEntity<List<PropertyDto>> getTop4Properties() {
+        List<Property> properties = propertyService.getTop4Properties();
+        return ResponseEntity.ok(
+                properties.stream()
+                        .map(property -> propertyDtoMapper.toDto(property, true))
+                        .toList());
     }
 
     @PutMapping
