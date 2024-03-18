@@ -51,7 +51,7 @@ export class ClientDashboardComponent implements OnInit {
   _hours: number;
   _minutes: number;
   _seconds: number;
-  property$: Observable<IProperty[]>;
+  top4Property$: Observable<IProperty[]>;
 
   citySuggestions: string[] = [];
 
@@ -97,14 +97,7 @@ export class ClientDashboardComponent implements OnInit {
     this.isUserAuth = authUtils.isAuthenticate();
     this.isAdmin = authUtils.canAccessToBackOffice();
 
-    this.property$ = this.propertyService.query({
-      page: 0,
-      size: 4,
-      sort: ['id,desc'],
-    })
-      .pipe(
-        map((response) => response.body)
-    );
+    this.top4Property$ = this.propertyService.top4();
   }
 
   getDays(t) {

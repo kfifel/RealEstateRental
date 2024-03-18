@@ -1,4 +1,5 @@
-import { MenuItem } from './menu.model';
+import {MenuItem} from './menu.model';
+import {Role} from "../../core/models/role.enum";
 
 export const MENU: MenuItem[] = [
     {
@@ -36,6 +37,7 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.USERS_MANAGEMENT.TEXT',
         icon: 'bxs-user',
         link: '/admin/users-management',
+        roles: [Role.ROLE_ADMIN]
     },
 ];
 

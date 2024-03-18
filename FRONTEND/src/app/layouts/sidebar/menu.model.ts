@@ -1,3 +1,5 @@
+import {Role} from "../../core/models/role.enum";
+
 export interface MenuItem {
     id?: number;
     label?: string;
@@ -8,4 +10,5 @@ export interface MenuItem {
     badge?: any;
     parentId?: number;
     isLayout?: boolean;
+    roles?: Role[];
 }

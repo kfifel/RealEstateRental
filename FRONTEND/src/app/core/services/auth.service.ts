@@ -62,13 +62,17 @@ export class AuthenticationService {
     return this.http.get<JwtAuthenticationResponse>(this.apiUrl + "token/refresh", {headers: {Authorization: `Bearer ${refresh_token}`}});
   }
 
-  /**
-   * forget Password user with given details
-   */
   resetPassword(email: string) {
-    return this.http.post(this.apiUrl + "forget-password", {email});
+    return this.http.post<void>(this.apiUrl + "password-reset/request", {}, {params: {email}});
   }
 
+  validToken(token: string) {
+    return this.http.post<boolean>(this.apiUrl + "password-reset/validate", {}, {params: {token}});
+  }
+
+  resetPasswordWithToken(token: string, password: string) {
+    return this.http.post<void>(this.apiUrl + "password-reset/reset", {}, {params: {token, newPassword: password}});
+  }
 /**
    * Logout the user
    */

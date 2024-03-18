@@ -203,7 +203,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-3 col-sm-6" *ngFor="let property of (property$ | async)">
+        <div class="col-xl-3 col-sm-6" *ngFor="let property of (top4Property$ | async)">
           <div class="card">
             <div class="card-body">
               <div class="image-container">
@@ -292,12 +292,12 @@
                     <p class="text-muted mb-0">Explore a diverse selection of rental options</p>
                   </div>
                   <div class="card-footer bg-transparent border-top text-center">
-                    <a href="javascript: void(0);" class="text-primary">Browse Listings</a>
+                    <a href="javascript: void(0);" routerLink="/client/property" class="text-primary">Browse Listings</a>
                   </div>
                 </div>
               </div>
               <div class="col-sm-6">
-                <div class="card border mt-lg-5">
+                <div class="card border">
                   <div class="card-body">
                     <div class="mb-3">
                       <i class="mdi mdi-account-multiple h2 text-success"></i>

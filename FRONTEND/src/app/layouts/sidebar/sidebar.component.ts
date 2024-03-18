@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 import { TranslateService } from '@ngx-translate/core';
+import {authUtils} from "../../authUtils";
+import {Role} from "../../core/models/role.enum";
 
 @Component({
   selector: 'app-sidebar',
@@ -140,7 +142,12 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    * Initialize
    */
   initialize(): void {
-    this.menuItems = MENU;
+    this.menuItems = MENU.filter(item => {
+      if (item.roles) {
+        return this.hasRole(item.roles)
+      }
+      return true;
+    });
   }
 
   /**
@@ -149,5 +156,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    */
   hasItems(item: MenuItem) {
     return item.subItems !== undefined ? item.subItems.length > 0 : false;
+  }
+
+  private hasRole(roles: Role[]) {
+    return authUtils.hasAnyRole(roles);
   }
 }
