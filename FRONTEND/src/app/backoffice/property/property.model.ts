@@ -1,4 +1,5 @@
 import {User} from "../../core/models/auth.models";
+import {RentStatus} from "../../core/models/rent.model";
 
 export interface IProperty {
 
@@ -71,4 +72,16 @@ export interface Image {
 
   id: number;
   base64: string;
+}
+
+export interface IRent {
+  id: number;
+  startDate: string;
+  endDate: string;
+  totalPrice: number;
+  isPaid: boolean;
+  status: RentStatus;
+  ownerFullName: string;
+  ownerPhone: string;
+  tenantFullName: string;
 }

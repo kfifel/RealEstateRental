@@ -8,8 +8,7 @@
         <form (ngSubmit)="handleSearch()">
           <div class="input-group">
             <input type="text" name="search" [(ngModel)]="currentSearch" class="form-control"
-                   placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"
-                   (input)="onSearchChange()">
+                   placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
             <button class="btn btn-primary" type="submit">
               Search <i class="fas fa-circle-notch ml-1" [class.fa-spin]="isLoading"></i>
             </button>

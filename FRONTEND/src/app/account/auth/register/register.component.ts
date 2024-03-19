@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   signupForm: FormGroup;
   submitted = false;
   error = '';
-  successmsg = false;
+  registerSuccess = false;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
       },
     }
   }
+  showPassword: boolean = false;
 
   /**
    * On submit form
@@ -68,8 +69,8 @@ export class RegisterComponent implements OnInit {
         .pipe(first())
         .subscribe(
           data => {
-            this.successmsg = true;
-            if (this.successmsg) {
+            this.registerSuccess = true;
+            if (this.registerSuccess) {
               this.router.navigate(['/dashboard']);
             }
           },

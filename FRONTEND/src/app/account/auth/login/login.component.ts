@@ -73,16 +73,13 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(this.f.email.value, this.f.password.value)
         .subscribe({
           next: () => {
-            this.router.navigate(['/dashboard'])
-              .then(r => console.log(r))
-              .catch(e => console.error(e));
             this.isLoading = false;
+            this.router.navigate(['/dashboard']);
           },
           error: error => {
-            this.error = error.error?.message;
-            console.log(error.error?.message)
-            this.error = this.error ? error : 'Server Error'
-            console.log(this.error)
+            this.error = error.error?.result ? error.error?.result :
+              error.error?.message ? error.error?.message :
+                'Server Error'
             this.isLoading = false;
           }
         });

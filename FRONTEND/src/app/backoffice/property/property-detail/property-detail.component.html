@@ -4,66 +4,103 @@
   <app-page-title title="Property Detail" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-xl-6">
-              <div class="product-detai-imgs" *ngIf="property?.images?.length">
-                <div class="row">
-                  <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="vertical">
-                    <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-2">
-                      <a ngbNavLink>
-                        <img [src]="fileUtils.getImageUrl(image.base64)" alt="" class="img-fluid mx-auto d-block rounded" />
-                      </a>
-                      <ng-template ngbNavContent>
-                        <img [src]="fileUtils.getImageUrl(image.base64)" id="expandedImg" alt="" class="img-fluid mx-auto d-block">
-                      </ng-template>
-                    </li>
-                  </ul>
-                  <div [ngbNavOutlet]="nav" class="col-md-7 offset-md-1 col-sm-9 col-8"></div>
-                </div>
-              </div>
-            </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Default Tabs</h4>
+        <p class="card-title-desc">Use the tab JavaScript plugin—include
+          it individually or through the compiled <code class="highlighter-rouge">bootstrap.js</code>
+          file—to extend our navigational tabs and pills to create tabbable panes
+          of local content, even via dropdown menus.</p>
 
-            <div class="col-xl-6">
-              <div class="mt-4 mt-xl-3">
-                <a href="javascript: void(0);" class="text-primary">{{property?.propertyType}}</a>
-                <h4 class="mt-1 mb-3">{{property?.title}}</h4>
+        <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>
+              <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+              <span class="d-none d-sm-block">Home</span>
+            </a>
+            <ng-template ngbNavContent>
+              <ng-template [ngTemplateOutlet]="propertyDetails"></ng-template>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>
+              <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+              <span class="d-none d-sm-block">Property Rents</span>
+            </a>
+            <ng-template ngbNavContent>
+              <app-property-rents [propertyId]="property.id"></app-property-rents>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+      </div>
+    </div>
+  </div><!-- End Default Tabs -->
 
-                <!-- Price -->
-                <h5 class="mb-4">Price : <span class="text-muted me-2"><del>${{property?.pricePerDay}} USD</del></span> <b>${{property?.pricePerMonth}} USD</b></h5>
-
-                <!-- Description -->
-                <p class="text-muted mb-4"
-                   [innerHTML]="property?.description"
-                   style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 100px; max-height: 200px; overflow-y: auto; display: block; width: 100%;"
-                ></p>
-
-                <!-- Features -->
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.numberOfRooms}} Rooms</p>
-                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.size}} m<sup>2</sup></p>
-                    <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}</p>
+  <!-- property details -->
+  <ng-template #propertyDetails>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-xl-6">
+                <div class="product-detai-imgs" *ngIf="property?.images?.length">
+                  <div class="row">
+                    <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="vertical">
+                      <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-2">
+                        <a ngbNavLink>
+                          <img [src]="fileUtils.getImageUrl(image.base64)" alt="" class="img-fluid mx-auto d-block rounded" />
+                        </a>
+                        <ng-template ngbNavContent>
+                          <img [src]="fileUtils.getImageUrl(image.base64)" id="expandedImg" alt="" class="img-fluid mx-auto d-block">
+                        </ng-template>
+                      </li>
+                    </ul>
+                    <div [ngbNavOutlet]="nav" class="col-md-7 offset-md-1 col-sm-9 col-8"></div>
                   </div>
-                  <!-- Add more features if needed -->
                 </div>
+              </div>
 
-                <!-- Address -->
-                <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
+              <div class="col-xl-6">
+                <div class="mt-4 mt-xl-3">
+                  <a href="javascript: void(0);" class="text-primary">{{property?.propertyType}}</a>
+                  <h4 class="mt-1 mb-3">{{property?.title}}</h4>
 
-                <!-- Landlord -->
-                <p class="text-muted mb-4" *ngIf="property?.landlord">Landlord: {{property?.landlord?.firstName}}</p>
+                  <!-- Price -->
+                  <h5 class="mb-4">Price : <span class="text-muted me-2"><del>${{property?.pricePerDay}} USD</del></span> <b>${{property?.pricePerMonth}} USD</b></h5>
 
+                  <!-- Description -->
+                  <p class="text-muted mb-4"
+                     [innerHTML]="property?.description"
+                     style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 100px; max-height: 200px; overflow-y: auto; display: block; width: 100%;"
+                  ></p>
+
+                  <!-- Features -->
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.numberOfRooms}} Rooms</p>
+                      <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.size}} m<sup>2</sup></p>
+                      <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}</p>
+                    </div>
+                    <!-- Add more features if needed -->
+                  </div>
+
+                  <!-- Address -->
+                  <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
+
+                  <!-- Landlord -->
+                  <p class="text-muted mb-4" *ngIf="property?.landlord">Landlord: {{property?.landlord?.firstName}}</p>
+
+                </div>
               </div>
             </div>
-          </div>
-          <!-- end row -->
+            <!-- end row -->
 
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
+  </ng-template>
+  <!-- end property details -->
 </div>

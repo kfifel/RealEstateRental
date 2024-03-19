@@ -13,6 +13,7 @@ import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {FormsModule} from "@angular/forms";
 import {UiSwitchModule} from "ngx-ui-switch";
 import { PropertyDetailComponent } from './property-detail/property-detail.component';
+import { PropertyRentsComponent } from './property-rents/property-rents.component';
 
 
 let routes: Routes = [
@@ -29,7 +30,8 @@ let routes: Routes = [
   declarations: [
     PropertyListComponent,
     PropertyCreateComponent,
-    PropertyDetailComponent
+    PropertyDetailComponent,
+    PropertyRentsComponent
   ],
   imports: [
     CommonModule,
