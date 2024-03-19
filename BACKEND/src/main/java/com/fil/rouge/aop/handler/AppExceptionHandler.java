@@ -73,7 +73,7 @@ public class AppExceptionHandler {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.internalServerError().body(ResponseApi.builder()
                 .message("Internal server error")
-                        .result(ex.getMessage())
+                .result(ex.getMessage())
                 .build());
     }
 

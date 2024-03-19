@@ -49,6 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .roles(List.of(roleUser))
+                .enabled(true)
         .build();
         userService.save(user);
         String accessToken = jwtService.generateToken(user, TokenType.ACCESS_TOKEN);

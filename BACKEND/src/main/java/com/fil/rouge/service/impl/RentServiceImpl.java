@@ -10,6 +10,8 @@ import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.service.RentService;
 import com.fil.rouge.utils.LocalDateUtils;
 import com.fil.rouge.web.dto.request.RentRequestDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,6 +46,14 @@ public class RentServiceImpl implements RentService {
                         .tenant(tenant)
                         .build()
         );
+    }
+
+    @Override
+    public Page<Rent> findAllRentByPropertyId(Long propertyId, Pageable pageable) {
+        if (!propertyService.existsById(propertyId))
+            throw new IllegalArgumentException("Property not found");
+
+        return rentRepository.findAllByPropertyId(propertyId, pageable);
     }
 
     private Double calculatePrice(LocalDate startDate, LocalDate endDate, Property property) {

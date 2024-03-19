@@ -24,4 +24,5 @@ public interface PropertyService {
     Page<Property> searchProperties(PropertyByCriteriaRequest request, Pageable pageable);
     Page<Property> findMyProperties(String query, Pageable pageable);
     List<Property> getTop4Properties();
+    boolean existsById(Long propertyId);
 }

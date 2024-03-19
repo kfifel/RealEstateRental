@@ -31,12 +31,8 @@ public class PasswordResetController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<Void> validateToken(@RequestParam String token) {
-        if (tokenService.validateToken(token)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Boolean> validateToken(@RequestParam String token) {
+        return ResponseEntity.ok(tokenService.validateToken(token));
     }
 
     @PostMapping("/reset")

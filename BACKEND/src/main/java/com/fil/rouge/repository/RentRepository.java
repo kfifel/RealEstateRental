@@ -1,6 +1,8 @@
 package com.fil.rouge.repository;
 
 import com.fil.rouge.domain.Rent;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,4 +18,6 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
 
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Rent r WHERE r.tenant.id = ?1 AND r.property.id = ?2 AND r.status = 'PENDING'")
     boolean userHasPendingRent(Long userId, Long propertyId);
+
+    Page<Rent> findAllByPropertyId(Long propertyId, Pageable pageable);
 }

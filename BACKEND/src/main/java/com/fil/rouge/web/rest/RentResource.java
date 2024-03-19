@@ -7,13 +7,16 @@ import com.fil.rouge.web.dto.response.RentResponseDTO;
 import com.fil.rouge.web.mapper.PropertyDtoMapper;
 import com.fil.rouge.web.mapper.RentDtoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/rents")
@@ -30,5 +33,24 @@ public class RentResource {
         RentResponseDTO rentResponseDTO = RentDtoMapper.toRentResponseDTO(save);
         rentResponseDTO.setProperty(propertyDtoMapper.toDto(save.getProperty(), true));
         return ResponseEntity.ok(rentResponseDTO);
+    }
+
+    @GetMapping("/property/{propertyId}/rent-list")
+    @PreAuthorize("hasRole('ROLE_PROPERTY')")
+    public ResponseEntity<List<RentResponseDTO>> fetchRentsForProperty(
+            @PathVariable Long propertyId,
+            @ParameterObject Pageable pageable
+    ) {
+        Page<Rent> rents = rentService.findAllRentByPropertyId(propertyId, pageable);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", String.valueOf(rents.getTotalElements()));
+
+        return ResponseEntity.ok()
+            .headers(headers)
+            .body(
+                rents.stream()
+                    .map(RentDtoMapper::toRentResponseDTO)
+                    .toList()
+            );
     }
 }

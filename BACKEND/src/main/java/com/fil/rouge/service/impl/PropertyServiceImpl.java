@@ -141,4 +141,9 @@ public class PropertyServiceImpl implements PropertyService {
     public List<Property> getTop4Properties() {
         return propertyRepository.findTop4ByOrderByIdDesc();
     }
+
+    @Override
+    public boolean existsById(Long propertyId) {
+        return propertyRepository.existsById(propertyId);
+    }
 }

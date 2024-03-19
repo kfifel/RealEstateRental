@@ -44,13 +44,15 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
             helper.setTo(recipientEmail);
-            helper.setSubject("Password Reset Request");
+            helper.setSubject("Password Reset Off Your Account KRIHNA");
             // HTML content for the email body
             String htmlContent = "<html><body>"
-                    + "<h2>Reset Your Password</h2>"
+                    + "<h2 style=\"color: #03A8B5;\">Reset Your Password</h2>"
                     + "<p>To reset your password, click the following link:</p>"
-                    + "<p><a href=\"http://localhost:4200/account/reset-password?token=" + token + "\">Reset Password</a></p>"
+                    + "<p><a href=\"http://localhost:4200/account/reset-password?token=" + token + "\" style=\""
+                    + "background-color: #03A8B5; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px;\">Reset Password</a></p>"
                     + "</body></html>";
+
             helper.setText(htmlContent, true); // Set to true for HTML content
             mailSender.send(message);
         } catch (MessagingException e) {
