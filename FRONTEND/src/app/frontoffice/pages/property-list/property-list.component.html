@@ -1,80 +1,78 @@
-<div class="px-5 content-property-list">
+<div class="px-3 content-property-list">
 
   <!-- start page title -->
   <app-page-title title="Property Available" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <section id="top-property">
-    <div class="p-3">
+    <div class="row p-1 flex-row-reverse">
 
+      <div class="col-md-2">
       <!-- Search Filters (Initially Hidden) -->
-      <div class="mb-4 filters-container">
-        <form class="row" (ngSubmit)="deepFilter()">
-          <div class="col-md-1">
-            <label for="title">Title:</label>
-            <input type="text" id="title" class="form-control" name="title" [(ngModel)]="deepSearchQueries.title">
-          </div>
-          <div class="col-md-1">
-            <label for="description">Description:</label>
-            <input class="form-control" name="description" id="description" [(ngModel)]="deepSearchQueries.description">
-          </div>
-          <div class="col-md-1">
-            <label for="address">Address:</label>
-            <input type="text" id="address" class="form-control" name="address" [(ngModel)]="deepSearchQueries.address">
-          </div>
-          <div class="col-md-2">
-            <label for="numberOfRooms">Number of Rooms:</label>
-            <input type="number" id="numberOfRooms" class="form-control" name="numberOfRooms" [(ngModel)]="deepSearchQueries.numberOfRooms">
-          </div>
-
-          <div class="col-md-2">
-            <label for="minPricePerDay">Min Price:</label>
-            <div class="input-group">
-              <span class="input-group-text">MAD</span>
-              <input type="number" id="minPricePerDay" class="form-control" name="minPricePerDay" [(ngModel)]="deepSearchQueries.minPricePerDay">
+        <div class="mb-4 filters-container">
+          <form class="row" (ngSubmit)="deepFilter()">
+            <div class="">
+              <label for="title">Title:</label>
+              <input type="text" id="title" class="form-control" name="title" [(ngModel)]="deepSearchQueries.title">
             </div>
-          </div>
-
-          <div class="col-md-2">
-            <label for="maxPricePerDay">Max Price Per Day:</label>
-            <div class="input-group">
-              <span class="input-group-text">MAD</span>
-              <input type="number" id="maxPricePerDay" class="form-control" name="maxPricePerDay" [(ngModel)]="deepSearchQueries.maxPricePerDay">
+            <div class="">
+              <label for="address">Address:</label>
+              <input type="text" id="address" class="form-control" name="address" [(ngModel)]="deepSearchQueries.address">
             </div>
-          </div>
+            <div class="">
+              <label for="numberOfRooms">Room Need:</label>
+              <input type="number" id="numberOfRooms" class="form-control" name="numberOfRooms" [(ngModel)]="deepSearchQueries.numberOfRooms">
+            </div>
 
-          <div class="col-md-1">
-            <label for="propertyType">Property Type:</label>
-            <select class="form-select" id="propertyType" name="propertyType" [(ngModel)]="deepSearchQueries.propertyType">
-              <option [value]="null" >Select Your City</option>
-              <option *ngFor="let type of propertyKeys" [value]="type">{{type}}</option>
-            </select>
-          </div>
+            <div class="">
+              <label for="minPricePerDay">Min Price:</label>
+              <div class="input-group">
+                <input type="number" id="minPricePerDay" class="form-control" name="minPricePerDay" [(ngModel)]="deepSearchQueries.minPricePerDay">
+                <span class="input-group-text" style="padding: 6px; height: 100%">MAD</span>
+              </div>
+            </div>
 
-          <div class="col-md-1">
-            <label for="city">City:</label>
-            <input type="text" id="city" class="form-control" name="city" [(ngModel)]="deepSearchQueries.city">
-          </div>
+            <div class="">
+              <label for="maxPricePerDay">Max Price:</label>
+              <div class="input-group">
+                <input type="number" id="maxPricePerDay" class="form-control" name="maxPricePerDay" [(ngModel)]="deepSearchQueries.maxPricePerDay">
+                <span class="input-group-text" style="padding: 6px; height: 100%">MAD</span>
+              </div>
+            </div>
+            <div class="">
+              <label for="propertyType">Property Type:</label>
+              <select class="form-select" id="propertyType" name="propertyType" [(ngModel)]="deepSearchQueries.propertyType">
+                <option [value]="null" >Select Your City</option>
+                <option *ngFor="let type of propertyKeys" [value]="type">{{type}}</option>
+              </select>
+            </div>
 
-          <div class="col-md-1">
-            <label></label>
-            <button class="btn-filter form-control">Filter</button>
-          </div>
-        </form>
-      </div>
+            <div class="">
+              <label for="city">City:</label>
+              <input type="text" id="city" class="form-control" name="city" [(ngModel)]="deepSearchQueries.city">
+            </div>
 
-
-      <div class="row align-items-center mb-4">
-        <div class="col">
-          <h1 class="mb-0">{{totalItems}} Available Accommodations
-            <span *ngIf="searchQueries.startDate && searchQueries.endDate">for {{ searchQueries.startDate | date: 'mediumDate' }} - {{ searchQueries.endDate | date: 'mediumDate' }}</span>
-            <span *ngIf="searchQueries.city === '' "> in the city {{searchQueries.city}}</span>
-          </h1>
-          <p class="text-muted mt-2">Explore the accommodations that are available for booking between these dates.</p>
+            <div class="">
+              <label></label>
+              <button class="btn-filter form-control">Filter</button>
+            </div>
+          </form>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xl-3 col-sm-6" *ngFor="let property of (properties$ | async)">
+
+      <div class="row col-md-10">
+
+        <div class="row align-items-center mb-4">
+          <div class="col">
+            <h1 class="mb-0">{{totalItems}} Available Accommodations
+              <span *ngIf="searchQueries.startDate && searchQueries.endDate">for {{ searchQueries.startDate | date: 'mediumDate' }} - {{ searchQueries.endDate | date: 'mediumDate' }}</span>
+              <span *ngIf="searchQueries.city === '' "> in the city {{searchQueries.city}}</span>
+            </h1>
+            <p class="text-muted mt-2">Explore the accommodations that are available for booking between these dates.</p>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-6" *ngFor="let property of (properties$ | async)">
           <div class="card">
             <div class="card-body">
               <div class="image-container">

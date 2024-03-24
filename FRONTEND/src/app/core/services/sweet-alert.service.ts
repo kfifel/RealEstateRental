@@ -9,6 +9,10 @@ export class SweetAlertService {
   constructor() {
   }
 
+  getSwal() {
+    return Swal;
+  }
+
   public info(title: string, message: string) {
     Swal.fire({
       icon: 'info',

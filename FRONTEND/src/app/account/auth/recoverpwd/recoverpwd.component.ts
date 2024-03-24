@@ -77,7 +77,9 @@ export class RecoverpwdComponent implements OnInit {
 
     this.authenticationService.resetPassword(this.f.email.value).subscribe(
       data => {
-        this.success = 'Password reset link has been sent to your email.';
+        this.success = `Password reset link has been sent to your email.
+                         <br> Please check your email.
+                         <br> It takes a 5 - 10 seconds to receive the email.`;
       },
       error => {
         this.error = 'Mail not found. Please enter a valid email.';
@@ -113,6 +115,9 @@ export class RecoverpwdComponent implements OnInit {
       data => {
         this.loading = false;
         this.success = 'Password reset successfully.';
+        setTimeout(() => {
+          this.router.navigate(['/account/login']);
+        }, 2000);
       },
       error => {
         this.loading = false;

@@ -61,4 +61,16 @@ export class PropertyService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.resourceUrl}/${id}`);
   }
+
+  getPropertiesOverview(): Observable<any> {
+    return this.http.get<any>(`${this.resourceUrl}/overview`);
+  }
+
+  getMonthlyIncome(): Observable<any> {
+    return this.http.get<any>(`${this.resourceUrl}/monthly-income`);
+  }
+
+  getInquiriesSource(): Observable<any> {
+    return this.http.get<any>(`${this.resourceUrl}/inquiries-source`);
+  }
 }

@@ -57,8 +57,15 @@
   border: 1px solid #a9a4a4;
 }
 
-.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
+.custom-sticky {
+  position: fixed;
+  top: 3rem; /* Distance from the top of the viewport */
+  z-index: 1020; /* Ensure it's above other content */
+  background: white;
+  // I  need the background opacity to be 0.9
+  opacity: 0.9;
+}
+
+#date-picker {
+  right: 0rem;
 }

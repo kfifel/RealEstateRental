@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { emailSentBarChart, monthlyEarningChart } from './data';
 import { ChartType } from './dashboard.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../../core/services/event.service';
@@ -7,6 +6,7 @@ import { EventService } from '../../../core/services/event.service';
 import { ConfigService } from '../../../core/services/config.service';
 import {User} from "../../../core/models/auth.models";
 import {authUtils} from "../../../authUtils";
+import {PropertyService} from "../../property/service/property.service";
 
 @Component({
   selector: 'app-default',
@@ -14,113 +14,99 @@ import {authUtils} from "../../../authUtils";
   styleUrls: ['./default.component.scss']
 })
 export class DefaultComponent implements OnInit {
-
-  isVisible: string;
-
-  emailSentBarChart: ChartType;
-  monthlyEarningChart: ChartType;
-  transactions: Array<[]>;
-  statData: Array<[]>;
   user: User = authUtils.getAuthenticatedUser();
-  isActive: string;
 
-  @ViewChild('content') content;
-  constructor(private modalService: NgbModal, private configService: ConfigService, private eventService: EventService) {
-  }
+  propertiesOverviewChart: ChartType; // For the properties overview chart
+  monthlyIncomeChart: ChartType; // For the monthly income chart
+  inquiriesSourceChart: ChartType; // New chart for inquiries source
+  totalProperties = 100; // Example data
+  monthlyRentalIncome = 5000; // Example data
+  percentageChange = 10; // Example data
+  propertiesData = [ // Example data
+    { title: 'Property A', value: 50, icon: 'icon1' },
+    { title: 'Property B', value: 30, icon: 'icon2' },
+    { title: 'Property C', value: 20, icon: 'icon3' }
+  ];
+  topCity1 = { name: 'Agadir', rentals: 4 }; // Example data
+  isActive: string = 'week'; // Example data
+
+  // Mock data for charts (You should replace this with actual data)
+  monthlyRentalIncomeChart = {
+    series: [5000, 6000, 7000, 8000, 9000],
+    chart: { type: 'line', height: 350 },
+    legend: { show: false },
+    colors: ['#556ee6'],
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+    stroke: { curve: 'smooth' },
+    plotOptions: { bar: { columnWidth: '50%' } }
+  };
+
+  propertiesPerformanceChart = {
+    chart: { type: 'bar', height: 350 },
+    series: [{ name: 'Properties', data: [30, 40, 45, 50, 49, 60, 70, 91, 125] }],
+    legend: { show: false },
+    colors: ['#34c38f'],
+    fill: { type: 'gradient', gradient: { shade: 'light', type: 'horizontal', shadeIntensity: 0.5, gradientToColors: ['#8fce61'], inverseColors: false, opacityFrom: 1, opacityTo: 1, stops: [0, 100] } },
+    dataLabels: { enabled: false },
+    xaxis: { categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+    plotOptions: { bar: { horizontal: false, endingShape: 'rounded', columnWidth: '55%' } }
+  };
+
+  constructor(
+    private modalService: NgbModal,
+    private configService: ConfigService,
+    private eventService: EventService,
+    private propertyService: PropertyService // Assuming you have a service to fetch property-related data
+  ) {}
 
   ngOnInit() {
-
-    /**
-     * horizontal-vertical layput set
-     */
-     const attribute = document.body.getAttribute('data-layout');
-
-     this.isVisible = attribute;
-     const vertical = document.getElementById('layout-vertical');
-     if (vertical != null) {
-       vertical.setAttribute('checked', 'true');
-     }
-     if (attribute == 'horizontal') {
-       const horizontal = document.getElementById('layout-horizontal');
-       if (horizontal != null) {
-         horizontal.setAttribute('checked', 'true');
-         console.log(horizontal);
-       }
-     }
-
-    /**
-     * Fetches the data
-     */
     this.fetchData();
   }
 
-  ngAfterViewInit() {
-  }
-
-  /**
-   * Fetches the data
-   */
   private fetchData() {
-    this.emailSentBarChart = emailSentBarChart;
-    this.monthlyEarningChart = monthlyEarningChart;
-
-    this.isActive = 'year';
-    this.configService.getConfig().subscribe(data => {
-      this.transactions = data.transactions;
-      this.statData = data.statData;
+    // Example of fetching data for charts, adjust according to your real service methods
+    this.propertyService.getPropertiesOverview().subscribe(data => {
+      this.propertiesOverviewChart = data;
     });
-  }
-  weeklyreport() {
-    this.isActive = 'week';
-    this.emailSentBarChart.series =
-      [{
-        name: 'Series A',
-         data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
-      }, {
-        name: 'Series B',
-        data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
-      }, {
-        name: 'Series C',
-        data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
-      }];
+
+    this.propertyService.getMonthlyIncome().subscribe(data => {
+      this.monthlyIncomeChart = data;
+    });
+
+    this.propertyService.getInquiriesSource().subscribe(data => {
+      this.inquiriesSourceChart = data;
+    });
+
+    // You might want to set the default view or get it from user preferences
+    this.isActive = 'year';
   }
 
-  monthlyreport() {
-    this.isActive = 'month';
-    this.emailSentBarChart.series =
-      [{
-        name: 'Series A',
-         data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
-      }, {
-        name: 'Series B',
-        data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
-      }, {
-        name: 'Series C',
-        data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
-      }];
+  weeklyreport() {
+    // Update chart data for weekly report
+    // Adjust implementation based on your actual data fetching logic
   }
 
   yearlyreport() {
-    this.isActive = 'year';
-    this.emailSentBarChart.series =
-      [{
-        name: 'Series A',
-         data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
-      }, {
-        name: 'Series B',
-        data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
-      }, {
-        name: 'Series C',
-        data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
-      }];
+    // Update chart data for yearly report
+    // Adjust implementation based on your actual data fetching logic
   }
 
-
-  /**
-   * Change the layout onclick
-   * @param layout Change the layout
-   */
-   changeLayout(layout: string) {
+  changeLayout(layout: string) {
     this.eventService.broadcast('changeLayout', layout);
+  }
+
+  weeklyPerformance() {
+    this.isActive = 'week';
+    // Logic to update chart data for weekly performance
+  }
+
+  monthlyPerformance() {
+    this.isActive = 'month';
+    // Logic to update chart data for monthly performance
+  }
+
+  yearlyPerformance() {
+    this.isActive = 'year';
+    // Logic to update chart data for yearly performance
   }
 }

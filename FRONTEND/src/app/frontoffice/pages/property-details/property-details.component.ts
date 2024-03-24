@@ -70,7 +70,7 @@ export class PropertyDetailsComponent implements OnInit {
         let startDate = new Date(param1);
         let endDate = new Date(param2);
         this.selected = this.dateToString(startDate) + '-' + this.dateToString(endDate);
-        this.calculateTotalPrice();
+        this.totalPrice = this.calculateTotalPrice();
       }
     })
     this.hidden = true;
@@ -115,7 +115,7 @@ export class PropertyDetailsComponent implements OnInit {
       this.fromDate = new Date(date.year, date.month - 1, date.day);
       this.selected = '';
     }
-    this.calculateTotalPrice();
+    this.totalPrice = this.calculateTotalPrice();
   }
 
   private calculateTotalPrice() {
@@ -125,17 +125,27 @@ export class PropertyDetailsComponent implements OnInit {
     let [startDateStr, endDateStr] = this.selected.split('-');
     const startDate = this.stringToDate(startDateStr);
     const endDate = this.stringToDate(endDateStr);
-    const days = this.calculateDays(startDate, endDate);
+
+    const calculateDays = (start: Date, end: Date): number => {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    };
+
+    const days = calculateDays(startDate, endDate);
     let totalPrice = 0;
-    if ( days > 30)
+
+    if (days >= 30) {
       totalPrice = this.property.pricePerMonth * (days / 30);
-    else
+    } else {
       totalPrice = this.property.pricePerDay * days;
+    }
 
-    // 0.354 -> 0.36
-    this.totalPrice = Math.round(totalPrice * 100) / 100;
-
+    // Rounding to 2 decimal places as in the backend
+    return Math.round(totalPrice * 100) / 100;
   }
+
 
   private calculateDays(start: Date, end: Date) {
     const differenceMs = end.getTime() -  start.getTime();

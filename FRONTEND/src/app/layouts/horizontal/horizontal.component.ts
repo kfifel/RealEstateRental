@@ -19,7 +19,7 @@ export class HorizontalComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.topbar = TOPBAR;
+    this.topbar = "light";
 
     this.eventService.subscribe('changeTopbar', (topbar) => {
       this.topbar = topbar;
@@ -30,7 +30,7 @@ export class HorizontalComponent implements OnInit, AfterViewInit {
     document.body.removeAttribute('data-sidebar');
     document.body.removeAttribute('data-layout-size');
     document.body.removeAttribute('data-keep-enlarged');
-    document.body.removeAttribute('data-sidebar-small');    
+    document.body.removeAttribute('data-sidebar-small');
 
     this.changeTopbar(this.topbar);
   }

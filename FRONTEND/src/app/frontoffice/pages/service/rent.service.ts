@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {IRent} from "../../../core/models/rent.model";
+import {IRent, RentStatus} from "../../../core/models/rent.model";
 import {Pagination, SearchWithPagination} from "../../../core/request/request.model";
 import {createRequestOption} from "../../../core/request/request.util";
-import {IProperty} from "../../../backoffice/property/property.model";
+import {IProperty, RentStatistics} from "../../../backoffice/property/property.model";
 
 type EntityArrayResponseType = Observable<HttpResponse<IRent[]>>;
 @Injectable({
@@ -31,5 +31,13 @@ export class RentService {
   search(propertyId: number, req: SearchWithPagination): EntityArrayResponseType {
     const options = createRequestOption(req);
     return this.http.get<IRent[]>(`${this.resourceUrl}/property/${propertyId}/search`, { params: options, observe: 'response' });
+  }
+
+  getStatistics(propertyId: number): Observable<RentStatistics> {
+    return this.http.get<RentStatistics>(`${this.resourceUrl}/statistics`, { params: {propertyId}, observe: 'body' });
+  }
+
+  changeStatus(id: number, newStatus: RentStatus) {
+    return this.http.patch<IRent>(`${this.resourceUrl}/${id}/status/${newStatus}`, {});
   }
 }

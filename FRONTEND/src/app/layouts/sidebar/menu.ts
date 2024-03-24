@@ -31,6 +31,7 @@ export const MENU: MenuItem[] = [
         label: 'MENUITEMS.PROPERTY.TEXT',
         icon: 'bx-calendar',
         link: '/admin/property',
+        roles: [Role.ROLE_PROPERTY]
     },
     {
         id: 9,

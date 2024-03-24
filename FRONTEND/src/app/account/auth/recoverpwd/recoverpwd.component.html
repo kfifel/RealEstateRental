@@ -19,7 +19,7 @@
 
                                 <div class="mt-4">
                                   <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
-                                  <ngb-alert type="success" *ngIf="success" [dismissible]="false">{{ success }}</ngb-alert>
+                                  <ngb-alert type="success" *ngIf="success" [dismissible]="false" [innerHTML]="success"></ngb-alert>
                                     <form [formGroup]="resetForm" (ngSubmit)="onSubmit()"
                                           *ngIf="!isTokenValid; else resetPwd"
                                     >
@@ -80,7 +80,10 @@
 
                                         <div>
                                             <button class="btn btn-primary w-100 waves-effect waves-light"
-                                                type="submit" [disabled]="success || loading">Reset</button>
+                                                type="submit" [disabled]="success || loading">
+                                              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                              {{ loading ? 'Resiting Password...' : 'Reset Now' }}
+                                            </button>
                                         </div>
 
                                       </form>

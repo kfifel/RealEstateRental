@@ -85,3 +85,13 @@ export interface IRent {
   ownerPhone: string;
   tenantFullName: string;
 }
+
+export interface RentStatistics {
+  totalRent: number;
+  totalPendingRent: number;
+  totalOngoingRent: number;
+  totalApprovedRent: number;
+  totalRejectedRent: number;
+  totalCanceledRent: number;
+  totalFinishedRent: number;
+}

@@ -15,8 +15,10 @@ export interface IRent {
 
 export enum RentStatus {
 
-    PENDING = 'PENDING',
-    ONGOING = 'ONGOING',
-    FINISHED = 'FINISHED',
-    CANCELLED = 'CANCELLED'
+  PENDING = 'PENDING',
+  ONGOING = 'ONGOING',
+  FINISHED = 'FINISHED',
+  CANCELLED = 'CANCELLED',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED'
 }

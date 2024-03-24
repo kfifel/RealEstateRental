@@ -35,10 +35,10 @@
       </ul>
 
       <div class="my-2 ms-lg-2" *ngIf="!isUserAuth">
-        <a routerLink="/account/auth/login" class="btn btn-outline-success w-xs">Sign in</a>
+        <a routerLink="/account/auth/login" class="btn btn-outline-primary w-xs">Sign in</a>
       </div>
       <div class="my-2 ms-lg-2" *ngIf="isUserAuth">
-        <button (click)="logout()" class="btn btn-outline-success w-xs">Logout</button>
+        <button (click)="logout()" class="btn btn-outline-primary w-xs">Logout</button>
       </div>
       <div class="my-2 ms-lg-2" *ngIf="isAdmin">
         <button routerLink="/admin/dashboard" class="btn btn-outline-primary w-xs">Administration</button>
@@ -64,7 +64,7 @@
               Start Your Journey to Your Dream Rental Home Now.</p>
 
             <div class="button-items mt-4">
-              <a href="javascript: void(0);" class="btn btn-success">Get Started</a>
+              <a href="javascript: void(0);" class="btn btn-primary">Get Started</a>
               <a href="javascript: void(0);" class="btn btn-light">Learn More</a>
             </div>
           </div>
@@ -115,7 +115,9 @@
                        (change)="onCitySelected($event)">
             </ng-select>
           </div>
-          <button type="submit" class="btn btn-primary">Search Now</button>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary form-control">Search Now</button>
+          </div>
         </form>
         </div>
       </div>
@@ -142,7 +144,7 @@
                     <p class="text-muted">Average House Rent</p>
                     <h5>$1500</h5>
                     <p class="text-muted text-truncate mb-0">+2.5% compared to last month <i
-                      class="mdi mdi-arrow-up ms-1 text-success"></i></p>
+                      class="mdi mdi-arrow-up ms-1 text-primary"></i></p>
                   </div>
                 </div>
               </div>
@@ -161,7 +163,7 @@
                     <p class="text-muted">Average Apartment Rent</p>
                     <h5>$1200</h5>
                     <p class="text-muted text-truncate mb-0">+1.8% compared to last month <i
-                      class="mdi mdi-arrow-up ms-1 text-success"></i></p>
+                      class="mdi mdi-arrow-up ms-1 text-primary"></i></p>
                   </div>
                 </div>
               </div>
@@ -258,7 +260,7 @@
               user-friendly interface and advanced search options make the rental process simple and hassle-free.</p>
 
             <div class="button-items">
-              <a href="javascript: void(0);" class="btn btn-success">Learn More</a>
+              <a href="javascript: void(0);" class="btn btn-primary">Learn More</a>
               <a href="javascript: void(0);" class="btn btn-outline-primary">Contact Us</a>
             </div>
 
@@ -286,7 +288,7 @@
                 <div class="card border">
                   <div class="card-body">
                     <div class="mb-3">
-                      <i class="mdi mdi-home h2 text-success"></i>
+                      <i class="mdi mdi-home h2 text-primary"></i>
                     </div>
                     <h5>Wide Range of Properties</h5>
                     <p class="text-muted mb-0">Explore a diverse selection of rental options</p>
@@ -300,7 +302,7 @@
                 <div class="card border">
                   <div class="card-body">
                     <div class="mb-3">
-                      <i class="mdi mdi-account-multiple h2 text-success"></i>
+                      <i class="mdi mdi-account-multiple h2 text-primary"></i>
                     </div>
                     <h5>Expert Support</h5>
                     <p class="text-muted mb-0">Get assistance from our experienced team</p>
@@ -405,8 +407,8 @@
             </div>
             <p class="text-muted">List your property effortlessly on Real Estate Rental platform and reach potential tenants quickly.</p>
             <div class="text-muted mt-4">
-              <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Easy property listing process</p>
-              <p><i class="mdi mdi-circle-medium text-success me-1"></i>Increased visibility to potential tenants</p>
+              <p class="mb-2"><i class="mdi mdi-circle-medium text-primary me-1"></i>Easy property listing process</p>
+              <p><i class="mdi mdi-circle-medium text-primary me-1"></i>Increased visibility to potential tenants</p>
             </div>
           </div>
         </div>
@@ -422,8 +424,8 @@
             </div>
             <p class="text-muted">Efficiently search for rental properties based on your preferences and requirements.</p>
             <div class="text-muted mt-4">
-              <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>User-friendly property search</p>
-              <p><i class="mdi mdi-circle-medium text-success me-1"></i>Advanced filtering options</p>
+              <p class="mb-2"><i class="mdi mdi-circle-medium text-primary me-1"></i>User-friendly property search</p>
+              <p><i class="mdi mdi-circle-medium text-primary me-1"></i>Advanced filtering options</p>
             </div>
           </div>
         </div>
@@ -448,8 +450,8 @@
             </div>
             <p class="text-muted">Ensuring the security and confidentiality of your data is our top priority.</p>
             <div class="text-muted mt-4">
-              <p class="mb-2"><i class="mdi mdi-circle-medium text-success me-1"></i>Robust data encryption</p>
-              <p><i class="mdi mdi-circle-medium text-success me-1"></i>Secure storage practices</p>
+              <p class="mb-2"><i class="mdi mdi-circle-medium text-primary me-1"></i>Robust data encryption</p>
+              <p><i class="mdi mdi-circle-medium text-primary me-1"></i>Secure storage practices</p>
             </div>
           </div>
         </div>
@@ -675,12 +677,12 @@
             <h5 class="mb-3 footer-list-title">Latest News</h5>
             <div class="blog-post">
               <a href="javascript: void(0);" class="post">
-                <div class="badge badge-soft-success font-size-11 mb-3">Estate Rental</div>
+                <div class="badge badge-soft-primary font-size-11 mb-3">Estate Rental</div>
                 <h5 class="post-title">New Trends in Estate Rental Market</h5>
                 <p class="mb-0"><i class="bx bx-calendar me-1"></i> 15 Jan, 2024</p>
               </a>
               <a href="javascript: void(0);" class="post">
-                <div class="badge badge-soft-success font-size-11 mb-3">Estate Rental</div>
+                <div class="badge badge-soft-primary font-size-11 mb-3">Estate Rental</div>
                 <h5 class="post-title">Tips for Finding the Perfect Rental Property</h5>
                 <p class="mb-0"><i class="bx bx-calendar me-1"></i> 22 Jan, 2024</p>
               </a>
