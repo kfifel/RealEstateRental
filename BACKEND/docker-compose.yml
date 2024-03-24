@@ -1,0 +1,49 @@
+version: '4'
+
+services:
+  spring-app:
+    container_name: file-rouge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  database:
+    container_name: file-rouge-database
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "3306:3306"
+    command: ['--default-authentication-plugin=mysql_native_password']
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  sonarqube:
+    container_name: file-rouge-sonarqube
+    image: sonarqube:latest
+    ports:
+      - "9000:9000"
+    environment:
+      SONARQUBE_JDBC_URL: jdbc:mysql://database:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance
+      SONARQUBE_JDBC_USERNAME: root
+      SONARQUBE_JDBC_PASSWORD:
+    depends_on:
+      - spring-app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:

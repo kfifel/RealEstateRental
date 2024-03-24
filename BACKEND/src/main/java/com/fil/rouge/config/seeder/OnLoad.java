@@ -41,6 +41,10 @@ public class OnLoad implements CommandLineRunner {
                         .lastName("User")
                         .verifiedAt(LocalDateTime.now())
                         .roles(List.of(role))
+                        .enabled(true)
+                        .createdAt(LocalDateTime.now())
+                        .phone("1234567890")
+                        .verifiedAt(LocalDateTime.now())
                         .build());
 
             if (role.getName().equals(AuthoritiesConstants.ROLE_PROPERTY))
@@ -51,6 +55,10 @@ public class OnLoad implements CommandLineRunner {
                         .lastName("User")
                         .verifiedAt(LocalDateTime.now())
                         .roles(List.of(role))
+                        .enabled(true)
+                        .createdAt(LocalDateTime.now())
+                        .phone("1234567890")
+                        .verifiedAt(LocalDateTime.now())
                         .build());
             if (role.getName().equals(AuthoritiesConstants.ROLE_TENANT)) {
                 userRepository.save(AppUser.builder()
@@ -60,6 +68,10 @@ public class OnLoad implements CommandLineRunner {
                         .lastName("User")
                         .verifiedAt(LocalDateTime.now())
                         .roles(List.of(role))
+                        .createdAt(LocalDateTime.now())
+                        .phone("1234567890")
+                        .verifiedAt(LocalDateTime.now())
+                        .enabled(true)
                         .build());
             }
         });
