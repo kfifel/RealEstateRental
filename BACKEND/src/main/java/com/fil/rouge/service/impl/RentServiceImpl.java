@@ -8,23 +8,30 @@ import com.fil.rouge.repository.RentRepository;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.service.RentService;
+import com.fil.rouge.utils.EmailServiceUtils;
 import com.fil.rouge.web.dto.request.RentRequestDTO;
 import com.fil.rouge.web.dto.response.RentStatisticsResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.CompletableFuture;
 
 @Service
+@Slf4j
 public class RentServiceImpl implements RentService {
     private final RentRepository rentRepository;
     private final PropertyService propertyService;
+    private final EmailServiceUtils emailService;
 
-    public RentServiceImpl(RentRepository rentRepository, PropertyService propertyService) {
+    public RentServiceImpl(RentRepository rentRepository, PropertyService propertyService, EmailServiceUtils emailService) {
         this.rentRepository = rentRepository;
         this.propertyService = propertyService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -35,8 +42,8 @@ public class RentServiceImpl implements RentService {
         // validate the rent request and the property availability
         validateRent(rentRequestDTO, property, tenant);
         Double totalPrice = calculatePrice(rentRequestDTO.getStartDate(), rentRequestDTO.getEndDate(), property);
-        return rentRepository.save(
-                    Rent.builder()
+        Rent save = rentRepository.save(
+                Rent.builder()
                         .property(property)
                         .startDate(rentRequestDTO.getStartDate())
                         .endDate(rentRequestDTO.getEndDate())
@@ -46,6 +53,42 @@ public class RentServiceImpl implements RentService {
                         .tenant(tenant)
                         .build()
         );
+       // create methode to send email localy
+        CompletableFuture.runAsync(() -> sendEmailRentSubmitting(tenant.getEmail(), save));
+        return save;
+    }
+
+    private void sendEmailRentSubmitting(String to, Rent rent) {
+        String emailContent;
+        try {
+            emailContent = emailService.loadEmailTemplate("template/rent-request.html");
+        }catch (IllegalArgumentException e) {
+            log.error("Error loading email template", e);
+            return;
+        }
+        // add api address of the server and /api/v1/properties/images/** to the image url invcase of a real server add the real server too not only localhost
+
+        String imageUrl = !rent.getProperty().getImages().isEmpty()
+                ? "http://localhost:8080/api/v1/properties/images/" + rent.getProperty().getImages().get(0)
+                : "";
+
+        String body = emailContent
+                .replace("{{TENANT_NAME}}", rent.getTenant().getFullName())
+                .replace("{{PROPERTY_TITLE}}", rent.getProperty().getTitle())
+                .replace("{{PROPERTY_TYPE}}", rent.getProperty().getPropertyType().toString())
+                .replace("{{CITY_NAME}}", rent.getProperty().getCity().getName())
+                .replace("{{START_DATE}}", rent.getStartDate().toString())
+                .replace("{{END_DATE}}", rent.getEndDate().toString())
+                .replace("{{TOTAL_PRICE}}", rent.getTotalPrice().toString())
+                .replace("{{NUMBER_OF_ROOMS}}", rent.getProperty().getNumberOfRooms().toString())
+                .replace("{{HAS_BALCONY}}", rent.getProperty().isHasBalcony() ? "Yes" : "No")
+                .replace("{{PROPERTY_IMAGE_URL}}", imageUrl)
+                .replace("{{PROPERTY_ADDRESS}}", rent.getProperty().getAddress());
+        try {
+            emailService.sendEmail(to, "Rent request", body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -76,7 +119,15 @@ public class RentServiceImpl implements RentService {
         }
 
         rent.setStatus(status);
-        return rentRepository.save(rent);
+        Rent save = rentRepository.save(rent);
+
+        try {
+            emailService.sendEmail(rent.getTenant().getEmail(), "Rent request", "Your rent request has been" + status);
+        } catch (MessagingException e) {
+            log.error("Error sending email", e);
+        }
+
+        return save;
     }
 
     @Override

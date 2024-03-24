@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+
 class RentServiceImplTest {
 
     @Mock
@@ -37,6 +39,9 @@ class RentServiceImplTest {
     @InjectMocks
     private SecurityUtils securityUtils;
 
+    @Mock
+    private RentRepository rentRepository;
+
     @InjectMocks
     private RentServiceImpl rentService;
 
@@ -45,6 +50,8 @@ class RentServiceImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
+        MockedStatic<SecurityContextHolder> securityContextHolderMockedStatic = mockStatic(SecurityContextHolder.class);
+        securityContextHolderMockedStatic.when(SecurityContextHolder::getContext).thenReturn(securityContext);
     }
 
 
@@ -99,5 +106,55 @@ class RentServiceImplTest {
 
         // Verify that the method returned the expected user
         assertEquals("test@example.com", currentUser.getEmail());
+    }
+
+    @Test
+    void test_valid_and_available_rent_request() {
+        // Mock dependencies
+        Property property = new Property();
+        property.setId(1L);
+        property.setPricePerDay(100.0);
+        property.setPricePerMonth(2000.0);
+        property.setNumberOfRooms(2);
+        property.setHasBalcony(true);
+
+        AppUser tenant = new AppUser();
+        tenant.setId(1L);
+        tenant.setEmail("test@example.com");
+
+        RentRequestDTO rentRequestDTO = new RentRequestDTO();
+        rentRequestDTO.setPropertyId(1L);
+        rentRequestDTO.setStartDate(LocalDate.now());
+        rentRequestDTO.setEndDate(LocalDate.now().plusDays(7));
+
+        when(propertyService.findById(rentRequestDTO.getPropertyId())).thenReturn(Optional.of(property));
+        when(securityUtils.getCurrentUser()).thenReturn(tenant);
+
+        when(rentRepository.save(any(Rent.class))).thenReturn(new Rent());
+
+        // Invoke the method
+        Rent result = rentService.save(rentRequestDTO);
+
+        // Verify the result
+        assertNotNull(result);
+        assertEquals(RentStatus.PENDING, result.getStatus());
+        assertFalse(result.isPaid());
+        verify(rentRepository, times(1)).save(any(Rent.class));
+    }
+
+    @Test
+    void test_null_property_id() {
+        // Mock dependencies
+        RentRequestDTO rentRequestDTO = new RentRequestDTO();
+        rentRequestDTO.setPropertyId(null);
+
+        // Invoke the method
+        try {
+            rentService.save(rentRequestDTO);
+            fail("Expected IllegalArgumentException to be thrown");
+        } catch (IllegalArgumentException e) {
+            // Verify the exception message
+            assertEquals("Property not found", e.getMessage());
+        }
     }
 }

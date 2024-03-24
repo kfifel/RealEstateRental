@@ -4,6 +4,7 @@ import com.fil.rouge.domain.*;
 import com.fil.rouge.repository.*;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.PropertyService;
+import com.fil.rouge.utils.EmailServiceUtils;
 import com.fil.rouge.utils.FileUtils;
 import com.fil.rouge.web.dto.InquiriesSourceDTO;
 import com.fil.rouge.web.dto.MonthlyIncomeDTO;
@@ -39,6 +40,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertyImageRepository propertyImageRepository;
     private final PropertySearchRepository propertySearchRepository;
     private final FileUtils fileUtils;
+    private final EmailServiceUtils emailService;
 
     @Override
     public Page<Property> findAll(Pageable pageable) {

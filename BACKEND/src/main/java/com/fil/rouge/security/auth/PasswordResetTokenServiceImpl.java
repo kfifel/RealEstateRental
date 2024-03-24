@@ -16,6 +16,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
                 .build();
         PasswordResetToken passwordResetToken = tokenRepository.save(resetToken);
 
-        sendPasswordResetEmail(user.getEmail(), passwordResetToken.getToken());
+        CompletableFuture.runAsync(()-> sendPasswordResetEmail(user.getEmail(), passwordResetToken.getToken()));
     }
 
     private void sendPasswordResetEmail(String recipientEmail, String token) {

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 600px; margin: auto; }
+        .header { background-color: #f2f2f2; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .footer { background-color: #f2f2f2; padding: 10px; text-align: center; margin-top: 20px; }
+        .image { text-align: center; margin: 20px 0; }
+        .property-details { background-color: #f9f9f9; padding: 15px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>Your Rent Request Submission</h2>
+    </div>
+    <div class="content">
+        <p>Hello {{TENANT_NAME}},</p>
+        <p>Your rent request for the property "<strong>{{PROPERTY_TITLE}}</strong>" has been submitted successfully. Below are the details:</p>
+        <div class="property-details">
+            <p><strong>Property Type:</strong> {{PROPERTY_TYPE}}</p>
+            <p><strong>Location:</strong> {{PROPERTY_ADDRESS}}, {{CITY_NAME}}</p>
+            <p><strong>Rent Duration:</strong> {{START_DATE}} to {{END_DATE}}</p>
+            <p><strong>Total Price:</strong> {{TOTAL_PRICE}} USD</p>
+            <p><strong>Number of Rooms:</strong> {{NUMBER_OF_ROOMS}}, {{HAS_BALCONY}} Balcony</p>
+        </div>
+        <div class="image">
+            <img src="{{PROPERTY_IMAGE_URL}}" alt="Property Image" style="width: 100%; max-width: 560px;">
+        </div>
+        <p>If you have any questions or need further information, please do not hesitate to contact us.</p>
+        <p>Best regards,</p>
+        <p>Your Rental Team</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Rental Service. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>
