@@ -12,6 +12,7 @@ services:
     environment:
       - 'MYSQL_DATABASE=real_estate_rental'
       - 'MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+      - 'MYSQL_USER=root'
     ports:
       - '3306:3306'
 
