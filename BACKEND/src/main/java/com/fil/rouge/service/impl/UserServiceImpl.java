@@ -2,12 +2,10 @@ package com.fil.rouge.service.impl;
 
 import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.domain.Role;
-import com.fil.rouge.repository.RoleRepository;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.RoleService;
 import com.fil.rouge.utils.CustomError;
 import com.fil.rouge.utils.ValidationException;
-import com.fil.rouge.web.dto.RoleDto;
 import com.fil.rouge.web.exception.EmailAlreadyExistException;
 import com.fil.rouge.repository.UserRepository;
 import com.fil.rouge.service.UserService;
@@ -22,11 +20,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.fil.rouge.utils.AppConstants.USER_NOT_FOUND;
 
@@ -36,7 +32,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final RoleRepository roleRepository;
 
     @Override
     public AppUser save(AppUser user) {
