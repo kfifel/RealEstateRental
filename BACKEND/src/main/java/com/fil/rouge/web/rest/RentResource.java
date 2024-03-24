@@ -1,9 +1,11 @@
 package com.fil.rouge.web.rest;
 
 import com.fil.rouge.domain.Rent;
+import com.fil.rouge.domain.enums.RentStatus;
 import com.fil.rouge.service.RentService;
 import com.fil.rouge.web.dto.request.RentRequestDTO;
 import com.fil.rouge.web.dto.response.RentResponseDTO;
+import com.fil.rouge.web.dto.response.RentStatisticsResponse;
 import com.fil.rouge.web.mapper.PropertyDtoMapper;
 import com.fil.rouge.web.mapper.RentDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +54,24 @@ public class RentResource {
                     .map(RentDtoMapper::toRentResponseDTO)
                     .toList()
             );
+    }
+
+    @PatchMapping("/{rentId}/status/{status}")
+    @PreAuthorize("hasRole('ROLE_PROPERTY')")
+    public ResponseEntity<RentResponseDTO> updateRentStatus(
+            @PathVariable Long rentId,
+            @PathVariable RentStatus status
+    ) {
+        Rent rent = rentService.updateRentStatus(rentId, status);
+        RentResponseDTO rentResponseDTO = RentDtoMapper.toRentResponseDTO(rent);
+        rentResponseDTO.setProperty(propertyDtoMapper.toDto(rent.getProperty(), true));
+        return ResponseEntity.ok(rentResponseDTO);
+    }
+
+    @GetMapping("statistics")
+    public ResponseEntity<RentStatisticsResponse> getStatistics(
+            @RequestParam Long propertyId
+            ) {
+        return ResponseEntity.ok(rentService.getStatistics(propertyId));
     }
 }

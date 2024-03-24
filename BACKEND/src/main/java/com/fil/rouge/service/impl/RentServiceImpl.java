@@ -8,17 +8,17 @@ import com.fil.rouge.repository.RentRepository;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.service.RentService;
-import com.fil.rouge.utils.LocalDateUtils;
 import com.fil.rouge.web.dto.request.RentRequestDTO;
+import com.fil.rouge.web.dto.response.RentStatisticsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class RentServiceImpl implements RentService {
-
     private final RentRepository rentRepository;
     private final PropertyService propertyService;
 
@@ -56,13 +56,47 @@ public class RentServiceImpl implements RentService {
         return rentRepository.findAllByPropertyId(propertyId, pageable);
     }
 
-    private Double calculatePrice(LocalDate startDate, LocalDate endDate, Property property) {
-        long numberOfDays = LocalDateUtils.calculateDaysBetween(startDate, endDate);
+    @Override
+    public RentStatisticsResponse getStatistics(Long propertyId) {
+        if (propertyId == 0)
+            rentRepository.getStatistics();
 
-        if (numberOfDays > 29)
-            return property.getPricePerDay() * numberOfDays;
-        else
-            return property.getPricePerMonth() * numberOfDays / 30.0;
+        if (!propertyService.existsById(propertyId))
+            throw new IllegalArgumentException("Property not found");
+        return rentRepository.getStatistics(propertyId);
+    }
+
+    @Override
+    public Rent updateRentStatus(Long rentId, RentStatus status) {
+        Rent rent = rentRepository.findById(rentId)
+                .orElseThrow(() -> new IllegalArgumentException("Rent not found"));
+
+        if (!rent.getStatus().equals(RentStatus.PENDING)) {
+            throw new IllegalArgumentException("Rent status cannot be updated");
+        }
+
+        rent.setStatus(status);
+        return rentRepository.save(rent);
+    }
+
+    @Override
+    public Double findTotalIncomeBetweenDates(LocalDate startOfMonth, LocalDate endOfMonth) {
+        return rentRepository.findTotalIncomeBetweenDates(startOfMonth, endOfMonth);
+    }
+
+
+    private double calculatePrice(LocalDate startDate, LocalDate endDate, Property property) {
+        long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate);
+        double totalPrice;
+
+        if (numberOfDays >= 30) {
+            totalPrice = property.getPricePerMonth() * (numberOfDays / 30.0);
+        } else {
+            totalPrice = property.getPricePerDay() * numberOfDays;
+        }
+
+        // Rounding to 2 decimal places
+        return Math.round(totalPrice * 100.0) / 100.0;
     }
 
     private void validateRent(RentRequestDTO rent, Property property, AppUser tenant) {

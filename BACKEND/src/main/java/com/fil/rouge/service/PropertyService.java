@@ -2,6 +2,9 @@ package com.fil.rouge.service;
 
 
 import com.fil.rouge.domain.Property;
+import com.fil.rouge.web.dto.InquiriesSourceDTO;
+import com.fil.rouge.web.dto.MonthlyIncomeDTO;
+import com.fil.rouge.web.dto.PropertyOverviewDTO;
 import com.fil.rouge.web.dto.request.PropertyByCriteriaRequest;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
@@ -25,4 +28,7 @@ public interface PropertyService {
     Page<Property> findMyProperties(String query, Pageable pageable);
     List<Property> getTop4Properties();
     boolean existsById(Long propertyId);
+    PropertyOverviewDTO getPropertiesOverview();
+    MonthlyIncomeDTO getMonthlyIncome();
+    InquiriesSourceDTO getInquiriesSource();
 }

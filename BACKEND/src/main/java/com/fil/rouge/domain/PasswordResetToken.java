@@ -19,6 +19,8 @@ public class PasswordResetToken {
     @Column(unique = true)
     private String token;
 
+    private boolean isUsed;
+
     @OneToOne(targetEntity = AppUser.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private AppUser user;
@@ -26,6 +28,6 @@ public class PasswordResetToken {
     private LocalDateTime expiryDate;
 
     public boolean isExpired() {
-        return this.expiryDate.isBefore(LocalDateTime.now());
+        return this.expiryDate.isBefore(LocalDateTime.now()) || this.isUsed;
     }
 }

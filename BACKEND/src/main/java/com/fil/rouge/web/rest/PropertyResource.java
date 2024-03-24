@@ -5,9 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fil.rouge.domain.Property;
 import com.fil.rouge.service.PropertyService;
+import com.fil.rouge.service.RentService;
 import com.fil.rouge.utils.ResponseApi;
+import com.fil.rouge.web.dto.InquiriesSourceDTO;
+import com.fil.rouge.web.dto.MonthlyIncomeDTO;
 import com.fil.rouge.web.dto.PropertyDto;
+import com.fil.rouge.web.dto.PropertyOverviewDTO;
 import com.fil.rouge.web.dto.request.PropertyByCriteriaRequest;
+import com.fil.rouge.web.dto.response.RentStatisticsResponse;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
 import com.fil.rouge.web.mapper.PropertyDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +30,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/properties")
@@ -34,6 +41,7 @@ public class PropertyResource {
 
     private final PropertyService propertyService;
     private final PropertyDtoMapper propertyDtoMapper;
+    private final RentService rentService;
     private final ObjectMapper objectMapper;
     private static final String X_TOTAL_COUNT = "X-Total-Count";
 
@@ -161,5 +169,33 @@ public class PropertyResource {
                         properties.stream()
                                 .map(property -> propertyDtoMapper.toDto(property, true))
                                 .toList());
+    }
+
+    @GetMapping("overview")
+    public ResponseEntity<PropertyOverviewDTO> getPropertiesOverview() {
+        PropertyOverviewDTO overview = propertyService.getPropertiesOverview();
+        return ResponseEntity.ok(overview);
+    }
+
+    @GetMapping("monthly-income")
+    public ResponseEntity<MonthlyIncomeDTO> getMonthlyIncome() {
+        MonthlyIncomeDTO monthlyIncome = propertyService.getMonthlyIncome();
+        return ResponseEntity.ok(monthlyIncome);
+    }
+
+    @GetMapping("inquiries-source")
+    public ResponseEntity<InquiriesSourceDTO> getInquiriesSource() {
+        RentStatisticsResponse statistics = rentService.getStatistics(0L);
+        Map<String, Long> sourceCounts = new HashMap<>();
+        sourceCounts.put("pending", statistics.getTotalPendingRent());
+        sourceCounts.put("ongoing", statistics.getTotalOngoingRent());
+        sourceCounts.put("canceled", statistics.getTotalCanceledRent());
+        sourceCounts.put("approved", statistics.getTotalApprovedRent());
+        sourceCounts.put("rejected", statistics.getTotalRejectedRent());
+        sourceCounts.put("finished", statistics.getTotalFinishedRent());
+
+        return ResponseEntity.ok(InquiriesSourceDTO.builder()
+                .sourceCounts(sourceCounts)
+                .build());
     }
 }

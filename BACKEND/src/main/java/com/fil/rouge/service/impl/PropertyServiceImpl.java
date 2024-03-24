@@ -5,6 +5,9 @@ import com.fil.rouge.repository.*;
 import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.service.PropertyService;
 import com.fil.rouge.utils.FileUtils;
+import com.fil.rouge.web.dto.InquiriesSourceDTO;
+import com.fil.rouge.web.dto.MonthlyIncomeDTO;
+import com.fil.rouge.web.dto.PropertyOverviewDTO;
 import com.fil.rouge.web.dto.request.PropertyByCriteriaRequest;
 import com.fil.rouge.web.exception.PropertyExistsException;
 import com.fil.rouge.web.exception.ResourceNotFoundException;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PropertyServiceImpl implements PropertyService {
 
+    private final RentRepository rentRepository;
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
@@ -145,5 +150,32 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public boolean existsById(Long propertyId) {
         return propertyRepository.existsById(propertyId);
+    }
+
+
+    @Override
+    public InquiriesSourceDTO getInquiriesSource() {
+        return null;
+    }
+
+
+    @Override
+    public PropertyOverviewDTO getPropertiesOverview() {
+        long totalProperties = propertyRepository.count();
+        return PropertyOverviewDTO.builder().totalProperties(totalProperties).build();
+    }
+
+    @Override
+    public MonthlyIncomeDTO getMonthlyIncome() {
+        LocalDate now = LocalDate.now();
+        LocalDate startOfMonth = now.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate endOfMonth = now.with(TemporalAdjusters.lastDayOfMonth());
+        Double currentMonthIncome = rentRepository.findTotalIncomeBetweenDates(startOfMonth, endOfMonth);
+
+        LocalDate startOfPreviousMonth = now.minusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate endOfPreviousMonth = now.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+        Double previousMonthIncome = rentRepository.findTotalIncomeBetweenDates(startOfPreviousMonth, endOfPreviousMonth);
+
+        return new MonthlyIncomeDTO(currentMonthIncome != null ? currentMonthIncome : 0, previousMonthIncome != null ? previousMonthIncome : 0);
     }
 }

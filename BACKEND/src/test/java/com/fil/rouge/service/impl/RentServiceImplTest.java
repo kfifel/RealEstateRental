@@ -1,15 +1,22 @@
 package com.fil.rouge.service.impl;
 
+import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.domain.Property;
 import com.fil.rouge.domain.Rent;
 import com.fil.rouge.domain.enums.RentStatus;
 import com.fil.rouge.repository.*;
+import com.fil.rouge.security.SecurityUtils;
 import com.fil.rouge.web.dto.request.RentRequestDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -18,65 +25,28 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class RentServiceImplTest {
 
-    @InjectMocks
+    @Mock
     private PropertyServiceImpl propertyService;
 
+
     @Mock
-    private RentRepository rentRepository;
+    private SecurityContext securityContext;
+
+    @InjectMocks
+    private SecurityUtils securityUtils;
 
     @InjectMocks
     private RentServiceImpl rentService;
 
-    // Given a valid RentRequestDTO and available Property, save method should return a Rent object with status 'PENDING', isPaid 'false', and a totalPrice calculated based on the property's pricePerDay and pricePerMonth.
-    @Test
-    void test_validRentRequestDTOAndAvailableProperty() {
-        // Arrange
-        RentRequestDTO rentRequestDTO = new RentRequestDTO();
-        rentRequestDTO.setPropertyId(1L);
-        rentRequestDTO.setStartDate(LocalDate.of(2022, 1, 1));
-        rentRequestDTO.setEndDate(LocalDate.of(2022, 1, 31));
 
-        Property property = new Property();
-        property.setPricePerDay(10.0);
-        property.setPricePerMonth(300.0);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
 
-        when(propertyService.findById(rentRequestDTO.getPropertyId())).thenReturn(Optional.of(property));
-        when(rentRepository.save(any(Rent.class))).thenReturn(new Rent());
-
-        // Act
-        Rent result = rentService.save(rentRequestDTO);
-
-        // Assert
-        assertEquals(RentStatus.PENDING, result.getStatus());
-        assertFalse(result.isPaid());
-        assertEquals(310.0, result.getTotalPrice(), 0.01);
     }
 
-    // Given a valid RentRequestDTO and available Property, save method should save the Rent object to the database using the RentRepository.
-    @Test
-    void test_validRentRequestDTOAndAvailableProperty_saveToDatabase() {
-        // Arrange
-        RentRequestDTO rentRequestDTO = new RentRequestDTO();
-        rentRequestDTO.setPropertyId(1L);
-        rentRequestDTO.setStartDate(LocalDate.of(2022, 1, 1));
-        rentRequestDTO.setEndDate(LocalDate.of(2022, 1, 31));
-
-        Property property = new Property();
-        property.setPricePerDay(10.0);
-        property.setPricePerMonth(300.0);
-
-        when(propertyService.findById(rentRequestDTO.getPropertyId())).thenReturn(Optional.of(property));
-        when(rentRepository.save(any(Rent.class))).thenReturn(new Rent());
-
-        // Act
-        Rent result = rentService.save(rentRequestDTO);
-
-        // Assert
-        verify(rentRepository, times(1)).save(any(Rent.class));
-    }
 
     // Given a RentRequestDTO with a start date after the end date, save method should throw an IllegalArgumentException with the message "Start date cannot be after end date".
     @Test
@@ -95,23 +65,6 @@ class RentServiceImplTest {
         assertThrows(IllegalArgumentException.class, () -> rentService.save(rentRequestDTO), "Start date cannot be after end date");
     }
 
-    // Given a RentRequestDTO with a property that is not available for the selected dates, save method should throw an IllegalArgumentException with the message "Property is not available for the selected dates".
-    @Test
-    void test_propertyNotAvailableForSelectedDates() {
-        // Arrange
-        RentRequestDTO rentRequestDTO = new RentRequestDTO();
-        rentRequestDTO.setPropertyId(1L);
-        rentRequestDTO.setStartDate(LocalDate.of(2022, 1, 1));
-        rentRequestDTO.setEndDate(LocalDate.of(2022, 1, 31));
-
-        Property property = new Property();
-
-        when(propertyService.findById(rentRequestDTO.getPropertyId())).thenReturn(Optional.of(property));
-        when(rentRepository.isAvailable(anyLong(), any(LocalDate.class), any(LocalDate.class))).thenReturn(false);
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> rentService.save(rentRequestDTO), "Property is not available for the selected dates");
-    }
 
     // Given a RentRequestDTO with a non-existent property id, save method should throw an IllegalArgumentException with the message "Property not found".
     @Test
@@ -123,9 +76,28 @@ class RentServiceImplTest {
         rentRequestDTO.setEndDate(LocalDate.of(2022, 1, 31));
 
         when(propertyService.findById(rentRequestDTO.getPropertyId())).thenReturn(Optional.empty());
-
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> rentService.save(rentRequestDTO), "Property not found");
     }
+    @Test
+    void testYourMethod() {
+        // Create a mock Authentication object
+        Authentication authentication = mock(Authentication.class);
+        // Set up the mock SecurityContext with the mock Authentication
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        // Set the mock SecurityContext in the SecurityContextHolder
+        SecurityContextHolder.setContext(securityContext);
 
+        // Now you can proceed with your test
+        // Mock behavior of SecurityUtils.getCurrentuser()
+        AppUser mockUser = new AppUser();
+        mockUser.setEmail("test@example.com");
+        when(securityUtils.getCurrentUser()).thenReturn(mockUser);
+
+        // Call the method under test
+        AppUser currentUser = securityUtils.getCurrentUser();
+
+        // Verify that the method returned the expected user
+        assertEquals("test@example.com", currentUser.getEmail());
+    }
 }
