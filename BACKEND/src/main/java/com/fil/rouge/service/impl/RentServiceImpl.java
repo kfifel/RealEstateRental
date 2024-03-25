@@ -113,20 +113,20 @@ public class RentServiceImpl implements RentService {
     public Rent updateRentStatus(Long rentId, RentStatus status) {
         Rent rent = rentRepository.findById(rentId)
                 .orElseThrow(() -> new IllegalArgumentException("Rent not found"));
-
-        if (!rent.getStatus().equals(RentStatus.PENDING)) {
+        if (!rent.getStatus().equals(RentStatus.PENDING))
             throw new IllegalArgumentException("Rent status cannot be updated");
-        }
 
         rent.setStatus(status);
         Rent save = rentRepository.save(rent);
 
-        try {
-            emailService.sendEmail(rent.getTenant().getEmail(), "Rent request", "Your rent request has been" + status);
-        } catch (MessagingException e) {
-            log.error("Error sending email", e);
-        }
-
+        // Notify the tenant by email
+        CompletableFuture.runAsync(() -> {
+            try {
+                emailService.sendEmail(rent.getTenant().getEmail(), "Rent request", "Your rent request has been <br><strong>" + status + "</strong>");
+            } catch (MessagingException e) {
+                log.error("Error sending email", e);
+            }
+        });
         return save;
     }
 

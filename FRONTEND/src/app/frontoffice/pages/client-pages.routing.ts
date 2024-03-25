@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {PropertyDetailsComponent} from "./property-details/property-details.component";
 import {PropertyResolver} from "../../backoffice/property/service/property.resolver";
 import {PropertyListComponent} from "./property-list/property-list.component";
+import {AuthGuard} from "../../core/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'property',
+    canActivate: [AuthGuard],
     component: PropertyListComponent,
   }
 ]

@@ -1,0 +1,22 @@
+.property-info .property-type {
+  color: #007bff;
+  font-size: 18px;
+}
+
+.property-info .property-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.property-info .property-price {
+  font-size: 20px;
+}
+
+.property-info .property-price span {
+  color: #6c757d;
+  text-decoration: line-through;
+}
+
+.property-info .property-price strong {
+  margin-left: 5px;
+}

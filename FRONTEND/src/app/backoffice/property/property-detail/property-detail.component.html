@@ -6,11 +6,19 @@
   <div class="row">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Default Tabs</h4>
-        <p class="card-title-desc">Use the tab JavaScript plugin—include
-          it individually or through the compiled <code class="highlighter-rouge">bootstrap.js</code>
-          file—to extend our navigational tabs and pills to create tabbable panes
-          of local content, even via dropdown menus.</p>
+        <div class="property-info d-flex justify-content-between justify-items-center">
+          <div class="p-4">
+            <h4 class="property-title" >
+              {{property?.title}}
+              (<a href="javascript: void(0);" class="property-type">{{property?.propertyType}}</a>)
+            </h4>
+          </div>
+          <div class="property-price p-4">
+            Price:
+            <span>{{property?.pricePerDay}} MAD</span>
+            <strong>{{property?.pricePerMonth}} MAD</strong>
+          </div>
+        </div>
 
         <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs">
           <li [ngbNavItem]="1">
@@ -62,15 +70,15 @@
                 </div>
               </div>
 
-              <div class="col-xl-6">
+              <div class="col-xl-6 h5">
                 <div class="mt-4 mt-xl-3">
-                  <a href="javascript: void(0);" class="text-primary">{{property?.propertyType}}</a>
-                  <h4 class="mt-1 mb-3">{{property?.title}}</h4>
 
-                  <!-- Price -->
-                  <h5 class="mb-4">Price : <span class="text-muted me-2"><del>${{property?.pricePerDay}} USD</del></span> <b>${{property?.pricePerMonth}} USD</b></h5>
+                  <!-- Address -->
+                  <h4>Address: </h4>
+                  <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
 
                   <!-- Description -->
+                  <h4>Description: </h4>
                   <p class="text-muted mb-4"
                      [innerHTML]="property?.description"
                      style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; min-height: 100px; max-height: 200px; overflow-y: auto; display: block; width: 100%;"
@@ -78,19 +86,16 @@
 
                   <!-- Features -->
                   <div class="row mb-3">
-                    <div class="col-md-6">
-                      <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.numberOfRooms}} Rooms</p>
-                      <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.size}} m<sup>2</sup></p>
-                      <p class="text-muted"><i class="bx bx-caret-right font-size-16 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}</p>
+                    <div class="col-md-4">
+                      <p class="text-muted"><i class="bx bx-building-house font-size-24 align-middle text-primary mr-3"></i>{{property?.numberOfRooms}} Rooms</p>
                     </div>
-                    <!-- Add more features if needed -->
+                    <div class="col-md-4">
+                      <p class="text-muted"><i class="bx bx-rectangle font-size-24 align-middle text-primary mr-3"></i>{{property?.size}} m<sup>2</sup></p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="text-muted"><i class="bx bxs-tag font-size-24 align-middle text-primary mr-1"></i>{{property?.hasBalcony ? 'Has Balcony' : 'No Balcony'}}</p>
+                    </div>
                   </div>
-
-                  <!-- Address -->
-                  <p class="text-muted mb-4">{{property?.address}}, {{property?.city}}</p>
-
-                  <!-- Landlord -->
-                  <p class="text-muted mb-4" *ngIf="property?.landlord">Landlord: {{property?.landlord?.firstName}}</p>
 
                 </div>
               </div>
