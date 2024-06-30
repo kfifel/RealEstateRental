@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IProperty} from "../property.model";
-import {PropertyService} from "../service/property.service";
+import {PropertyService, updateImagePath} from "../service/property.service";
 import {HttpHeaders, HttpResponse} from "@angular/common/http";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
 
@@ -54,6 +54,7 @@ export class PropertyListComponent implements OnInit {
     }
 
     requestObservable$
+      .pipe()
       .subscribe({
         next: (res: HttpResponse<IProperty[]>) => {
           this.isLoading = false;
@@ -80,7 +81,7 @@ export class PropertyListComponent implements OnInit {
     const totalCount = Number(headers.get('X-Total-Count'));
     this.totalItems$.next(totalCount);
     this.page = pageToLoad;
-    this.properties = body;
+    this.properties = body.map(updateImagePath);
   }
 
   private onError() {
@@ -97,7 +98,7 @@ export class PropertyListComponent implements OnInit {
 
     this.propertyService.delete(id).subscribe(
   () => {
-        this.loadAll();
+        this.properties = this.properties.filter(x => x.id !== id);
       }
     );
 

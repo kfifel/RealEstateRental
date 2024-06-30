@@ -7,10 +7,23 @@ import {Pagination, SearchWithPagination} from "../../../core/request/request.mo
 import {createRequestOption} from "../../../core/request/request.util";
 import {authUtils} from "../../../authUtils";
 import {Role} from "../../../core/models/role.enum";
+import {map} from "rxjs/internal/operators";
 
 
 export type EntityResponseType = HttpResponse<IProperty>;
 export type EntityArrayResponseType = HttpResponse<IProperty[]>;
+
+export const updateImagesPath = map((properties: IProperty[]) =>
+  properties.map(updateImagePath)
+);
+
+export const updateImagePath = (property: IProperty) => {
+    property.images = property.images.map(image => {
+      image.path = `http://localhost:8080/api/v1/properties/images/${image.name}`;
+      return image;
+    });
+    return property;
+};
 
 @Injectable({ providedIn: 'root' })
 export class PropertyService {
@@ -19,7 +32,8 @@ export class PropertyService {
   constructor(private http: HttpClient) { }
 
   findById(id: string) {
-    return this.http.get(`${this.resourceUrl}/${id}`);
+    return this.http.get(`${this.resourceUrl}/${id}`)
+      .pipe(map(updateImagePath));
   }
 
   query(req?: Pagination): Observable<EntityArrayResponseType> {
@@ -33,7 +47,8 @@ export class PropertyService {
 
   available(startDate: string, endDate: string, city: string, req?: Pagination):  Observable<EntityArrayResponseType> {
     let options = createRequestOption({...req, startDate, endDate, city});
-    return this.http.get<IProperty[]>(`${this.resourceUrl}/available`,  { params: options, observe: 'response' });
+    return this.http.get<IProperty[]>(`${this.resourceUrl}/available`,  { params: options, observe: 'response' })
+      .pipe();
   }
 
   search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
@@ -47,15 +62,18 @@ export class PropertyService {
 
   deepSearch(propertySearch: PropertySearch, req: Pagination): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.post<IProperty[]>(`${this.resourceUrl}/search`, propertySearch, { params: options, observe: 'response' });
+    return this.http.post<IProperty[]>(`${this.resourceUrl}/search`, propertySearch,
+      { params: options, observe: 'response' })
+      .pipe();
   }
 
   top4(): Observable<IProperty[]> {
-    return this.http.get<IProperty[]>(`${this.resourceUrl}/top-4`);
+    return this.http.get<IProperty[]>(`${this.resourceUrl}/top-4`)
+      .pipe(updateImagesPath);
   }
 
   createProperty(formData: FormData): Observable<PropertyModel> {
-    return this.http.post<PropertyModel>(this.resourceUrl, formData);
+    return this.http.post<PropertyModel>(this.resourceUrl, formData).pipe(map(updateImagePath));
   }
 
   delete(id: number): Observable<void> {

@@ -2,7 +2,11 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {fileUtils} from "../../../core/utils/file.utils";
 import {BehaviorSubject, Observable} from "rxjs";
 import {IProperty, PropertySearch, PropertyType} from "../../../backoffice/property/property.model";
-import {PropertyService} from "../../../backoffice/property/service/property.service";
+import {
+  PropertyService,
+  updateImagePath,
+  updateImagesPath
+} from "../../../backoffice/property/service/property.service";
 import {catchError, map} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -97,7 +101,8 @@ export class PropertyListComponent implements OnInit {
     ).subscribe(
       properties => {
         this.totalItems = Number(properties.headers.get('X-Total-Count')) ?? 0;
-        this.properties$.next([...this.properties$.value, ...properties.body]);
+        const body = properties.body.map(updateImagePath);
+        this.properties$.next([...this.properties$.value, ...body]);
         this.loading = false;
       },
       () => {

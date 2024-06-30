@@ -4,14 +4,19 @@ import { CommonModule } from '@angular/common';
 import { UIModule } from './ui/ui.module';
 
 import { WidgetModule } from './widget/widget.module';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     UIModule,
-    WidgetModule
+    WidgetModule,
+    RouterModule
   ],
+  exports: [
+  ]
 })
 
 export class SharedModule { }

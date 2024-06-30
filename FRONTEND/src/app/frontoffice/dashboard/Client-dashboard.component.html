@@ -210,9 +210,9 @@
             <div class="card-body">
               <div class="image-container">
                 <a [routerLink]="['/client/property', property.id]" href="javascript: void(0);">
-                  <img [src]="fileUtils.getImageUrl(property.images[0]?.base64)"
+                  <img [src]="property.images[0]?.path"
                        [alt]="property.title"
-                       class="property-img-fluid mx-auto">
+                       class="property-img-fluid msx-auto">
                 </a>
               </div>
               <div class="mt-4 text-center">

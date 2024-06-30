@@ -72,6 +72,8 @@ export interface Image {
 
   id: number;
   base64: string;
+  name: string;
+  path: string;
 }
 
 export interface IRent {

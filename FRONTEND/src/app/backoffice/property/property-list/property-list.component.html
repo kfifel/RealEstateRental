@@ -35,7 +35,7 @@
               <tbody *ngIf="properties.length > 0; else noProperty">
                 <tr *ngFor="let property of properties">
                   <td>
-                    <img [src]="base64ToFile(property?.images[0]?.base64)" alt class="avatar-sm" />
+                    <img [src]="property?.images[0]?.path" alt class="avatar-sm" />
                   </td>
                   <td>
                     <h5 class="text-truncate font-size-14">

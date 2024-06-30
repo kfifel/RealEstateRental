@@ -73,9 +73,9 @@ export class DefaultComponent implements OnInit {
       this.monthlyIncomeChart = data;
     });
 
-    this.propertyService.getInquiriesSource().subscribe(data => {
+    this.propertyService.getInquiriesSource()/*.subscribe(data => {
       this.inquiriesSourceChart = data;
-    });
+    });*/
 
     // You might want to set the default view or get it from user preferences
     this.isActive = 'year';

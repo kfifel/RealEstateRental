@@ -12,11 +12,11 @@
               <ul ngbNav #nav="ngbNav" class="col-md-2 col-sm-3 col-4" orientation="horizontal" style="height: 75vh; overflow-y: auto;">
                 <li *ngFor="let image of property?.images; let i = index" [ngbNavItem]="i" class="p-1">
                   <a ngbNavLink>
-                    <img [src]="image.base64" alt="" class="img-fluid mx-auto d-block rounded"/>
+                    <img [src]="image.path" alt="" class="img-fluid mx-auto d-block rounded"/>
                     <p class="text-center">{{ i + 1 }} / {{ property.images.length }}</p>
                   </a>
                   <ng-template ngbNavContent>
-                    <img [src]="image.base64" id="expandedImg" alt=""
+                    <img [src]="image.path" id="expandedImg" alt=""
                          class="img-fluid mx-auto d-block">
                   </ng-template>
                 </li>

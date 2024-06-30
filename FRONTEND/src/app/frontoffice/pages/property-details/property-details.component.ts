@@ -4,7 +4,7 @@ import {IProperty} from "../../../backoffice/property/property.model";
 import {fileUtils} from "../../../core/utils/file.utils";
 import {NgbDate, NgbCalendar, NgbDateStruct, NgbAlert, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import {map} from "rxjs/operators";
-import {PropertyService} from "../../../backoffice/property/service/property.service";
+import {PropertyService, updateImagePath} from "../../../backoffice/property/service/property.service";
 import {RentService} from "../service/rent.service";
 import * as sweetalert2 from "sweetalert2";
 
@@ -46,23 +46,6 @@ export class PropertyDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Property' }, { label: 'Property Details', active: true }];
 
-    this.activatedRoute.data
-      .pipe(
-        map((data) => data?.property as IProperty),
-        map(property => {
-          property.images = property.images.map(image => {
-            return {
-              id : image.id,
-              base64: this.fileUtils.getImageUrl(image.base64)
-            }
-          });
-          return property;
-        })
-      )
-      .subscribe((property) =>  {
-        this.property = property
-      })
-
     this.activatedRoute.queryParams.subscribe(params => {
       const param1 = params['startDate'];
       const param2 = params['endDate'];
@@ -73,6 +56,12 @@ export class PropertyDetailsComponent implements OnInit {
         this.totalPrice = this.calculateTotalPrice();
       }
     })
+
+    this.activatedRoute.data
+      .pipe()
+      .subscribe((property) =>  {
+        this.property = updateImagePath(property.property);
+      })
     this.hidden = true;
   }
 
