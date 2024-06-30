@@ -216,8 +216,10 @@ public class PropertyResource {
             Path file = Paths.get(uploadDir).resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
+                String contentType = "image/" + getFileExtension(filename);
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                        .header(HttpHeaders.CONTENT_TYPE, contentType)
                         .body(resource);
             } else {
                 return ResponseEntity.notFound().build();
@@ -225,5 +227,11 @@ public class PropertyResource {
         } catch (MalformedURLException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+
+    private String getFileExtension(String filename) {
+        int dotIndex = filename.lastIndexOf('.');
+        return dotIndex == -1 ? "" : filename.substring(dotIndex + 1);
     }
 }

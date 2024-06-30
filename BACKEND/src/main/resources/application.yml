@@ -1,11 +1,16 @@
 spring:
+  profiles:
+    active: dev
+
   output:
     ansi:
       enabled: always
+
   servlet:
     multipart:
       max-file-size: 10MB
-      max-request-size: 10MB
+      max-request-size: 30MB
+
   liquibase:
     enabled: on
     change-log: db/master.yml
@@ -15,12 +20,6 @@ spring:
       file: src/main/docker/gamehive.yml
       enabled: on
       lifecycle-management: start_and_stop
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/real_estate_rental?createDatabaseIfNotExist=true
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
   security:
     oauth2:
@@ -39,6 +38,18 @@ spring:
             clientId: 773953843766-t3hffrvfuuppb7tvh8j43clfdjh23jbt.apps.googleusercontent.com
             clientSecret: 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
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fifel.khalid11@gmail.com
+    password: bvzkaehybyogjhxz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 #logging:
 #  file:
 #    name: myLogs.log
@@ -55,5 +66,6 @@ token:
     refresh:
       in:
         month: 1
+
 file:
   upload-dir: E:\env\fileStorage\fil-rouge

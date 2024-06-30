@@ -3,7 +3,6 @@ package com.fil.rouge.security.auth;
 import com.fil.rouge.domain.AppUser;
 import com.fil.rouge.domain.PasswordResetToken;
 import com.fil.rouge.repository.PasswordResetTokenRepository;
-import com.fil.rouge.repository.UserRepository;
 import com.fil.rouge.security.PasswordResetTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,6 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -23,7 +23,6 @@ import java.util.concurrent.CompletableFuture;
 public class PasswordResetTokenServiceImpl implements PasswordResetTokenService {
 
     private final PasswordResetTokenRepository tokenRepository;
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
 
@@ -70,11 +69,12 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
     }
 
     @Override
+    @Transactional
     public void resetPassword(String token, String newPassword) {
         PasswordResetToken resetToken = tokenRepository.findByToken(token)
                 .orElseThrow(() -> new UsernameNotFoundException("Token invalide"));
         AppUser user = resetToken.getUser();
         user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+        resetToken.setUsed(true);
     }
 }

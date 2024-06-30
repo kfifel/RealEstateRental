@@ -2,21 +2,17 @@ package com.fil.rouge.web.mapper;
 
 import com.fil.rouge.domain.City;
 import com.fil.rouge.domain.Property;
-import com.fil.rouge.utils.FileUtils;
 import com.fil.rouge.web.dto.PropertyDto;
 import com.fil.rouge.web.dto.response.ImageDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class PropertyDtoMapper {
-
-    private FileUtils fileUtils;
 
     public Property toEntity(PropertyDto propertyDto) {
         return Property.builder()
@@ -28,7 +24,7 @@ public class PropertyDtoMapper {
                 )
                 .description(propertyDto.getDescription())
                 .numberOfRooms(propertyDto.getNumberOfRooms())
-                .pricePerDay(propertyDto.getPricePerMonth())
+                .pricePerDay(propertyDto.getPricePerDay())
                 .pricePerMonth(propertyDto.getPricePerMonth())
                 .propertyType(propertyDto.getPropertyType())
                 .size(propertyDto.getSize())
@@ -47,7 +43,7 @@ public class PropertyDtoMapper {
                 .city(property.getCity().getName())
                 .description(property.getDescription())
                 .numberOfRooms(property.getNumberOfRooms())
-                .pricePerDay(property.getPricePerMonth())
+                .pricePerDay(property.getPricePerDay())
                 .pricePerMonth(property.getPricePerMonth())
                 .propertyType(property.getPropertyType())
                 .size(property.getSize())
@@ -64,18 +60,12 @@ public class PropertyDtoMapper {
             property.getImages()
                     .stream()
                     .limit(onePhoto ? 1: property.getImages().size())
-                    .forEach(image -> {
-                        byte[] bytes;
-                        try {
-                            bytes = fileUtils.fileToByteArray(image.getPath());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                    .forEach(image ->
                         images.add(ImageDto.builder()
                                 .id(image.getId())
-                                .base64(bytes)
-                                .build());
-                    });
+                                .name(image.getPath())
+                                .build())
+                    );
         }
         return images;
     }

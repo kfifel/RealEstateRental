@@ -43,6 +43,8 @@ public class SecurityConfiguration {
                     .antMatchers("/api/v1/admin").hasAuthority(AuthoritiesConstants.ROLE_ADMIN)
                     .antMatchers("/api/v1/auth/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/api/v1/properties/top-4").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/v1/properties/available").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/v1/properties/search").permitAll()
                     .antMatchers(HttpMethod.GET, "/api/v1/properties/images/**").permitAll()
                     .anyRequest().authenticated()
                 .and()

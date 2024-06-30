@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class ImageDto {
 
     private Long id;
-    private byte[] base64;
+    private String name;
 }
