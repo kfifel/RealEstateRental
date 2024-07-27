@@ -18,8 +18,9 @@ export const updateImagesPath = map((properties: IProperty[]) =>
 );
 
 export const updateImagePath = (property: IProperty) => {
+  const apiUrl = environment.apiUrl;
     property.images = property.images.map(image => {
-      image.path = `http://localhost:8080/api/v1/properties/images/${image.name}`;
+      image.path = `${apiUrl}/api/v1/properties/images/${image.name}`;
       return image;
     });
     return property;
